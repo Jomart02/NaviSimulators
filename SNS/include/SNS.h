@@ -7,6 +7,7 @@
 #include <QWidget>
 #include "BaseNaviWidget.h"  
 
+
 namespace Ui
 {
 class SNS;
@@ -19,16 +20,19 @@ class SNS : public BaseNaviWidget
     Q_INTERFACES(BaseNaviWidget)
 public:
     explicit SNS(QWidget *parent = nullptr);
-    ~SNS() override;
+    ~SNS();
 
-private slots:
+    virtual QIcon icon() const override;
+    virtual QString name() const override;
+    virtual QString description() const override;
 
-public slots:
-    virtual void setText() override;
-signals:
-
-
+protected slots:
+    virtual QStringList getNavigationData() override;
 private:
     Ui::SNS *ui;
-  
+    Nmea rmc_nmea;
+    Nmea vtg_nmea;
+    Nmea zda_nmea;
+    Nmea gga_nmea;
+    Nmea gll_nmea;
 };
