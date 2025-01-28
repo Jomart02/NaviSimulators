@@ -16,7 +16,7 @@ QIcon SimulatorAIS::icon() const {
     return QIcon();
 }
 QString SimulatorAIS::name() const {
-    return tr("СНС");
+    return tr("AIS");
 }
 QString SimulatorAIS::description() const {
     return QString("");
