@@ -2,8 +2,8 @@
 
 #include "ui_SimulatorAIS.h"
 #include "BaseNaviWidget.h"  
-
-
+#include "Type123Simulator.h"
+#include "Type5Simulator.h"
 namespace Ui
 {
 class SimulatorAIS;
@@ -26,4 +26,6 @@ protected slots:
     virtual QStringList getNavigationData() override;
 private:
     Ui::SimulatorAIS *ui;
+    Type123Simulator * type123 = nullptr;
+    Type5Simulator * type5 = nullptr;
 };

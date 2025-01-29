@@ -6,6 +6,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Опция для выбора типа сборки
+option(BUILD_TEST "Build for testing (source) instead of release (library)" OFF)
+
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/)
 
 #Подключаем директорию базового класса 
@@ -13,45 +16,70 @@ add_subdirectory(
     ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
     ${CMAKE_BINARY_DIR}/BaseNaviWidget
 )
+add_subdirectory(
+    ${CMAKE_SOURCE_DIR}/../ToolBoxWidget
+    ${CMAKE_BINARY_DIR}/ToolBoxWidget
+)
+
+set(HDRS
+    ./include/SimulatorAIS.h
+    ./include/Type123Simulator.h
+    ./include/Type5Simulator.h
+)
 
 set(SRCS
-    ./include/SimulatorAIS.h
     ./src/SimulatorAIS.cpp
+    ./src/Type123Simulator.cpp
+    ./src/Type5Simulator.cpp
 )
+
+
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS 
     ./ui/
 )
 
-# Указываем выходную директорию для DLL
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-
-add_library(${PROJECT_NAME} SHARED ${SRCS})
+# Указываем выходную директорию
+if(BUILD_TEST)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME}_test)
+else()
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+endif()
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-target_link_libraries(${PROJECT_NAME} Qt6::Widgets BaseNaviWidgetLib)
+
+# Сборка для тестов или релиза
+if(BUILD_TEST)
+    message(STATUS "Building for testing (source)")
+    add_executable(${PROJECT_NAME}_test ${HDRS} ${SRCS} ./src/main.cpp)
+    target_link_libraries(${PROJECT_NAME}_test Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget)
+else()
+    message(STATUS "Building for release (library)")
+    add_library(${PROJECT_NAME} SHARED ${HDRS} ${SRCS})
+    target_link_libraries(${PROJECT_NAME} Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget)
+endif()
 
 
-# Создаем выходную директорию, если она не существует
+if(NOT BUILD_TEST)
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMENT "Creating output directory"
 )
-
-# Копируем зависимости и библиотеку в выходную папку
-if(WIN32)
-    # Для Windows: копируем DLL-зависимости
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMENT "Copying runtime dependencies to output directory (Windows)"
-    )
-elseif(UNIX AND NOT APPLE)
-    # Для Linux: копируем только саму библиотеку
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMENT "Copying library to output directory (Linux)"
-    )
+endif()
+# Копируем зависимости и библиотеку в выходную папку (только для релиза)
+if(NOT BUILD_TEST)
+    if(WIN32)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+            COMMENT "Copying runtime dependencies to output directory (Windows)"
+        )
+    elseif(UNIX AND NOT APPLE)
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+            COMMENT "Copying library to output directory (Linux)"
+        )
+    endif()
 endif()
 
 # # Копируем ресурсы в выходную папку

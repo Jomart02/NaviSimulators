@@ -1,10 +1,15 @@
 #include "SimulatorAIS.h"
 
+
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::SimulatorAIS){
         
     ui->setupUi(this);
+    type123 = new Type123Simulator();
+    type5 = new Type5Simulator();
+    ui->widgetSimulatorsA->addWidget("Type 1-3",type123,"Type123");
+    ui->widgetSimulatorsA->addWidget("Type 5",type5,"Type5");
 }
 
 SimulatorAIS::~SimulatorAIS()
