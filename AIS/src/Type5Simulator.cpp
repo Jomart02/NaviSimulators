@@ -52,3 +52,12 @@ void Type5Simulator::init(){
 void Type5Simulator::updateAisData(QStringList &aisMess){
 
 }
+QVariant Type5Simulator::getData() {
+
+    
+
+    return QVariant();
+}
+void Type5Simulator::setData(QVariant data) {
+
+}

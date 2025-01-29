@@ -21,7 +21,8 @@ public:
     virtual QIcon icon() const override;
     virtual QString name() const override;
     virtual QString description() const override;
-
+private slots:
+    void addNewClassA();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:

@@ -26,6 +26,7 @@ set(HDRS
     ./include/Type123Simulator.h
     ./include/Type5Simulator.h
     ./include/BaseAISSimulator.h
+    ./include/AisStructures.h
 )
 
 set(SRCS

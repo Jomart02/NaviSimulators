@@ -14,6 +14,8 @@ class Type123Simulator : public BaseAISSimulator
 public:
     explicit Type123Simulator(QWidget *parent = nullptr);
     ~Type123Simulator();
+    virtual QVariant getData() override;
+    virtual void setData(QVariant data) override;
 public slots:
     virtual void updateAisData(QStringList &aisMess) override;
 private:

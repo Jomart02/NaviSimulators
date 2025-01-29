@@ -15,7 +15,8 @@ class Type5Simulator : public BaseAISSimulator
 public:
     explicit Type5Simulator(QWidget *parent = nullptr);
     ~Type5Simulator();
-
+    virtual QVariant getData() override;
+    virtual void setData(QVariant data) override;
 public slots:
     virtual void updateAisData(QStringList &aisMess) override;
 private:    
