@@ -43,33 +43,58 @@ QStringList SimulatorAIS::getNavigationData() {
     if(!sending) return QStringList();
 
     QStringList messages;
-
+    
     for (int i = 0; i < ui->comboBox_NumbersClassA->count(); ++i) {
         unsigned int number = ui->comboBox_NumbersClassA->itemData(i, Qt::UserRole).toLongLong();
-        Type123Decoder type;
+        Type123Decoder dec;
+        Type5Decoder dec5;
         if(i == ui->comboBox_NumbersClassA->currentIndex()){
             if(ui->checkBox_manual->isChecked()){
                 paramsShip[number].t123 = type123->getData().value<AIS_Data_Type::ClassA123>();
                 paramsShip[number].t123.MMSI = number;
-                type.setParamets(paramsShip[number].t123);
-                messages.append(type.getString());
+                dec.setParamets(paramsShip[number].t123);
+                messages.append(dec.getString());
+
+                if(deltaTimeSec == 5){
+                    paramsShip[number].t5 = type5->getData().value<ClassA5>();
+                    paramsShip[number].t5.MMSI = number;
+                    dec5.setParamets(paramsShip[number].t5);
+                    messages.append(dec5.getString());
+                }
+
+
             }else{
                 ClassA123 param = paramsShip[number].t123;
                 ClassA123::calculatePos(param);
                 paramsShip[number].t123 = param;
-                type.setParamets(paramsShip[number].t123);
-                messages.append(type.getString());
+                dec.setParamets(paramsShip[number].t123);
+                messages.append(dec.getString());
                 type123->setData(QVariant::fromValue(param));
+                if(deltaTimeSec == 5){
+                    ClassA5 param = paramsShip[number].t5;
+                    paramsShip[number].t5 = param;
+                    dec5.setParamets(paramsShip[number].t5);
+                    messages.append(dec5.getString());
+                }
             }
         }else{
             ClassA123 param = paramsShip[number].t123;
             ClassA123::calculatePos(param);
             paramsShip[number].t123 = param;
-            type.setParamets(paramsShip[number].t123);
-            messages.append(type.getString());
+            dec.setParamets(paramsShip[number].t123);
+            messages.append(dec.getString());
+            if(deltaTimeSec == 5){
+                ClassA5 param = paramsShip[number].t5;
+                paramsShip[number].t5 = param;
+                dec5.setParamets(paramsShip[number].t5);
+                messages.append(dec5.getString());
+            }
         }
     }
-
+    
+    if(deltaTimeSec != 5) deltaTimeSec++;
+    else deltaTimeSec = 0;
+    
     return messages;
 }
 
@@ -92,4 +117,36 @@ void SimulatorAIS::addNewClassA(){
     paramsShip[randomNumber] = param;
     
     sending = true;
+}
+
+void SimulatorAIS::updateType5(){
+    if(ui->comboBox_NumbersClassA->count() == 0) return  ;
+    if(!sending) return ;
+
+    QStringList messages;
+
+    for (int i = 0; i < ui->comboBox_NumbersClassA->count(); ++i) {
+        unsigned int number = ui->comboBox_NumbersClassA->itemData(i, Qt::UserRole).toLongLong();
+        Type5Decoder dec;
+        if(i == ui->comboBox_NumbersClassA->currentIndex()){
+            if(ui->checkBox_manual->isChecked()){
+                paramsShip[number].t5 = type5->getData().value<ClassA5>();
+                paramsShip[number].t5.MMSI = number;
+                dec.setParamets(paramsShip[number].t5);
+                messages.append(dec.getString());
+            }else{
+                ClassA5 param = paramsShip[number].t5;
+                paramsShip[number].t5 = param;
+                dec.setParamets(paramsShip[number].t5);
+                messages.append(dec.getString());
+            }
+        }else{
+            ClassA5 param = paramsShip[number].t5;
+            paramsShip[number].t5 = param;
+            dec.setParamets(paramsShip[number].t5);
+            messages.append(dec.getString());
+        }
+    }
+
+    emit sendData(messages);
 }

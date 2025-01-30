@@ -163,6 +163,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimum">
+           <number>1000000</number>
+          </property>
           <property name="maximum">
            <number>9999999</number>
           </property>
@@ -256,19 +259,6 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QSpinBox" name="spinBox_Draught">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="suffix">
-           <string> метры</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
@@ -278,6 +268,19 @@
         </item>
         <item row="3" column="2">
          <widget class="QComboBox" name="comboBox_PosType"/>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QDoubleSpinBox" name="doubleSpinBox_Draught">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="suffix">
+           <string> метров</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

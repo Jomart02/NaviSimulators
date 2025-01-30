@@ -4,6 +4,10 @@
 #include <QBitArray>
 #include <bitset>
 #include <QRandomGenerator>
+
+
+#define LEN_TYPE123 168
+#define LEN_TYPE5 424
 namespace AIS_Data_Type {
 
     typedef struct{
@@ -71,23 +75,23 @@ namespace AIS_Data_Type {
 
     struct ClassA5 : BaseAis{
 
-        QString    IMO;                // номер IMO
-        QString    CallSign;           // позывной
-        QString    VesselName;         // наименование судна
-        int        ShipType;           // тип судна
-        int       DimensionBow;       // размерности -до носа
-        int    DimensionStern;     //             -до кормы
-        int    DimensionPort;      //             -до левого борта
-        int    DimensionStarboard; //             -до правого борта
-        int    PositionType;       // тип системы позиционирования
-        // char    ETAmonth;           // дата прибытия  -месяц
-        // char    ETAday;             //                -день
-        // char    ETAhour;            //                -час
-        // char    ETAminute;          //                -минута
-        QTime   ETA;
-        int    Draught;            // осадка
-        QString    Destination;        // место назначения 20- шестибитных символов
-        int    DTE;
+        unsigned int    IMO;                // номер IMO
+        QString    CallSign;                // позывной
+        QString    VesselName;              // наименование судна
+        unsigned int        ShipType;                // тип судна
+        unsigned int    DimensionBow;    // размерности -до носа
+        unsigned int    DimensionStern;     //             -до кормы
+        unsigned int    DimensionPort;      //             -до левого борта
+        unsigned int    DimensionStarboard; //             -до правого борта
+        int    PositionType;                // тип системы позиционирования
+        // char    ETAmonth;                // дата прибытия  -месяц
+        // char    ETAday;                  //                -день
+        // char    ETAhour;                 //                -час
+        // char    ETAminute;               //                -минута
+        QDateTime   ETA;
+        double     Draught;                     // осадка
+        QString    Destination;             // место назначения 20- шестибитных символов
+        unsigned int    DTE;
     };
 
     struct ParamClassA {
@@ -96,26 +100,6 @@ namespace AIS_Data_Type {
     };
 
 };
-
-
-// inline  QString BitCode(uint32_t val, int length = 0) {
-//     QString res;
-//     do {
-//         if (val % 2 == 0) {
-//             res.prepend('0');
-//         } else {
-//             res.prepend('1');
-//         }
-//         val /= 2;
-//     } while (val >= 1);
-
-//     // // Если нужно дополнить строку до определенной длины нулями слева
-//     // if (length > 0 && res.length() < length) {
-//     //     res.prepend(QString(length - res.length(), '0'));
-//     // }
-
-//     return res;
-// }
 
 // Функция для преобразования числа в бинарную строку фиксированной длины
 inline std::string toBinaryString(unsigned int number, int length) {
@@ -133,37 +117,34 @@ inline void encodeValueBytes(std::vector<bool> &bitField, unsigned int value, in
     }
 }
 
-
-// // Функция для преобразования числа в бинарную строку фиксированной длины
-// inline QString toBinaryString(unsigned int number, int length) {
-//     QString binary = QString::number(number, 2); // Преобразуем число в бинарную строку
-//     if (binary.length() < length) {
-//         // Дополняем строку нулями слева, чтобы получить нужную длину
-//         binary.prepend(QString(length - binary.length(), '0'));
+// // // Функция для кодирования строки в биты
+// inline void encodeAsciiBytes(std::vector<bool> &bitField, const std::string value, int start, int end, size_t requiredLength) {
+//     // Проверяем длину строки и дополняем её символами '@', если она меньше требуемой длины
+//     std::string paddedValue = value;
+//     if (paddedValue.length() < requiredLength) {
+//         paddedValue.append(requiredLength - paddedValue.length(), '@');
+//     } else if (paddedValue.length() > requiredLength) {
+//         paddedValue = paddedValue.substr(0, requiredLength); // Обрезаем до требуемой длины
 //     }
-//     return binary;
-// }
-
-// // Функция для кодирования значения в биты
-// inline void encodeValueBytes(QBitArray &bitField, unsigned int value, int start, int end) {
-//     QString binary = toBinaryString(value, end - start + 1);
-//     for (int i = 0; i < binary.length(); ++i) {
-//         bitField.setBit(start + i, binary[i] == '1');
-//     }
-// }
-
-// // Функция для кодирования строки в биты
-// inline void encodeAsciiBytes(QBitArray &bitField, const std::string &value, int start, int end) {
+    
 //     int index = 0;
-//     for (size_t i = start; i < end; i += 6) {
-//         char byte = value[index++];
+//     for (size_t i = start; i < end && index < paddedValue.length(); i += 6) {
+//         char byte = paddedValue[index++];
 //         unsigned int sixBitsValue = (byte >= '@') ? (byte - 64) : byte;
-//         QString sixBitsBinary = toBinaryString(sixBitsValue, 6);
+//         std::string sixBitsBinary = toBinaryString(sixBitsValue, 6);
 //         for (int j = 0; j < 6 && (i + j) < end; ++j) {
-//             bitField.setBit(i + j, sixBitsBinary[j] == '1');
+//             bitField[i + j] = (sixBitsBinary[j] == '1');
 //         }
 //     }
 // }
+
+inline unsigned char calculateChecksum(const QString &message) {
+    unsigned char checksum = 0;
+    for (int i = 1; i < message.length(); ++i) { // Начинаем с 1, чтобы пропустить '!'
+        checksum ^= static_cast<unsigned char>(message.at(i).toLatin1());
+    }
+    return checksum;
+}
 
 namespace AIS_NMEA_Builder {
     template<class T>
@@ -172,11 +153,12 @@ namespace AIS_NMEA_Builder {
         BaseNmeaString();
         ~BaseNmeaString();
         void setParamets(const T &params);
-        virtual QStringList getString() = 0;
-        
+        QStringList getString();
+        QString encodeString(const std::vector<bool> &bitField, int lenStr);
     
     protected:
         void get_checksum(std::string data, char *result);
+        virtual  QString decodeParam() = 0;
         T paramets;
     private:
         
@@ -195,22 +177,73 @@ namespace AIS_NMEA_Builder {
         paramets = params;
     }
 
+
     template<class T>
-    void BaseNmeaString<T>::get_checksum(std::string data, char *result){
-        unsigned int checksum = 0;
-        for(char c: data){
-            checksum = checksum ^ (int) c;
+    QStringList BaseNmeaString<T>::getString(){
+        QString encodedMessage = decodeParam();
+        QStringList nmeaMessages;
+        const int maxPayloadLength = 82 - 5; // Максимальная длина полезной нагрузки в символах (учитываем теги и запятые)
+        int payloadLength = encodedMessage.length();
+        int fragmentCount = (payloadLength + maxPayloadLength - 1) / maxPayloadLength; // Округление вверх
+
+        for (int fragmentNumber = 1; fragmentNumber <= fragmentCount; ++fragmentNumber) {
+            int start = (fragmentNumber - 1) * maxPayloadLength;
+            int end = qMin(start + maxPayloadLength, payloadLength);
+            QString payloadFragment = encodedMessage.mid(start, end - start);
+
+            QString nmeaMessage = "!AIVDM," +
+                                QString::number(fragmentCount) + "," +
+                                QString::number(fragmentNumber) + "," +
+                                (fragmentCount > 1 ? "1" : "") + "," + // Message ID (пустой для одного фрагмента)
+                                "B," + // Channel code (B для канала B)
+                                payloadFragment + "," +
+                                "0"; // Fill bits (предполагаем, что нет дополнительных бит)
+
+            unsigned char checksum = calculateChecksum(nmeaMessage);
+            nmeaMessage += "*" + QString::number(checksum, 16).toUpper().rightJustified(2, '0') + "\r\n";;
+            nmeaMessages.append(nmeaMessage);
         }
-        sprintf(result,"%02X",checksum);
+
+        return nmeaMessages;
     }
+    template<class T>
+    QString BaseNmeaString<T>::encodeString(const std::vector<bool> &bitField, int lenStr){
+        std::string encodedMessage;
+        for (int i = 0; i < lenStr; i += 6) {
+            unsigned int sixBitsValue = 0;
+            for (int j = 0; j < 6; ++j) {
+                if (i + j < lenStr && bitField[i + j]) {
+                    sixBitsValue |= (1 << (5 - j));
+                }
+            }
+            if (sixBitsValue <= 40) {
+                encodedMessage += static_cast<char>(sixBitsValue + 48); // '0'-'9', ':', ';', '<', '=', '>', '?'
+            } else if (sixBitsValue > 40 && sixBitsValue <= 63) {
+                encodedMessage += static_cast<char>(sixBitsValue + 48 - 8 + ('@' - '0')); // '@', 'A'-'W'
+            } else {
+                throw std::out_of_range("Six-bit value is out of range");
+            }
+        }
+        return QString::fromStdString( encodedMessage);
+    }
+
     class Type123Decoder : public BaseNmeaString<AIS_Data_Type::ClassA123 >{
         public:
             Type123Decoder();
             ~Type123Decoder();
-        virtual QStringList getString() override;
-        private:
-            QString decodeParam();
+        
+        protected:
+          virtual  QString decodeParam() override;
 
     };
 
+    class Type5Decoder : public BaseNmeaString<AIS_Data_Type::ClassA5 >{
+        public:
+            Type5Decoder();
+            ~Type5Decoder();
+        
+        protected:
+          virtual  QString decodeParam() override;
+
+    };
 };

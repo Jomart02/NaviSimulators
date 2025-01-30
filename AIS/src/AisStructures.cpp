@@ -9,41 +9,6 @@ Type123Decoder::Type123Decoder() : BaseNmeaString(){
 Type123Decoder::~Type123Decoder(){
 
 }
-unsigned char calculateChecksum(const QString &message) {
-    unsigned char checksum = 0;
-    for (int i = 1; i < message.length(); ++i) { // Начинаем с 1, чтобы пропустить '!'
-        checksum ^= static_cast<unsigned char>(message.at(i).toLatin1());
-    }
-    return checksum;
-}
-
-QStringList Type123Decoder::getString(){
-    QString encodedMessage =decodeParam();
-    QStringList nmeaMessages;
-    const int maxPayloadLength = 82 - 5; // Максимальная длина полезной нагрузки в символах (учитываем теги и запятые)
-    int payloadLength = encodedMessage.length();
-    int fragmentCount = (payloadLength + maxPayloadLength - 1) / maxPayloadLength; // Округление вверх
-
-    for (int fragmentNumber = 1; fragmentNumber <= fragmentCount; ++fragmentNumber) {
-        int start = (fragmentNumber - 1) * maxPayloadLength;
-        int end = qMin(start + maxPayloadLength, payloadLength);
-        QString payloadFragment = encodedMessage.mid(start, end - start);
-
-        QString nmeaMessage = "!AIVDM," +
-                              QString::number(fragmentCount) + "," +
-                              QString::number(fragmentNumber) + "," +
-                              (fragmentCount > 1 ? "1" : "") + "," + // Message ID (пустой для одного фрагмента)
-                              "B," + // Channel code (B для канала B)
-                              payloadFragment + "," +
-                              "0"; // Fill bits (предполагаем, что нет дополнительных бит)
-
-        unsigned char checksum = calculateChecksum(nmeaMessage);
-        nmeaMessage += "*" + QString::number(checksum, 16).toUpper().rightJustified(2, '0') + "\r\n";;
-        nmeaMessages.append(nmeaMessage);
-    }
-
-    return nmeaMessages;
-} 
 QString Type123Decoder::decodeParam(){
     std::vector<bool> bitField(168, false);
         // Message ID (6 бит)
@@ -52,7 +17,7 @@ QString Type123Decoder::decodeParam(){
     // Repeat indicator (2 бита)
     encodeValueBytes(bitField, 0, 6, 7);
 
-    // User ID (30 бит)
+    // MMSI (30 бит)
     encodeValueBytes(bitField, paramets.MMSI, 8, 37);
 
     // Navigational status (4 бита)
@@ -104,22 +69,96 @@ QString Type123Decoder::decodeParam(){
     encodeValueBytes(bitField, 0, 149, 167);
 
     // Преобразуем битовое поле в строку символов
-        // Преобразуем битовое поле в строку символов
-    std::string encodedMessage;
-    for (int i = 0; i < 168; i += 6) {
-        unsigned int sixBitsValue = 0;
-        for (int j = 0; j < 6; ++j) {
-            if (i + j < 168 && bitField[i + j]) {
-                sixBitsValue |= (1 << (5 - j));
-            }
-        }
-        if (sixBitsValue <= 40) {
-            encodedMessage += static_cast<char>(sixBitsValue + 48); // '0'-'9', ':', ';', '<', '=', '>', '?'
-        } else if (sixBitsValue > 40 && sixBitsValue <= 63) {
-            encodedMessage += static_cast<char>(sixBitsValue + 48 - 8 + ('@' - '0')); // '@', 'A'-'W'
-        } else {
-            throw std::out_of_range("Six-bit value is out of range");
+    return encodeString(bitField,LEN_TYPE123);
+}
+
+
+
+Type5Decoder::Type5Decoder() : BaseNmeaString(){
+
+}
+Type5Decoder::~Type5Decoder(){
+
+}
+
+std::vector<unsigned char> encodeAsciiBytes(const std::string &input) {
+    std::vector<unsigned char> result;
+
+    for (char c : input) {
+        // Получаем исходное значение байта, вычитая 64
+        unsigned char byte = static_cast<unsigned char>(c) - 64;
+        
+        // Разбиваем байт на 6 битов
+        for (int j = 5; j >= 0; --j) {
+            result.push_back((byte >> j) & 1);
         }
     }
-    return QString::fromStdString( encodedMessage);
+    
+    return result;
+}
+static void placeBitsInBitField(std::vector<bool>& bitField, const std::vector<unsigned char>& bits, int start, int end) {
+    if (start < 0 || end > bitField.size() || start >= end) {
+        throw std::out_of_range("Invalid range specified");
+    }
+
+    if ((end - start) +1 < static_cast<int>(bits.size())) {
+        throw std::length_error("Not enough space in the specified range");
+    }
+
+    for (size_t i = 0; i < bits.size(); ++i) {
+        bitField[start + i] = bits[i];
+    }
+}
+
+QString Type5Decoder::decodeParam(){
+
+    std::vector<bool> bitField(LEN_TYPE5, false);
+    // Message ID (6 бит)
+    encodeValueBytes(bitField, 5 , 0, 5);
+    // Repeat indicator (2 бита)
+    encodeValueBytes(bitField, 0, 6, 7);
+    // MMSI (30 бит)
+    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
+    // AIS Version (2 бита)
+    encodeValueBytes(bitField, 0, 38, 39);
+    // IMO Number (30 бит)
+    encodeValueBytes(bitField, paramets.IMO, 40, 69);
+    // Call Sign (42 бит)
+    //encodeAsciiBytes(bitField,paramets.CallSign.toStdString(),70,111,7);
+    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.CallSign.toStdString()),70,111);
+    // Vessel Name (120 бит)
+    //encodeAsciiBytes(bitField,paramets.VesselName.toStdString(),112,231,20);
+    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.VesselName.toStdString()),112,231);
+    // Ship Type (8 бит)
+    encodeValueBytes(bitField, paramets.ShipType, 232, 239);
+    // Dimension to Bow(9 бит)
+    encodeValueBytes(bitField, paramets.DimensionBow, 240, 248);
+    // Dimension to Stern (9 бит)
+    encodeValueBytes(bitField, paramets.DimensionStern, 249, 257);
+    // Dimension to Port (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionPort, 258, 263);
+    // Dimension to Starboard (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionStarboard, 264, 269);
+    // Position Fix Type (4 бит)
+    encodeValueBytes(bitField, paramets.PositionType, 270, 273);
+    // ETA month (4 бит)
+    encodeValueBytes(bitField, paramets.ETA.date().month(), 274, 277);
+    // ETA day(5 бит)
+    encodeValueBytes(bitField, paramets.ETA.date().day(), 278, 282);
+    // ETA hour (5 бит)
+    encodeValueBytes(bitField, paramets.ETA.time().hour(), 283, 287);
+    // ETA minute (6 бит)
+    encodeValueBytes(bitField, paramets.ETA.time().minute(), 288, 293);
+
+    // Draught (8 бит)
+    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.Draught*10), 294, 301);
+    // Destination (120 бит)
+    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.Destination.toStdString()),302,421);
+    
+    // DTE (1 бит)
+    encodeValueBytes(bitField, paramets.DTE, 422, 422);
+    // Spare (1 бит)
+    bitField[423] = false;
+
+    return encodeString(bitField,LEN_TYPE5);
 }

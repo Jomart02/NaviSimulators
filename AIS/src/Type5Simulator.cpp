@@ -46,22 +46,90 @@ void Type5Simulator::init(){
     QRegularExpressionValidator *validator20_2 = new QRegularExpressionValidator(regex20_2, ui->lineEdit_Destination);
     ui->lineEdit_Destination->setValidator(validator20);
     ui->lineEdit_Destination->setPlaceholderText("Введите до 20 символов");
+
+    ui->dateTimeEdit_ETA->setDateTime(QDateTime::currentDateTime());
 }
 
 
 void Type5Simulator::updateAisData(QStringList &aisMess){
-
+    
 }
 QVariant Type5Simulator::getData() {
 
-    
+    AIS_Data_Type::ClassA5 data;
+    data.CallSign = ui->lineEdit_CallSign->text().toUpper();
+    data.IMO = ui->spinBox_IMO->value();
+    data.VesselName = ui->lineEdit_VesselName->text().toUpper();
+    data.Destination = ui->lineEdit_Destination->text().toUpper();
+    data.Draught = ui->doubleSpinBox_Draught->value();
+    int index = ui->comboBox_ShipType->currentIndex();
+    int index2 = ui->comboBox_PosType->currentIndex();
+    data.ShipType = ui->comboBox_ShipType->model()->data(ui->comboBox_ShipType->model()->index(index, 0), Qt::UserRole).toInt();
+    data.PositionType = ui->comboBox_PosType->model()->data(ui->comboBox_PosType->model()->index(index, 0), Qt::UserRole).toInt();
+    data.DimensionBow = ui->spinBox_bow->value();
+    data.DimensionPort = ui->spinBox_port->value();
+    data.DimensionStern = ui->spinBox_stern->value();
+    data.DimensionStarboard = ui->spinBox_starboard->value();
+    data.ETA = ui->dateTimeEdit_ETA->dateTime();
 
-    return QVariant();
+    return QVariant::fromValue(data);
 }
 void Type5Simulator::setData(QVariant data) {
+    AIS_Data_Type::ClassA5 param = data.value<AIS_Data_Type::ClassA5>();
+    ui->lineEdit_CallSign->setText(param.CallSign);
+    ui->spinBox_IMO->setValue(param.IMO);
+    ui->lineEdit_VesselName->setText(param.VesselName);
+    ui->lineEdit_Destination->setText(param.Destination);
+    ui->doubleSpinBox_Draught->setValue(param.Draught);
 
+    int Id = param.ShipType; 
+    QModelIndex Index;
+    for (int row = 0; row < ui->comboBox_ShipType->model()->rowCount(); ++row) {
+        QModelIndex index = ui->comboBox_ShipType->model()->index(row, 0);
+        QVariant userData = ui->comboBox_ShipType->model()->data(index, Qt::UserRole);
+        if (userData.toInt() == Id) {
+            Index = index;
+            break;
+        }
+    }
+
+    if (Index.isValid()) {
+        ui->comboBox_ShipType->setCurrentIndex(Index.row());
+    }
+
+    int Id2 = param.PositionType; 
+    QModelIndex Index2;
+    for (int row = 0; row < ui->comboBox_PosType->model()->rowCount(); ++row) {
+        QModelIndex index = ui->comboBox_PosType->model()->index(row, 0);
+        QVariant userData = ui->comboBox_PosType->model()->data(index, Qt::UserRole);
+        if (userData.toInt() == Id2) {
+            Index2 = index;
+            break;
+        }
+    }
+
+    if (Index2.isValid()) {
+        ui->comboBox_PosType->setCurrentIndex(Index2.row());
+    }
+
+    ui->spinBox_bow->setValue(param.DimensionBow);
+    ui->spinBox_port->setValue(param.DimensionPort);
+    ui->spinBox_stern->setValue(param.DimensionStern);
+    ui->spinBox_starboard->setValue(param.DimensionStarboard);
+    ui->dateTimeEdit_ETA->setDateTime(param.ETA);
 }
 
 void Type5Simulator::clearParam(){
+    ui->lineEdit_CallSign->clear();
+    ui->spinBox_IMO->setValue(0);
+    ui->lineEdit_VesselName->clear();
+    ui->lineEdit_Destination->clear();
+    ui->doubleSpinBox_Draught->setValue(0);
 
+
+    ui->spinBox_bow->setValue(0);
+    ui->spinBox_port->setValue(0);
+    ui->spinBox_stern->setValue(0);
+    ui->spinBox_starboard->setValue(0);
+    ui->dateTimeEdit_ETA->setDateTime(QDateTime::currentDateTime());
 }

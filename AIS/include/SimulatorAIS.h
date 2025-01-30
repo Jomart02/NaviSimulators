@@ -24,6 +24,7 @@ public:
     virtual QString description() const override;
 private slots:
     void addNewClassA();
+    void updateType5();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:
@@ -32,4 +33,5 @@ private:
     Type5Simulator * type5 = nullptr;
     std::map<unsigned int, ParamClassA> paramsShip;
     bool sending = false;
+    int deltaTimeSec = 0;
 };
