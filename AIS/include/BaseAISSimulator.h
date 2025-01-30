@@ -9,6 +9,7 @@ public:
     ~BaseAISSimulator(){}
     virtual QVariant getData() = 0;
     virtual void setData(QVariant data) = 0;
+    virtual void clearParam() = 0;
 public slots:
     virtual void updateAisData(QStringList &aisMess) = 0;
 

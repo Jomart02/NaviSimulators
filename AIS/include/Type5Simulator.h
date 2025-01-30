@@ -17,6 +17,7 @@ public:
     ~Type5Simulator();
     virtual QVariant getData() override;
     virtual void setData(QVariant data) override;
+    virtual void clearParam() override;
 public slots:
     virtual void updateAisData(QStringList &aisMess) override;
 private:    

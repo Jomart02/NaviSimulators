@@ -8,6 +8,9 @@ set(CMAKE_AUTOUIC ON)
 
 # Опция для выбора типа сборки
 option(BUILD_TEST "Build for testing (source) instead of release (library)" OFF)
+if(BUILD_TEST)
+    add_definitions(-DBUILD_TEST)
+endif()
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/)
 
@@ -33,6 +36,7 @@ set(SRCS
     ./src/SimulatorAIS.cpp
     ./src/Type123Simulator.cpp
     ./src/Type5Simulator.cpp
+    ./src/AisStructures.cpp
 )
 
 

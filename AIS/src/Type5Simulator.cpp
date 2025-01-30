@@ -61,3 +61,7 @@ QVariant Type5Simulator::getData() {
 void Type5Simulator::setData(QVariant data) {
 
 }
+
+void Type5Simulator::clearParam(){
+
+}

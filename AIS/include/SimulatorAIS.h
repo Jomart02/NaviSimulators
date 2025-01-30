@@ -8,6 +8,7 @@ namespace Ui
 {
 class SimulatorAIS;
 }
+using namespace AIS_Data_Type;
 
 class SimulatorAIS : public BaseNaviWidget
 {
@@ -29,4 +30,6 @@ private:
     Ui::SimulatorAIS *ui;
     Type123Simulator * type123 = nullptr;
     Type5Simulator * type5 = nullptr;
+    std::map<unsigned int, ParamClassA> paramsShip;
+    bool sending = false;
 };

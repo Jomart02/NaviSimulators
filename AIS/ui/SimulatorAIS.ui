@@ -75,9 +75,9 @@
         <widget class="ToolBox" name="widgetSimulatorsA" native="true"/>
        </item>
        <item row="0" column="0">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="checkBox_manual">
          <property name="text">
-          <string>Активный режим</string>
+          <string> Ручной режим</string>
          </property>
         </widget>
        </item>
