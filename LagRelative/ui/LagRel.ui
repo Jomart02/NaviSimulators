@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LagRel</class>
+ <widget class="QWidget" name="LagRel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1044</width>
+    <height>830</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_9">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Относительный лаг</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_18">
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="groupBox_13">
+        <property name="title">
+         <string>Скорость относительно воды</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_14">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Продольная</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Longitudinal_water_speed">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> узлы</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Поперечная</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Transverse_wated_speed">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> узлы</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_14">
+           <property name="title">
+            <string>Статус</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_15">
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButton_StatusWater_A">
+              <property name="text">
+               <string>Автономный</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_StatusWater_V">
+              <property name="text">
+               <string>Данные не годны</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="1" rowspan="2">
+       <widget class="QGroupBox" name="groupBox_10">
+        <property name="title">
+         <string>Кормовая скорость</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Поперечная (отн воды)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Stern_water">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_11">
+           <property name="title">
+            <string>Статус</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_12">
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButton_Stern_water_A">
+              <property name="text">
+               <string>Автономный</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_Stern_water_V">
+              <property name="text">
+               <string>Данные не годны</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Поперечная (отн грунта)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Stern_Ground">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_12">
+           <property name="title">
+            <string>Статус</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_13">
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButton_Stern_Ground_A">
+              <property name="text">
+               <string>Автономный</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_Stern_Ground_V">
+              <property name="text">
+               <string>Данные не годны</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QGroupBox" name="groupBox_17">
+        <property name="title">
+         <string>Скорость относительно воды и курс</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>Курс истинный</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Heading_T">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Курс магнитный</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Heading_M">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>°</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>Скорость относительно воды</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_kn">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> узлы</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_20">
+           <property name="text">
+            <string>Скорость относительно воды</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_km">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> км/ч</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="0" rowspan="2">
+       <widget class="QGroupBox" name="groupBox_15">
+        <property name="title">
+         <string>Скорость относительно грунта </string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_16">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Продольная</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Longitudinal_ground_speed">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> узлы</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Поперечная</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_Transverse_ground_speed">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string> узлы</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QGroupBox" name="groupBox_16">
+           <property name="title">
+            <string>Статус</string>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_17">
+            <item row="0" column="0">
+             <widget class="QRadioButton" name="radioButton_StatusGround_A">
+              <property name="text">
+               <string>Автономный</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_StatusGround_V">
+              <property name="text">
+               <string>Данные не годны</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="2" rowspan="2">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>114</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>345</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
