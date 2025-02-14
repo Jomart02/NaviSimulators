@@ -62,20 +62,7 @@ add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
 )
 endif()
 # Копируем зависимости и библиотеку в выходную папку (только для релиза)
-if(NOT BUILD_TEST)
-    if(WIN32)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-            COMMENT "Copying runtime dependencies to output directory (Windows)"
-        )
-    elseif(UNIX AND NOT APPLE)
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-            COMMENT "Copying library to output directory (Linux)"
-        )
-    endif()
-endif()
+
 
 # # Копируем ресурсы в выходную папку
 # add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
