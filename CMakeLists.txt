@@ -13,6 +13,7 @@ add_subdirectory(./SNS)
 add_subdirectory(./AIS)
 add_subdirectory(./LagAbs)
 add_subdirectory(./LagRelative)
+add_subdirectory(./Weather)
 
 # Опция для тестирования
 option(BUILD_TEST "Build for testing (source) instead of release (library)" OFF)
