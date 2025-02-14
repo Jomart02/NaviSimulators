@@ -15,10 +15,10 @@ endif()
 INCLUDE_DIRECTORIES(./include/)
 
 # Подключаем директорию базового класса 
-add_subdirectory(
-    ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
-    ${CMAKE_BINARY_DIR}/BaseNaviWidget
-)
+# add_subdirectory(
+#     ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
+#     ${CMAKE_BINARY_DIR}/BaseNaviWidget
+# )
 
 set(HDRS
     ./include/LagRel.h
