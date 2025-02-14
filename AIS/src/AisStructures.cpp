@@ -34,16 +34,16 @@ QString Type123Decoder::decodeParam(){
 
     // Longitude (28 бит)
     unsigned int lonBits = static_cast<unsigned int>((paramets.lon ) * 600000.0);
-    if (lonBits > ((1u << 28) - 1)) {
-        lonBits = (1u << 28) - 1; // Обработка случая, когда значение выходит за пределы диапазона
-    }
+    // if (lonBits > ((1u << 28) - 1)) {
+    //     lonBits = (1u << 28) - 1; // Обработка случая, когда значение выходит за пределы диапазона
+    // }
     encodeValueBytes(bitField, lonBits, 61, 88);
 
     // Latitude (27 бит)
     unsigned int latBits = static_cast<unsigned int>((paramets.lat ) * 600000.0);
-    if (latBits > ((1u << 27) - 1)) {
-        latBits = (1u << 27) - 1; // Обработка случая, когда значение выходит за пределы диапазона
-    }
+    // if (latBits > ((1u << 27) - 1)) {
+    //     latBits = (1u << 27) - 1; // Обработка случая, когда значение выходит за пределы диапазона
+    // }
     encodeValueBytes(bitField, latBits, 89, 115);
     // COG (12 бит)
     encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10), 116, 127);

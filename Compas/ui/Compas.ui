@@ -7,13 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>1127</width>
-    <height>438</height>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="1">
     <widget class="QRadioButton" name="radioButton_Magn">
      <property name="text">
@@ -78,6 +90,9 @@
         <property name="wrapping">
          <bool>true</bool>
         </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::NoButtons</enum>
+        </property>
         <property name="maximum">
          <double>359.899999999999977</double>
         </property>
@@ -112,6 +127,9 @@
         <layout class="QGridLayout" name="gridLayout_11">
          <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_kn">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
            <property name="prefix">
             <string/>
            </property>
@@ -124,6 +142,9 @@
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Heading_M">
            <property name="wrapping">
             <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>
@@ -153,6 +174,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_km">
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
            <property name="suffix">
             <string> км/ч</string>
            </property>
@@ -178,6 +202,9 @@
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Magnetic_Deviation">
            <property name="wrapping">
             <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>
@@ -216,6 +243,9 @@
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Magnetic_Variation">
            <property name="wrapping">
             <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>

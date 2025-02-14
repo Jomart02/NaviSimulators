@@ -34,7 +34,7 @@ QString Compas::description() const {
 
 QStringList Compas::getNavigationData(){
     QStringList nmea;
-    if(ui->radioButton_Gyro){
+    if(ui->radioButton_Gyro->isChecked()){
         VHW_nmea.set(1, QString("%1").arg(ui->doubleSpinBox_Heading_T->value(), 6, 'f', 2, QChar('0')).toStdString());
         VHW_nmea.set(2, "T");
         VHW_nmea.set(3, QString("%1").arg(0.0, 6, 'f', 2, QChar('0')).toStdString());
@@ -53,7 +53,7 @@ QStringList Compas::getNavigationData(){
         THS_nmea.set(2, "T");
         nmea.push_back(QString::fromStdString(THS_nmea.get_string()));
     }
-    if(ui->radioButton_Magn){
+    if(ui->radioButton_Magn->isChecked()){
         VHW2_nmea.set(1, QString("%1").arg(0.0, 6, 'f', 2, QChar('0')).toStdString());
         VHW2_nmea.set(2, "T");
         VHW2_nmea.set(3, QString("%1").arg(ui->doubleSpinBox_Heading_M->value(), 6, 'f', 2, QChar('0')).toStdString());

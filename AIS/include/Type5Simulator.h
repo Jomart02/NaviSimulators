@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ui_Type5Simulator.h"
 #include "BaseAISSimulator.h"
 
 namespace Ui

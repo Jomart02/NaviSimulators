@@ -6,13 +6,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/)
+INCLUDE_DIRECTORIES(./include/)
 
-#Подключаем директорию базового класса 
-add_subdirectory(
-    ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
-    ${CMAKE_BINARY_DIR}/BaseNaviWidget
-)
+# #Подключаем директорию базового класса 
+# add_subdirectory(
+#     ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
+#     ${CMAKE_BINARY_DIR}/BaseNaviWidget
+# )
 
 set(SRCS
     ./include/SNS.h

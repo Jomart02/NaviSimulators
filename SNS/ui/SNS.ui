@@ -14,6 +14,18 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_7">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0" rowspan="2">
     <layout class="QVBoxLayout" name="verticalLayout_9">
      <item>
@@ -28,7 +40,7 @@
         <string>СНС</string>
        </property>
        <property name="checkable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
@@ -63,6 +75,9 @@
                 <width>130</width>
                 <height>16777215</height>
                </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::NoButtons</enum>
               </property>
               <property name="dateTime">
                <datetime>
@@ -122,6 +137,9 @@
                  <height>16777215</height>
                 </size>
                </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
               </widget>
              </item>
              <item row="1" column="1">
@@ -137,6 +155,9 @@
                  <width>130</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
                </property>
               </widget>
              </item>
@@ -273,6 +294,9 @@
                 <property name="wrapping">
                  <bool>true</bool>
                 </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
                 <property name="suffix">
                  <string>º</string>
                 </property>
@@ -300,6 +324,9 @@
                 </property>
                 <property name="wrapping">
                  <bool>true</bool>
+                </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
                 </property>
                 <property name="suffix">
                  <string>º</string>
@@ -329,6 +356,9 @@
                   <height>16777215</height>
                  </size>
                 </property>
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
                 <property name="suffix">
                  <string> м/c</string>
                 </property>
@@ -339,6 +369,9 @@
               </item>
               <item>
                <widget class="QDoubleSpinBox" name="HSEA">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
                 <property name="minimum">
                  <double>-9999.000000000000000</double>
                 </property>
@@ -352,6 +385,9 @@
               </item>
               <item>
                <widget class="QDoubleSpinBox" name="HGEO">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
                 <property name="minimum">
                  <double>-99.000000000000000</double>
                 </property>
@@ -362,6 +398,9 @@
               </item>
               <item>
                <widget class="QDoubleSpinBox" name="HDOP">
+                <property name="buttonSymbols">
+                 <enum>QAbstractSpinBox::NoButtons</enum>
+                </property>
                 <property name="maximum">
                  <double>50.000000000000000</double>
                 </property>
@@ -665,7 +704,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QDoubleSpinBox" name="dif_correct"/>
+                <widget class="QDoubleSpinBox" name="dif_correct">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -693,6 +736,9 @@
                    <width>130</width>
                    <height>0</height>
                   </size>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
                  </property>
                  <property name="maximum">
                   <number>1023</number>
@@ -740,6 +786,9 @@
                    <width>130</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
                  </property>
                  <property name="maximum">
                   <number>4</number>
@@ -805,6 +854,9 @@
                     <height>16777215</height>
                    </size>
                   </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
                   <property name="suffix">
                    <string>º</string>
                   </property>
@@ -839,6 +891,9 @@
                     <width>130</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
                   </property>
                   <property name="suffix">
                    <string> дБГц</string>
@@ -877,6 +932,9 @@
                     <width>130</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
                   </property>
                   <property name="suffix">
                    <string>º</string>
@@ -918,6 +976,9 @@
                     <width>130</width>
                     <height>16777215</height>
                    </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
                   </property>
                   <property name="maximum">
                    <number>4</number>

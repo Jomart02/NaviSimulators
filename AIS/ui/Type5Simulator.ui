@@ -15,16 +15,16 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
    <property name="leftMargin">
-    <number>0</number>
+    <number>8</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>8</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>8</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>8</number>
    </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_2">
@@ -55,6 +55,9 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
              <property name="maximum">
               <number>99</number>
              </property>
@@ -74,6 +77,9 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>99</number>
@@ -99,6 +105,9 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
              <property name="maximum">
               <number>99</number>
              </property>
@@ -118,6 +127,9 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="maximum">
               <number>99</number>
@@ -162,6 +174,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
           <property name="minimum">
            <number>1000000</number>
@@ -257,6 +272,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
          </widget>
         </item>
         <item row="0" column="0">
@@ -276,6 +294,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
           <property name="suffix">
            <string> метров</string>

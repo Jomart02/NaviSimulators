@@ -1,4 +1,5 @@
 #include "Type123Simulator.h"
+#include "ui_Type123Simulator.h"
 
 Type123Simulator::Type123Simulator(QWidget *parent) :
     BaseAISSimulator(parent),

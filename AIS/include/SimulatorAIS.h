@@ -1,9 +1,10 @@
 #pragma once
 
-#include "ui_SimulatorAIS.h"
+
 #include "BaseNaviWidget.h"  
 #include "Type123Simulator.h"
 #include "Type5Simulator.h"
+
 namespace Ui
 {
 class SimulatorAIS;

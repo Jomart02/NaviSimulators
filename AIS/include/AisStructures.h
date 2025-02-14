@@ -4,8 +4,9 @@
 #include <QBitArray>
 #include <bitset>
 #include <QRandomGenerator>
-
-
+#include <cmath>
+#include <QtMath>
+#include <QPair>
 #define LEN_TYPE123 168
 #define LEN_TYPE5 424
 namespace AIS_Data_Type {
@@ -14,6 +15,41 @@ namespace AIS_Data_Type {
         unsigned int typeMessage;
         unsigned int MMSI;
     }BaseAis;
+
+    inline QPair<double, double> calculateNewPosition(double lat, double lon, double COG, double distance) {
+        // Константы
+        const double DEG_TO_RAD = M_PI / 180.0; // Преобразование градусов в радианы
+        const double EARTH_RADIUS = 6371000.0;  // Радиус Земли в метрах
+
+        // Преобразование входных данных в радианы
+        double latRadians = lat * DEG_TO_RAD;
+        double lonRadians = lon * DEG_TO_RAD;
+        double cogRadians = COG * DEG_TO_RAD;
+
+        // Вычисление углового расстояния
+        double angularDistance = distance / EARTH_RADIUS;
+
+        // Вычисление новой широты
+        double newLatRadians = asin(sin(latRadians) * cos(angularDistance) +
+                                    cos(latRadians) * sin(angularDistance) * cos(cogRadians));
+
+        // Вычисление изменения долготы
+        double deltaLon = atan2(sin(cogRadians) * sin(angularDistance) * cos(latRadians),
+                                cos(angularDistance) - sin(latRadians) * sin(newLatRadians));
+
+        // Вычисление новой долготы
+        double newLonRadians = lonRadians + deltaLon;
+
+        // Нормализация долготы в диапазон [-180, 180]
+        if (newLonRadians > M_PI) newLonRadians -= 2 * M_PI;
+        if (newLonRadians < -M_PI) newLonRadians += 2 * M_PI;
+
+        // Преобразование обратно в градусы
+        double newLat = newLatRadians * (180.0 / M_PI);
+        double newLon = newLonRadians * (180.0 / M_PI);
+
+        return qMakePair(newLat, newLon);
+    }
 
 
     struct ClassA123 : BaseAis{
@@ -56,19 +92,9 @@ namespace AIS_Data_Type {
             // Расстояние, пройденное за время deltaTime (в километрах)
             double distanceTravelled = (data.SOG * 60) / 3600.0 * 1.852; // Узлы -> Км/ч -> Км
 
-            // Рассчитываем новые координаты
-            double deltaLat = (distanceTravelled / 111.32) * qSin(cogRadians);
-            double deltaLon = (distanceTravelled / (111.32 * qCos(qDegreesToRadians(data.lat)))) * qCos(cogRadians);
-
-            // Обновляем координаты
-            data.lat += deltaLat;
-            data.lon += deltaLon;
-
-            // Ограничение широты и долготы в допустимых пределах
-            if (data.lat > 90.0) data.lat = 90.0;
-            if (data.lat < -90.0) data.lat = -90.0;
-            if (data.lon > 180.0) data.lon -= 360.0;
-            if (data.lon < -180.0) data.lon += 360.0;
+            QPair<double, double> newPosition = calculateNewPosition(data.lat, data.lon, data.COG,data.SOG* 0.51444444444);
+            data.lat = newPosition.first;
+            data.lon = newPosition.second;
         }
     };
 

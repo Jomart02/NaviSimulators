@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ui_Type123Simulator.h"
 #include "BaseAISSimulator.h"
+
 namespace Ui
 {
 class Type123Simulator;

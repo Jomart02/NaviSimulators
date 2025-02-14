@@ -2,6 +2,7 @@
 #include <QRandomGenerator>
 #include <ostream>
 #include <iostream>
+#include "ui_SimulatorAIS.h"
 using namespace AIS_NMEA_Builder;
 
 
