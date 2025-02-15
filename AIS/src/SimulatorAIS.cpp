@@ -18,11 +18,6 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
 
     connect(ui->pushButton_addClassA,&QPushButton::clicked, this ,&SimulatorAIS::addNewClassA);
     
-    #ifdef BUILD_TEST
-        startSend();
-    #endif
-
-   
 }
 
 SimulatorAIS::~SimulatorAIS()

@@ -25,10 +25,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
     ./ui/
 )
 
-
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-
-
 
 add_library(${PROJECT_NAME} SHARED ${HDRS} ${SRC})
 

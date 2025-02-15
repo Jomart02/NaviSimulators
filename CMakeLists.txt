@@ -1,22 +1,37 @@
 cmake_minimum_required(VERSION 3.5)
-project(simulators)
 
-# Включение Automoc
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+project(NaviSimulators VERSION 1.0 LANGUAGES CXX)
 
-# Добавление поддиректорий
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
 add_subdirectory(./BaseNaviWidget)
 add_subdirectory(./ToolBoxWidget)
 add_subdirectory(./SNS)
-add_subdirectory(./AIS)
-add_subdirectory(./LagAbs)
-add_subdirectory(./LagRelative)
+add_subdirectory(./Compas)
 add_subdirectory(./Weather)
+add_subdirectory(./EchoSounder)
+add_subdirectory(./LagRelative)
+add_subdirectory(./LagAbs)
+add_subdirectory(./AIS)
 
-# Опция для тестирования
-option(BUILD_TEST "Build for testing (source) instead of release (library)" OFF)
-if(BUILD_TEST)
-    add_definitions(-DBUILD_TEST)
+# Опция для включения тестов
+option(BUILD_TESTS "Build test executable" OFF)
+
+if(BUILD_TESTS)
+    add_executable(TestRunner main.cpp)
+
+    target_link_libraries(TestRunner PRIVATE
+        BaseNaviWidgetLib
+        ToolBoxWidget
+        SNSPlugin
+        CompassPlugin
+        WeatherPlugin
+        EchoSounderPlugin
+        LagRelPlugin
+        LagAbsPlugin
+        AISPlugin
+    )
 endif()

@@ -8,12 +8,6 @@ set(CMAKE_AUTOUIC ON)
 
 INCLUDE_DIRECTORIES(./include/)
 
-# #Подключаем директорию базового класса 
-# add_subdirectory(
-#     ${CMAKE_SOURCE_DIR}/../BaseNaviWidget
-#     ${CMAKE_BINARY_DIR}/BaseNaviWidget
-# )
-
 set(SRCS
     ./include/SNS.h
     ./src/SNS.cpp
@@ -23,33 +17,12 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
     ./ui/
 )
 
-# Указываем выходную директорию для DLL
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-
 add_library(${PROJECT_NAME} SHARED ${SRCS})
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-target_link_libraries(${PROJECT_NAME} Qt6::Widgets BaseNaviWidgetLib)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib)
 
-
-# Создаем выходную директорию, если она не существует
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    COMMENT "Creating output directory"
-)
-
-# Копируем зависимости и библиотеку в выходную папку
-if(WIN32)
-    # Для Windows: копируем DLL-зависимости
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMENT "Copying runtime dependencies to output directory (Windows)"
-    )
-elseif(UNIX AND NOT APPLE)
-    # Для Linux: копируем только саму библиотеку
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${PROJECT_NAME}> ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMENT "Copying library to output directory (Linux)"
-    )
+if(BUILD_TESTS)
+    message("Building tests ${PROJECT_NAME} ")
+    target_include_directories(${PROJECT_NAME} PUBLIC ./include)
 endif()

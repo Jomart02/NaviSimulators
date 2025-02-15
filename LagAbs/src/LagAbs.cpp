@@ -8,9 +8,7 @@ LagAbs::LagAbs(QWidget *parent)  :
 {
     ui->setupUi(this);
     
-    #ifdef BUILD_TEST
-        startSend();
-    #endif
+
 }   
 
 LagAbs::~LagAbs()

@@ -1,6 +1,5 @@
 #pragma once
 #include <QWidget>
-#include "ui_ToolItem.h"
 
 namespace Ui {
 class ToolItem;

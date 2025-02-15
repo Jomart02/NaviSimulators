@@ -1,9 +1,9 @@
-#include "Compas.h"
-#include "ui_Compas.h"
+#include "Compass.h"
+#include "ui_Compass.h"
 
-Compas::Compas(QWidget *parent) :
+Compass::Compass(QWidget *parent) :
     BaseNaviWidget(parent),
-    ui(new Ui::Compas),
+    ui(new Ui::Compass),
     VHW_nmea("HEVHW",{"0.0","T","0.0","M","0.0","N","0.0","K"}),
     VHW2_nmea("ECVHW",{"0.0","T","0.0","M","0.0","N","0.0","K"}),
     HDT_nmea("HEHDT",{"0.0","T"}),
@@ -12,27 +12,25 @@ Compas::Compas(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    #ifdef BUILD_TEST
-        startSend();
-    #endif
+
 }
 
-Compas::~Compas()
+Compass::~Compass()
 {
     delete ui;
 }
 
-QIcon Compas::icon() const {
+QIcon Compass::icon() const {
     return QIcon();
 }
-QString Compas::name() const {
-    return tr("Compas");
+QString Compass::name() const {
+    return tr("Compass");
 }
-QString Compas::description() const {
+QString Compass::description() const {
     return QString("");
 }
 
-QStringList Compas::getNavigationData(){
+QStringList Compass::getNavigationData(){
     QStringList nmea;
     if(ui->radioButton_Gyro->isChecked()){
         VHW_nmea.set(1, QString("%1").arg(ui->doubleSpinBox_Heading_T->value(), 6, 'f', 2, QChar('0')).toStdString());

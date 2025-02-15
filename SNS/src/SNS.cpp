@@ -1,4 +1,5 @@
 #include "SNS.h"
+#include "ui_SNS.h"
 
 SNS::SNS(QWidget *parent) :
     BaseNaviWidget(parent),

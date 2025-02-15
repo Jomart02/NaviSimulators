@@ -1,5 +1,6 @@
 #include "ToolItem.h"
 #include <QLabel>
+#include "ui_ToolItem.h"
 
 ToolItem::ToolItem(QWidget *parent) :
     QWidget(parent),

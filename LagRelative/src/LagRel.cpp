@@ -9,9 +9,7 @@ LagRel::LagRel(QWidget *parent) :
     VBW_nmea("VMVBW",{"0.0","0.0","A","0.0","0.0","A","0.0","A","0.0","A"})
 {
     ui->setupUi(this);
-    #ifdef BUILD_TEST
-        startSend();
-    #endif
+
 }
 
 LagRel::~LagRel()

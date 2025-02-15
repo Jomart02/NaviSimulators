@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QWidget>
-#include "ui_SNS.h"
 #include "BaseNaviWidget.h"  
 
 

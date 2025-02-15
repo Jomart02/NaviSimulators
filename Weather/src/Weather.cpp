@@ -19,9 +19,7 @@ Weather::Weather(QWidget *parent) :
     connect(ui->doubleSpinBox_Direction_R,&QDoubleSpinBox::valueChanged,this,&Weather::calcAngleR);
     connect(ui->doubleSpinBox_Curs_ship,&QDoubleSpinBox::valueChanged,this,&Weather::calcAngleR);
 
-    #ifdef BUILD_TEST
-        startSend();
-    #endif
+
 }
 
 void Weather::calcAngleT(double v){
