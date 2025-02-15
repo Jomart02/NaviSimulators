@@ -30,6 +30,9 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
+# Указываем зависимости
+add_dependencies(${PROJECT_NAME} ToolBoxWidget)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget)
 
 if(BUILD_TESTS)

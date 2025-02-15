@@ -9,7 +9,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(./include)
 
 
 set(HDRS
@@ -27,8 +27,8 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-add_library(${PROJECT_NAME} SHARED ${HDRS} ${SRC})
+add_library(${PROJECT_NAME} STATIC ${HDRS} ${SRC})
 
 target_link_libraries(${PROJECT_NAME} Qt6::Widgets )
 # Указываем, что заголовочные файлы библиотеки должны быть доступны для других проектов
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ./include)
