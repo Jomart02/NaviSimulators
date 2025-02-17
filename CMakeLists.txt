@@ -26,6 +26,7 @@ add_subdirectory(./EchoSounder)
 add_subdirectory(./LagRelative)
 add_subdirectory(./LagAbs)
 add_subdirectory(./AIS)
+add_subdirectory(./ARPA)
 
 
 if(BUILD_TESTS)
@@ -41,6 +42,7 @@ if(BUILD_TESTS)
         LagRelPlugin
         LagAbsPlugin
         AISPlugin
+        ARPAPlugin
     )
 endif()
 
