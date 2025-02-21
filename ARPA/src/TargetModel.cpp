@@ -83,12 +83,19 @@ QWidget *TargetDataDelegate::createEditor(QWidget *parent, const QStyleOptionVie
         return editor;
     }
 
-    case Editable: { // QCheckBox
-        QCheckBox *editor = new QCheckBox(parent);
-        QObject::connect(editor, &QCheckBox::stateChanged, this, [=](int state) {
+    case Reference: { // QCheckBox
+        QComboBox *editor = new QComboBox(parent);
+        editor->addItem("Сопровождение", "R");
+        editor->addItem("Нет", "");
+        QObject::connect(editor, qOverload<int>(&QComboBox::currentIndexChanged), this, [=](int index) {
             const_cast<TargetDataDelegate*>(this)->commitData(editor);
         });
         return editor;
+        // QCheckBox *editor = new QCheckBox(parent);
+        // QObject::connect(editor, &QCheckBox::stateChanged, this, [=](int state) {
+        //     const_cast<TargetDataDelegate*>(this)->commitData(editor);
+        // });
+        // return editor;
     }
 
     default:
@@ -137,9 +144,9 @@ void TargetDataDelegate::setEditorData(QWidget *editor, const QModelIndex &index
         break;
     }
 
-    case Editable: {
-        QCheckBox *checkBox = static_cast<QCheckBox*>(editor);
-        checkBox->setChecked(index.model()->data(index, Qt::EditRole).toBool());
+    case Reference: {
+        QComboBox *comboBox = static_cast<QComboBox*>(editor);
+        comboBox->setCurrentText(index.model()->data(index, Qt::EditRole).toString());
         break;
     }
 
@@ -194,9 +201,10 @@ void TargetDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
         break;
     }
 
-    case Editable: {
-        QCheckBox *checkBox = static_cast<QCheckBox*>(editor);
-        model->setData(index, checkBox->isChecked(), Qt::EditRole);
+    case Reference: {
+        QComboBox *comboBox = static_cast<QComboBox*>(editor);
+        model->setData(index, comboBox->currentText(), Qt::DisplayRole);
+        model->setData(index, comboBox->currentData(Qt::UserRole), Qt::UserRole);
         break;
     }
 
@@ -207,22 +215,22 @@ void TargetDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 
 void TargetDataDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     ColumnType type = columnType(index);
-
-    if (type == Editable) {
-        // Центрируем редактор в ячейке
-        QRect rect = option.rect;
-        QSize sizeHint = editor->sizeHint();
-        editor->setGeometry(
-            rect.x() + (rect.width() - sizeHint.width()) / 2,
-            rect.y() + (rect.height() - sizeHint.height()) / 2,
-            sizeHint.width(),
-            sizeHint.height()
-        );
-    } else {
-        QStyledItemDelegate::updateEditorGeometry(editor, option, index);
-    }
+    QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+//     if (type == Reference) {
+//         // Центрируем редактор в ячейке
+//         QRect rect = option.rect;
+//         QSize sizeHint = editor->sizeHint();
+//         editor->setGeometry(
+//             rect.x() + (rect.width() - sizeHint.width()) / 2,
+//             rect.y() + (rect.height() - sizeHint.height()) / 2,
+//             sizeHint.width(),
+//             sizeHint.height()
+//         );
+//     } else {
+//         QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+//     }
+// }
 }
-
 ColumnType TargetDataDelegate::columnType(const QModelIndex &index) const {
     // Предполагается, что тип колонки хранится в данных модели
     return static_cast<ColumnType>(index.column());
@@ -231,28 +239,29 @@ ColumnType TargetDataDelegate::columnType(const QModelIndex &index) const {
 void TargetDataDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     ColumnType type = columnType(index);
 
-    if (type == Editable) { // Если это чекбокс
-        QStyleOptionButton checkboxOption;
-        checkboxOption.state = option.state | QStyle::State_Enabled;
+    // if (type == Reference) { // Если это чекбокс
+    //     QStyleOptionButton checkboxOption;
+    //     checkboxOption.state = option.state | QStyle::State_Enabled;
 
-        // Установка размера и положения чекбокса
-        checkboxOption.rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxOption, nullptr);
-        checkboxOption.rect.moveCenter(option.rect.center());
+    //     // Установка размера и положения чекбокса
+    //     checkboxOption.rect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkboxOption, nullptr);
+    //     checkboxOption.rect.moveCenter(option.rect.center());
 
-        // Установка состояния чекбокса
-        bool isChecked = index.model()->data(index, Qt::EditRole).toBool();
-        if (isChecked) {
-            checkboxOption.state |= QStyle::State_On;
-        } else {
-            checkboxOption.state |= QStyle::State_Off;
-        }
+    //     // Установка состояния чекбокса
+    //     bool isChecked = index.model()->data(index, Qt::EditRole).toBool();
+    //     if (isChecked) {
+    //         checkboxOption.state |= QStyle::State_On;
+    //     } else {
+    //         checkboxOption.state |= QStyle::State_Off;
+    //     }
 
-        // Рисуем чекбокс
-        QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxOption, painter);
-    } else {
-        // Для других типов используем стандартную отрисовку
-        QStyledItemDelegate::paint(painter, option, index);
-    }
+    //     // Рисуем чекбокс
+    //     QApplication::style()->drawControl(QStyle::CE_CheckBox, &checkboxOption, painter);
+    // } else {
+    //     // Для других типов используем стандартную отрисовку
+    //     QStyledItemDelegate::paint(painter, option, index);
+    // }
+    QStyledItemDelegate::paint(painter, option, index);
 }
 
 
@@ -261,7 +270,7 @@ void TargetDataDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 
 TargetModel::TargetModel(QObject* parent ) : QStandardItemModel(parent) {
-    setHorizontalHeaderLabels({"№", "Название","Широта", "Долгота", "Пеленг", "Дистанция", "Скорость", "Курс","Dкр", "tкр", "Статус"});
+    setHorizontalHeaderLabels({"№", "Название","Широта", "Долгота", "Пеленг", "Дистанция", "Скорость", "Курс","Dкр", "tкр", "Статус", "Сопровождение"});
 
 }
 TargetModel::~TargetModel(){
@@ -360,8 +369,9 @@ QStringList TargetModel::getNMEA(){
         TTM.set(11,  item(row, ColumnType::NameTarget)->data(Qt::DisplayRole).toString().toStdString());
         if(!item(row, ColumnType::Status)->data(Qt::UserRole).toString().isEmpty())
             TTM.set(12,  item(row, ColumnType::Status)->data(Qt::UserRole).toString().toStdString());
+        TTM.set(13,  item(row, ColumnType::Reference)->data(Qt::UserRole).toString().toStdString());
 
-         nmea.push_back(QString::fromStdString( TTM.get_string()));
+        nmea.push_back(QString::fromStdString( TTM.get_string()));
     }   
     return nmea;
 }

@@ -17,7 +17,7 @@ enum ColumnType {
     Dkr,              // QDoubleSpinBox
     Tkr,              // QDoubleSpinBox
     Status,           // QComboBox
-    Editable          // QCheckBox
+    Reference         // QCheckBox
 };
 
 struct PointGeo{
