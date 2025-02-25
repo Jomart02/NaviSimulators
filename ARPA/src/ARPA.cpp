@@ -14,7 +14,7 @@ ARPA::ARPA(QWidget *parent) :
 
     connect(ui->doubleSpinBox_lat, qOverload<double>(&LatitudeEdit::valueChanged),this, &ARPA::updatePositionShip);
     connect(ui->doubleSpinBox_lon, qOverload<double>(&LongitudeEdit::valueChanged),this, &ARPA::updatePositionShip);
-
+    connect(ui->checkBox_simulated, &QCheckBox::clicked, modelT, &TargetModel::setSimulationStatus);
     // Настройка ширины колонок
     QHeaderView *horizontalHeader =  ui->targetTable->horizontalHeader();
 

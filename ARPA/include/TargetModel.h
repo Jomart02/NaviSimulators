@@ -66,6 +66,7 @@ public:
     QStringList getNMEA();
 public slots:
     void setPosShip(PointGeo pos);
+    void setSimulationStatus(bool status);
 private:
     void updateData();
 
@@ -135,6 +136,6 @@ private:
 private:
     int countTargets = 0;
     PointGeo posShip = {0,0};
-
+    bool simulationActive = true;
 
 };

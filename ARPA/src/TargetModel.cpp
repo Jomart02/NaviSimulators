@@ -332,7 +332,7 @@ void TargetModel::updateData(){
 QStringList TargetModel::getNMEA(){
     if(rowCount() == 0) return QStringList();
     QStringList  nmea;
-    updateData();
+    if(simulationActive) updateData();
     for (int row = 0; row < rowCount(); ++row) {
         Nmea TLL = Nmea("RATLL" , {"00","0000.00","N","00000.00","W","","000000.00","T",""});
         TLL.set(1, QString("%1").arg(item(row, ColumnType::Number)->data(Qt::DisplayRole).toInt(), 2, 10, QChar('0')).toStdString());
@@ -378,4 +378,8 @@ QStringList TargetModel::getNMEA(){
 
 void TargetModel::setPosShip(PointGeo pos){
     posShip = pos;
+}
+
+void TargetModel::setSimulationStatus(bool status){
+    simulationActive = status;
 }
