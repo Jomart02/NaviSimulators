@@ -23,8 +23,6 @@ protected slots:
 
 private:
     Ui::Compass *ui; 
-     
-    unsigned int tick_interval = 1000;
 
     Nmea VHW_nmea;
     Nmea HDT_nmea;

@@ -25,6 +25,4 @@ private:
     Ui::LagRel *ui;
     Nmea VHW_nmea;
     Nmea VBW_nmea;
-
-    unsigned int tick_interval = 1000;
 };

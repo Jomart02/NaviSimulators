@@ -26,7 +26,5 @@ private slots:
     void updatePositionShip(double v);
 private:
     Ui::ARPA *ui; 
-     
-    unsigned int tick_interval = 1000;
     TargetModel *modelT = nullptr;
 };
