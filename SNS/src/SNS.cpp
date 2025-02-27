@@ -265,3 +265,8 @@ QStringList SNS::getNavigationData() {
 
     return nmea;
 }
+
+void SNS::setPos(double lat, double lon){
+    ui->lat->setValue(lat);
+    ui->lon->setValue(lon);
+}
