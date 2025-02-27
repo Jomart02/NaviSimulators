@@ -19,7 +19,8 @@ public:
     virtual QIcon icon() const override;
     virtual QString name() const override;
     virtual QString description() const override;
-
+public slots:
+    virtual void setPos(double lat, double lon) override;
 protected slots:
     virtual QStringList getNavigationData() override;
 private slots:

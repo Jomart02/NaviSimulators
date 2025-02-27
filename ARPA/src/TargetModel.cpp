@@ -271,7 +271,7 @@ void TargetDataDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 TargetModel::TargetModel(QObject* parent ) : QStandardItemModel(parent) {
     setHorizontalHeaderLabels({"№", "Название","Широта", "Долгота", "Пеленг", "Дистанция", "Скорость", "Курс","Dкр", "tкр", "Статус", "Сопровождение"});
-
+    currentRow = QModelIndex();
 }
 TargetModel::~TargetModel(){
 
@@ -382,4 +382,16 @@ void TargetModel::setPosShip(PointGeo pos){
 
 void TargetModel::setSimulationStatus(bool status){
     simulationActive = status;
+}
+void TargetModel::setPos(double lat, double lon){
+    if (currentRow.isValid()) {
+        item(currentRow.row(), ColumnType::lat)->setData(lat, Qt::UserRole);
+        item(currentRow.row(), ColumnType::lon)->setData(lon, Qt::UserRole);
+        item(currentRow.row(), ColumnType::lat)->setData(geoLat(lat), Qt::DisplayRole);
+        item(currentRow.row(), ColumnType::lon)->setData(geoLon(lon), Qt::DisplayRole);
+    }
+}
+
+void TargetModel::rowSelect(const QModelIndex &current, const QModelIndex &previous){
+    currentRow = current;
 }

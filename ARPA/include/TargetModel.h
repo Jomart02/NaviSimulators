@@ -64,9 +64,11 @@ public:
     ~TargetModel();
     void addTarget();
     QStringList getNMEA();
+    void setPos(double lat, double lon);
 public slots:
     void setPosShip(PointGeo pos);
     void setSimulationStatus(bool status);
+    void rowSelect(const QModelIndex &current, const QModelIndex &previous);
 private:
     void updateData();
 
@@ -137,5 +139,6 @@ private:
     int countTargets = 0;
     PointGeo posShip = {0,0};
     bool simulationActive = true;
+    QModelIndex currentRow ; 
 
 };

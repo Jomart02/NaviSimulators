@@ -8,6 +8,10 @@ ARPA::ARPA(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->targetTable->setModel(modelT);
+    QItemSelectionModel *selectionModel = ui->targetTable->selectionModel();
+
+    connect(selectionModel, &QItemSelectionModel::currentRowChanged, modelT, &TargetModel::rowSelect);
+
     TargetDataDelegate *del = new TargetDataDelegate(this);
     ui->targetTable->setItemDelegate(del);
     connect(ui->pushButton, &QPushButton::clicked, modelT, &TargetModel::addTarget);
@@ -52,4 +56,8 @@ QString ARPA::description() const {
 QStringList ARPA::getNavigationData(){
 
     return modelT->getNMEA();
+}
+
+void ARPA::setPos(double lat, double lon){
+    modelT->setPos(lat, lon);
 }
