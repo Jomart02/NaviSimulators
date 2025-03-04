@@ -57,7 +57,7 @@ QStringList SNS::getNavigationData() {
         rmc_nmea.set(6, lon >= 0 ? "E" : "W");
 
         // Скорость (в узлах)
-        double vel = ui->vel->value() * 1.944;
+        double vel = ui->vel->getValue() * 1.944;
         rmc_nmea.set(7, QString("%1").arg(vel, 3, 'f', 1, QChar('0')).toStdString());
 
         // Курс
@@ -93,12 +93,12 @@ QStringList SNS::getNavigationData() {
         // Магнитное направление
         vtg_nmea.set(4, "M"); // Magnetic
         // Скорость в узлах
-        double velKnots = ui->vel->value() * 1.944;
+        double velKnots = ui->vel->getValue() * 1.944;
         vtg_nmea.set(5, QString("%1").arg(velKnots, 3, 'f', 1, QChar('0')).toStdString()); // Knots
         // Единица измерения (узлы)
         vtg_nmea.set(6, "N"); // Knots
         // Скорость в км/ч
-        double velKmph = ui->vel->value() * 3.6;
+        double velKmph = ui->vel->getValue() * 3.6;
         vtg_nmea.set(7, QString("%1").arg(velKmph, 3, 'f', 1, QChar('0')).toStdString()); // km/h
         // Единица измерения (км/ч)
         vtg_nmea.set(8, "K"); // km/h

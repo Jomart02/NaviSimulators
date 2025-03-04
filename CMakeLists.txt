@@ -34,6 +34,7 @@ if(BUILD_TESTS)
 
     target_link_libraries(TestRunner PRIVATE
         BaseNaviWidgetLib
+        CircularValueWidgets
         ToolBoxWidget
         SNSPlugin
         CompassPlugin
@@ -71,6 +72,7 @@ if(CREATE_ARCHIVE)
         # Указываем зависимости для create_archive
         add_dependencies(create_archive
             BaseNaviWidgetLib
+            CircularValueWidgets
             ToolBoxWidget
             SNSPlugin
             CompassPlugin
