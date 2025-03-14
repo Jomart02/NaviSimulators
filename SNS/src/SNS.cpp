@@ -12,7 +12,8 @@ SNS::SNS(QWidget *parent) :
         
         ui->setupUi(this);
         ui->sns_time->setDateTime(QDateTime::currentDateTime().currentDateTimeUtc());
-
+        ui->scrollArea->installEventFilter(this);
+        ui->scrollArea->setFocusPolicy(Qt::NoFocus);
 }
 
 SNS::~SNS()
