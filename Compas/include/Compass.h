@@ -20,7 +20,9 @@ public:
 
 protected slots:
     virtual QStringList getNavigationData() override;
-
+protected:
+    virtual QString getRetranslateName(QString retranslateName) override;
+    virtual void retranslate() override;
 private:
     Ui::Compass *ui; 
 
@@ -30,4 +32,5 @@ private:
 
     Nmea VHW2_nmea;
     Nmea HDG_nmea;
+    QTranslator *translator;
 };

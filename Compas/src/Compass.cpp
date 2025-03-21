@@ -12,7 +12,7 @@ Compass::Compass(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
+    translator = new QTranslator(this);
 }
 
 Compass::~Compass()
@@ -70,4 +70,13 @@ QStringList Compass::getNavigationData(){
         nmea.push_back(QString::fromStdString(HDG_nmea.get_string()));
     }
     return nmea;
+}
+
+
+void Compass::retranslate(){
+    ui->retranslateUi(this);
+}
+
+QString Compass::getRetranslateName(QString retranslateName){
+    return QString(":/translations/" + retranslateName + PROJECT_NAME);
 }
