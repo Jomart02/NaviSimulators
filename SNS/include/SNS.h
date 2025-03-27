@@ -25,6 +25,9 @@ public slots:
     virtual void setPos(double lat, double lon) override;
 protected slots:
     virtual QStringList getNavigationData() override;
+protected:
+    virtual QString getRetranslateName(QString retranslateName) override;
+    virtual void retranslate() override;
 private:
     Ui::SNS *ui;
     Nmea rmc_nmea;

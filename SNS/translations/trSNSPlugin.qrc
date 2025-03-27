@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="enSNSPlugin">SNSPlugin_en.qm</file>
+        <file alias="ruSNSPlugin">SNSPlugin_ru.qm</file>
+    </qresource>
+</RCC>

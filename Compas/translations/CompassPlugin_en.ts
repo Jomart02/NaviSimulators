@@ -83,7 +83,7 @@
         <translation>Magnetic change</translation>
     </message>
     <message>
-        <location filename="../src/Compass.cpp" line="28"/>
+        <location filename="../src/Compass.cpp" line="27"/>
         <source>Compass</source>
         <translation></translation>
     </message>

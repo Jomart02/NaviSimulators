@@ -271,3 +271,11 @@ void SNS::setPos(double lat, double lon){
     ui->lat->setValue(lat);
     ui->lon->setValue(lon);
 }
+
+void SNS::retranslate(){
+    ui->retranslateUi(this);
+}
+
+QString SNS::getRetranslateName(QString retranslateName){
+    return QString(":/translations/" + retranslateName + PROJECT_NAME);
+}

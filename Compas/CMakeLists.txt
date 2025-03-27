@@ -39,13 +39,13 @@ add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
 
 # Переводы
 set(TS_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/CompassPlugin_en.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/CompassPlugin_ru.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/${PROJECT_NAME}_en.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/${PROJECT_NAME}_ru.ts
 )
 
 set(QM_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/CompassPlugin_en.qm
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/CompassPlugin_ru.qm
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/${PROJECT_NAME}_en.qm
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/${PROJECT_NAME}_ru.qm
 )
 
 # Сбор всех файлов для lupdate

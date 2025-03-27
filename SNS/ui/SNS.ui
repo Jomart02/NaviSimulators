@@ -1001,7 +1001,7 @@
              <double>1500.000000000000000</double>
             </property>
             <property name="nameValue">
-             <string>COG</string>
+             <string>SOG</string>
             </property>
             <property name="nameUints">
              <string>m/c</string>
