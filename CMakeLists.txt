@@ -17,6 +17,7 @@ set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/output" CACHE PATH "Path for Dll")
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})#Только для библиотек - исполняемые будут тесты
 
+add_subdirectory(./thirdparty/qtgamepadlegacy)
 add_subdirectory(./BaseNaviWidget)
 add_subdirectory(./ToolBoxWidget)
 add_subdirectory(./SNS)
