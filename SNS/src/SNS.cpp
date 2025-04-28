@@ -62,7 +62,7 @@ QStringList SNS::getNavigationData() {
         rmc_nmea.set(7, QString("%1").arg(vel, 3, 'f', 1, QChar('0')).toStdString());
 
         // Курс
-        double cog = ui->cog->value();
+        double cog = ui->cog->getValue();
         rmc_nmea.set(8, QString("%1").arg(cog, 6, 'f', 2, QChar('0')).toStdString());
 
         // Дата
@@ -85,11 +85,11 @@ QStringList SNS::getNavigationData() {
 
     if(ui->vtg_check->isChecked()){
          // Курс (COG)
-        vtg_nmea.set(1, QString("%1").arg(ui->cog->value(), 3, 'f', 1, QChar('0')).toStdString()); // COG
+        vtg_nmea.set(1, QString("%1").arg(ui->cog->getValue(), 3, 'f', 1, QChar('0')).toStdString()); // COG
         // Направление (True north)
         vtg_nmea.set(2, "T"); // True north
         // Магнитный курс (COG + магнитное склонение)
-        double magnCog = ui->cog->value() + ui->magn->value();
+        double magnCog = ui->cog->getValue() + ui->magn->value();
         vtg_nmea.set(3, QString("%1").arg(magnCog, 3, 'f', 1, QChar('0')).toStdString()); // Magnetic COG
         // Магнитное направление
         vtg_nmea.set(4, "M"); // Magnetic
