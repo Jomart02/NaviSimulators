@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1140</width>
-    <height>734</height>
+    <width>1403</width>
+    <height>908</height>
    </rect>
   </property>
   <property name="font">
@@ -29,8 +29,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1120</width>
-        <height>714</height>
+        <width>1383</width>
+        <height>888</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_13">
@@ -54,14 +54,91 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Ubuntu</family>
+          </font>
+         </property>
          <property name="title">
           <string>СНС</string>
          </property>
          <property name="checkable">
           <bool>false</bool>
          </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="2" column="0">
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="5" column="0" colspan="4">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>1278</width>
+              <height>182</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1" rowspan="3">
+           <widget class="SpeedometerWidget" name="vel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="maxValue" stdset="0">
+             <double>1500.000000000000000</double>
+            </property>
+            <property name="nameValue">
+             <string>SOG</string>
+            </property>
+            <property name="nameUints">
+             <string>m/c</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" rowspan="3">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>376</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="2">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>182</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="0">
            <widget class="QGroupBox" name="OutputNMEA">
             <property name="font">
              <font>
@@ -71,79 +148,71 @@
             <property name="title">
              <string>Исходящие сообщения</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_2">
+            <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QCheckBox" name="rmc_check">
-                 <property name="text">
-                  <string>RMC</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="vtg_check">
-                 <property name="text">
-                  <string>VTG</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="zda_check">
-                 <property name="text">
-                  <string>ZDA</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QCheckBox" name="rmc_check">
+               <property name="text">
+                <string>RMC</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QCheckBox" name="zda_check">
+               <property name="text">
+                <string>ZDA</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="1" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QCheckBox" name="gll_check">
-                 <property name="text">
-                  <string>GLL</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="gga_check">
-                 <property name="text">
-                  <string>GGA</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="gsv_check">
-                 <property name="text">
-                  <string>GSV</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QCheckBox" name="gll_check">
+               <property name="text">
+                <string>GLL</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QCheckBox" name="gga_check">
+               <property name="text">
+                <string>GGA</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="vtg_check">
+               <property name="text">
+                <string>VTG</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QCheckBox" name="gsv_check">
+               <property name="text">
+                <string>GSV</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="3" column="2">
            <widget class="QGroupBox" name="groupBox_dif">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -227,7 +296,121 @@
             </layout>
            </widget>
           </item>
-          <item row="0" column="0">
+          <item row="0" column="3">
+           <widget class="QGroupBox" name="groupBox_5">
+            <property name="title">
+             <string>Видимые спутники</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Ubuntu</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Спутников</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="satn">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>130</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="maximum">
+                <number>4</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="2" rowspan="3">
+           <widget class="CompassWidget" name="cog">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="title">
+             <string>Статус </string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="AUTO_STATUS">
+               <property name="text">
+                <string>Автономный</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="DIFF_STATUS">
+               <property name="text">
+                <string>Дифференциальный</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="INVALID_STATUS">
+               <property name="text">
+                <string>Данные не годны</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="0" rowspan="3">
            <widget class="QGroupBox" name="groupBox_6">
             <property name="title">
              <string/>
@@ -534,1006 +717,847 @@
             </layout>
            </widget>
           </item>
-          <item row="1" column="1" rowspan="2">
-           <widget class="CompassWidget" name="cog">
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>300</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="3">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="1">
-           <widget class="SpeedometerWidget" name="vel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>300</height>
-             </size>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="maxValue" stdset="0">
-             <double>1500.000000000000000</double>
-            </property>
-            <property name="nameValue">
-             <string>SOG</string>
-            </property>
-            <property name="nameUints">
-             <string>m/c</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QGroupBox" name="groupBox_5">
+          <item row="4" column="1">
+           <widget class="QGroupBox" name="groupBox_4">
             <property name="title">
-             <string>Видимые спутники</string>
+             <string>Качество обсервации</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Ubuntu</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QRadioButton" name="AUTO_STATUS_2">
                <property name="text">
-                <string>Спутников</string>
+                <string>Автономный</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QSpinBox" name="satn">
-               <property name="minimumSize">
-                <size>
-                 <width>130</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>130</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>4</number>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
-             <item row="1" column="0" colspan="2">
-              <widget class="QTabWidget" name="tabWidget">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+             <item>
+              <widget class="QRadioButton" name="DIFF_STATUS_2">
+               <property name="text">
+                <string>Дифференциальный</string>
                </property>
-               <property name="currentIndex">
-                <number>0</number>
+               <property name="checked">
+                <bool>false</bool>
                </property>
-               <widget class="QWidget" name="tab_5">
-                <attribute name="title">
-                 <string>1   </string>
-                </attribute>
-                <layout class="QGridLayout" name="gridLayout_8">
-                 <item row="3" column="0">
-                  <layout class="QHBoxLayout" name="azimut_lay">
-                   <item>
-                    <widget class="QLabel" name="azimuth">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Азимут</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="azimut_">
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="buttonSymbols">
-                      <enum>QAbstractSpinBox::NoButtons</enum>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>359</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="4" column="0">
-                  <layout class="QHBoxLayout" name="sign_lay">
-                   <item>
-                    <widget class="QLabel" name="azimuth_11">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Сигнал/Шум</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sign">
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="buttonSymbols">
-                      <enum>QAbstractSpinBox::NoButtons</enum>
-                     </property>
-                     <property name="suffix">
-                      <string> дБГц</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="2" column="0">
-                  <layout class="QHBoxLayout" name="up_gorlay">
-                   <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Возвышение над горизонтом</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="up_gor">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="buttonSymbols">
-                      <enum>QAbstractSpinBox::NoButtons</enum>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="1" column="0">
-                  <layout class="QHBoxLayout" name="sath_num">
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Номер спутника</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="satn_number">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="buttonSymbols">
-                      <enum>QAbstractSpinBox::NoButtons</enum>
-                     </property>
-                     <property name="maximum">
-                      <number>4</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_5">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Спутник 1</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="tab_6">
-                <attribute name="title">
-                 <string>2</string>
-                </attribute>
-                <layout class="QGridLayout" name="gridLayout_9">
-                 <item row="2" column="0">
-                  <layout class="QHBoxLayout" name="up_gorlay_2">
-                   <item>
-                    <widget class="QLabel" name="label_13">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Возвышение над горизонтом</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="up_gor_2">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="4" column="0">
-                  <layout class="QHBoxLayout" name="sign_lay_2">
-                   <item>
-                    <widget class="QLabel" name="azimuth_12">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Сигнал/Шум</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sign_2">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="wrapping">
-                      <bool>true</bool>
-                     </property>
-                     <property name="suffix">
-                      <string> дБГц</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="1" column="0">
-                  <layout class="QHBoxLayout" name="sath_num_2">
-                   <item>
-                    <widget class="QLabel" name="label_12">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Номер спутника</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="satn_number_2">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="maximum">
-                      <number>4</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="3" column="0">
-                  <layout class="QHBoxLayout" name="azimut_lay_2">
-                   <item>
-                    <widget class="QLabel" name="azimuth_2">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Азимут</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="azimut_1">
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>359</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_4">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Спутник 2</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="tab">
-                <attribute name="title">
-                 <string>3</string>
-                </attribute>
-                <layout class="QGridLayout" name="gridLayout_10">
-                 <item row="2" column="0">
-                  <layout class="QHBoxLayout" name="up_gorlay_3">
-                   <item>
-                    <widget class="QLabel" name="label_15">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Возвышение над горизонтом</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="up_gor_3">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="1" column="0">
-                  <layout class="QHBoxLayout" name="sath_num_3">
-                   <item>
-                    <widget class="QLabel" name="label_14">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Номер спутника</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="satn_number_3">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="maximum">
-                      <number>4</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="4" column="0">
-                  <layout class="QHBoxLayout" name="sign_lay_3">
-                   <item>
-                    <widget class="QLabel" name="azimuth_13">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Сигнал/Шум</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sign_3">
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string> дБГц</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="3" column="0">
-                  <layout class="QHBoxLayout" name="azimut_lay_3">
-                   <item>
-                    <widget class="QLabel" name="azimuth_3">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Азимут</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="azimut_2">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="wrapping">
-                      <bool>true</bool>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>359</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_2">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Спутник 3</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="tab_2">
-                <attribute name="title">
-                 <string>4</string>
-                </attribute>
-                <layout class="QGridLayout" name="gridLayout_11">
-                 <item row="2" column="0">
-                  <layout class="QHBoxLayout" name="up_gorlay_4">
-                   <item>
-                    <widget class="QLabel" name="label_17">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Возвышение над горизонтом</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="up_gor_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="1" column="0">
-                  <layout class="QHBoxLayout" name="sath_num_4">
-                   <item>
-                    <widget class="QLabel" name="label_16">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Номер спутника</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="satn_number_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="maximum">
-                      <number>4</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="4" column="0">
-                  <layout class="QHBoxLayout" name="sign_lay_4">
-                   <item>
-                    <widget class="QLabel" name="azimuth_14">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Сигнал/Шум</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sign_4">
-                     <property name="minimumSize">
-                      <size>
-                       <width>130</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="wrapping">
-                      <bool>true</bool>
-                     </property>
-                     <property name="suffix">
-                      <string> дБГц</string>
-                     </property>
-                     <property name="maximum">
-                      <number>99</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="3" column="0">
-                  <layout class="QHBoxLayout" name="azimut_lay_4">
-                   <item>
-                    <widget class="QLabel" name="azimuth_5">
-                     <property name="font">
-                      <font>
-                       <family>Ubuntu</family>
-                       <pointsize>11</pointsize>
-                      </font>
-                     </property>
-                     <property name="text">
-                      <string>Азимут</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="azimut_4">
-                     <property name="maximumSize">
-                      <size>
-                       <width>130</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="suffix">
-                      <string>º</string>
-                     </property>
-                     <property name="maximum">
-                      <number>359</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Спутник 4</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="INVALID_STATUS_2">
+               <property name="text">
+                <string>Данные не получены</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item row="1" column="2" rowspan="2">
-           <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_3">
-              <property name="title">
-               <string>Статус </string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <widget class="QRadioButton" name="AUTO_STATUS">
-                 <property name="text">
-                  <string>Автономный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="DIFF_STATUS">
-                 <property name="text">
-                  <string>Дифференциальный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="INVALID_STATUS">
-                 <property name="text">
-                  <string>Данные не годны</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="1" rowspan="2">
-             <widget class="QGroupBox" name="groupBox">
-              <property name="title">
-               <string>Режим местоопределения</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item>
-                <widget class="QRadioButton" name="AUTO">
-                 <property name="text">
-                  <string>Автономный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="DIFF">
-                 <property name="text">
-                  <string>Дифференциальный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="WAIT">
-                 <property name="text">
-                  <string>Ожидаемый</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="MANUAL">
-                 <property name="text">
-                  <string>Ручной ввод</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="IMITATION">
-                 <property name="text">
-                  <string>Имитация</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="INVALID">
-                 <property name="text">
-                  <string>Данные не годны</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox_4">
-              <property name="title">
-               <string>Качество обсервации</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item>
-                <widget class="QRadioButton" name="AUTO_STATUS_2">
-                 <property name="text">
-                  <string>Автономный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="DIFF_STATUS_2">
-                 <property name="text">
-                  <string>Дифференциальный</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="INVALID_STATUS_2">
-                 <property name="text">
-                  <string>Данные не получены</string>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
+          <item row="1" column="3">
+           <widget class="QTabWidget" name="tabWidget">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="tab_5">
+             <attribute name="title">
+              <string>1   </string>
+             </attribute>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="azimut_lay">
+                <item>
+                 <widget class="QLabel" name="azimuth">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Азимут</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="azimut_">
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>359</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="4" column="0">
+               <layout class="QHBoxLayout" name="sign_lay">
+                <item>
+                 <widget class="QLabel" name="azimuth_11">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Сигнал/Шум</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="sign">
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string> дБГц</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="up_gorlay">
+                <item>
+                 <widget class="QLabel" name="label_11">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Возвышение над горизонтом</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="up_gor">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>99</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="sath_num">
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Номер спутника</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="satn_number">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="maximum">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_5">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Спутник 1</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_6">
+             <attribute name="title">
+              <string>2</string>
+             </attribute>
+             <layout class="QGridLayout" name="gridLayout_9">
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="up_gorlay_2">
+                <item>
+                 <widget class="QLabel" name="label_13">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Возвышение над горизонтом</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="up_gor_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>99</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="4" column="0">
+               <layout class="QHBoxLayout" name="sign_lay_2">
+                <item>
+                 <widget class="QLabel" name="azimuth_12">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Сигнал/Шум</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="sign_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="wrapping">
+                   <bool>true</bool>
+                  </property>
+                  <property name="suffix">
+                   <string> дБГц</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="sath_num_2">
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Номер спутника</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="satn_number_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="maximum">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="azimut_lay_2">
+                <item>
+                 <widget class="QLabel" name="azimuth_2">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Азимут</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="azimut_1">
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>359</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Спутник 2</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab">
+             <attribute name="title">
+              <string>3</string>
+             </attribute>
+             <layout class="QGridLayout" name="gridLayout_10">
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="up_gorlay_3">
+                <item>
+                 <widget class="QLabel" name="label_15">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Возвышение над горизонтом</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="up_gor_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>99</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="sath_num_3">
+                <item>
+                 <widget class="QLabel" name="label_14">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Номер спутника</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="satn_number_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="maximum">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="4" column="0">
+               <layout class="QHBoxLayout" name="sign_lay_3">
+                <item>
+                 <widget class="QLabel" name="azimuth_13">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Сигнал/Шум</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="sign_3">
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string> дБГц</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="azimut_lay_3">
+                <item>
+                 <widget class="QLabel" name="azimuth_3">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Азимут</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="azimut_2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="wrapping">
+                   <bool>true</bool>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>359</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Спутник 3</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_2">
+             <attribute name="title">
+              <string>4</string>
+             </attribute>
+             <layout class="QGridLayout" name="gridLayout_11">
+              <item row="2" column="0">
+               <layout class="QHBoxLayout" name="up_gorlay_4">
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Возвышение над горизонтом</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="up_gor_4">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>99</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="sath_num_4">
+                <item>
+                 <widget class="QLabel" name="label_16">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Номер спутника</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="satn_number_4">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="maximum">
+                   <number>4</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="4" column="0">
+               <layout class="QHBoxLayout" name="sign_lay_4">
+                <item>
+                 <widget class="QLabel" name="azimuth_14">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Сигнал/Шум</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="sign_4">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="wrapping">
+                   <bool>true</bool>
+                  </property>
+                  <property name="suffix">
+                   <string> дБГц</string>
+                  </property>
+                  <property name="maximum">
+                   <number>99</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <layout class="QHBoxLayout" name="azimut_lay_4">
+                <item>
+                 <widget class="QLabel" name="azimuth_5">
+                  <property name="font">
+                   <font>
+                    <family>Ubuntu</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Азимут</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="azimut_4">
+                  <property name="maximumSize">
+                   <size>
+                    <width>130</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="suffix">
+                   <string>º</string>
+                  </property>
+                  <property name="maximum">
+                   <number>359</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Спутник 4</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </widget>
           </item>
-          <item row="0" column="3" rowspan="3">
+          <item row="4" column="0">
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Режим местоопределения</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="AUTO">
+               <property name="text">
+                <string>Автономный</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QRadioButton" name="MANUAL">
+               <property name="text">
+                <string>Ручной ввод</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="DIFF">
+               <property name="text">
+                <string>Дифференциальный</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" rowspan="2">
+              <widget class="QRadioButton" name="IMITATION">
+               <property name="text">
+                <string>Имитация</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" rowspan="2">
+              <widget class="QRadioButton" name="WAIT">
+               <property name="text">
+                <string>Ожидаемый</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QRadioButton" name="INVALID">
+               <property name="text">
+                <string>Данные не годны</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="4" rowspan="5">
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
