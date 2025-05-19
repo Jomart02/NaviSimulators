@@ -2,6 +2,3 @@
 	path = BaseNaviWidget
 	url = https://github.com/Jomart02/BaseNaviWidget.git
 	branch = master
-[submodule "thirdparty/qtgamepadlegacy"]
-	path = thirdparty/qtgamepadlegacy
-	url = https://github.com/Jomart02/qtgamepadlegacy.git
