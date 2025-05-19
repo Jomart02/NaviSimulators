@@ -52,7 +52,6 @@ bool SimulatorAIS::isActive(){
 
 void SimulatorAIS::sendTypeA(){
     if(!sending) return;
-    qDebug() << "se";
     if(ui->comboBox_NumbersClassA->count() == 0) return  ;
     QStringList messages;
     
