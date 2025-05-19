@@ -8,7 +8,8 @@ using namespace AIS_NMEA_Builder;
 
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
-    ui(new Ui::SimulatorAIS){
+    ui(new Ui::SimulatorAIS),
+    timerClassA(new QTimer(this)){
         
     ui->setupUi(this);
     type123 = new Type123Simulator();
@@ -17,7 +18,7 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     ui->widgetSimulatorsA->addWidget("Type 5",type5,"Type5");
 
     connect(ui->pushButton_addClassA,&QPushButton::clicked, this ,&SimulatorAIS::addNewClassA);
-    
+    connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
 }
 
 SimulatorAIS::~SimulatorAIS()
@@ -34,10 +35,25 @@ QString SimulatorAIS::name() const {
 QString SimulatorAIS::description() const {
     return QString("");
 }
-QStringList SimulatorAIS::getNavigationData() {
-    if(ui->comboBox_NumbersClassA->count() == 0) return  QStringList();
-    if(!sending) return QStringList();
 
+void SimulatorAIS::startSend(){
+    if(!timerClassA->isActive())
+        timerClassA->start(tickInterval);
+}
+
+void SimulatorAIS::stopSend(){
+    if(timerClassA->isActive())
+        timerClassA->stop();
+}
+bool SimulatorAIS::isActive(){
+    return timerClassA->isActive();
+}
+
+
+void SimulatorAIS::sendTypeA(){
+    if(!sending) return;
+    qDebug() << "se";
+    if(ui->comboBox_NumbersClassA->count() == 0) return  ;
     QStringList messages;
     
     for (int i = 0; i < ui->comboBox_NumbersClassA->count(); ++i) {
@@ -90,8 +106,13 @@ QStringList SimulatorAIS::getNavigationData() {
     
     if(deltaTimeSec != 5) deltaTimeSec++;
     else deltaTimeSec = 0;
-    
-    return messages;
+
+    if(!messages.isEmpty()) emit sendData(messages);
+   
+}
+
+QStringList SimulatorAIS::getNavigationData() {
+    return QStringList();
 }
 
 void SimulatorAIS::addNewClassA(){

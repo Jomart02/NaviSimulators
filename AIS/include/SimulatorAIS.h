@@ -20,12 +20,18 @@ public:
     explicit SimulatorAIS(QWidget *parent = nullptr);
     ~SimulatorAIS();
 
+    virtual bool isActive() override;
+    virtual void startSend() override;
+    virtual void stopSend() override;
+
     virtual QIcon icon() const override;
     virtual QString name() const override;
     virtual QString description() const override;
 private slots:
     void addNewClassA();
     void updateType5();
+
+    void sendTypeA();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:
@@ -35,4 +41,6 @@ private:
     std::map<unsigned int, ParamClassA> paramsShip;
     bool sending = false;
     int deltaTimeSec = 0;
+
+    QTimer *timerClassA = nullptr;
 };
