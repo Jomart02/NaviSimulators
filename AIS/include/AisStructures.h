@@ -120,9 +120,20 @@ namespace AIS_Data_Type {
         unsigned int    DTE;
     };
 
-    struct ParamClassA {
+    struct BaseParamClassAis{
+        virtual ~BaseParamClassAis() = default; // Виртуальный деструктор
+        virtual void setMMSI(unsigned int mmsi) = 0; // Установка MMSI
+    };
+
+    struct ParamClassA : public BaseParamClassAis {
         ClassA123 t123;
         ClassA5 t5;
+
+        void setMMSI(unsigned int mmsi) override {
+            t123.MMSI = mmsi;
+            t5.MMSI = mmsi;
+        }
+
     };
 
 };

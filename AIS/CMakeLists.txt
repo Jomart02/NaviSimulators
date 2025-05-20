@@ -6,25 +6,34 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-INCLUDE_DIRECTORIES(./include/)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage)
+
 
 set(HDRS
     ./include/SimulatorAIS.h
-    ./include/Type123Simulator.h
-    ./include/Type5Simulator.h
+    ./include/BasePage/BaseAisPage.h
     ./include/BaseAISSimulator.h
     ./include/AisStructures.h
+    ./include/ClassA/Type5Simulator.h 
+    ./include/ClassA/Type123Simulator.h
+    ./include/ClassA/ClassAPage.h
 )
 
 set(SRCS
     ./src/SimulatorAIS.cpp
-    ./src/Type123Simulator.cpp
-    ./src/Type5Simulator.cpp
+    ./src/BasePage/BaseAisPage.cpp
+    ./src/ClassA/Type123Simulator.cpp
+    ./src/ClassA/Type5Simulator.cpp
+    ./src/ClassA/ClassAPage.cpp
+
     ./src/AisStructures.cpp
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS 
     ./ui/
+    ./ui/ClassA/
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
@@ -37,5 +46,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib Too
 
 if(BUILD_TESTS)
     message("Building tests ${PROJECT_NAME} ")
-    target_include_directories(${PROJECT_NAME} PUBLIC ./include)
+    target_include_directories(${PROJECT_NAME} PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage
+    )
 endif()
