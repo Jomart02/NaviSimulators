@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    SNS * c = new SNS(nullptr);
+    ARPA * c = new ARPA(nullptr);
     c->show();
 
     QObject::connect(c, &BaseNaviWidget::sendData,[](QStringList data){

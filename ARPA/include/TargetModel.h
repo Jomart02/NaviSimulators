@@ -17,7 +17,8 @@ enum ColumnType {
     Dkr,              // QDoubleSpinBox
     Tkr,              // QDoubleSpinBox
     Status,           // QComboBox
-    Reference         // QCheckBox
+    Reference,        // QCheckBox
+    Enabled           // QCheckBox
 };
 
 struct PointGeo{
@@ -31,29 +32,11 @@ inline QMap<ColumnType, QString > suffix = {
     {ColumnType::Dkr, " М"},
     {ColumnType::Course, "°"},
 };
-class TargetDataDelegate : public QStyledItemDelegate {
-    Q_OBJECT
 
-public:
-    explicit TargetDataDelegate(QObject *parent = nullptr);
-
-    // Создание редактора (в данном случае QSpinBox)
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-
-    // Установка данных из модели в редактор
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    // Передача данных из редактора обратно в модель
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
-
-    // Отображение данных в ячейке
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    // bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override;
-private:
-
-
-    ColumnType columnType(const QModelIndex &index) const;
+inline QMap<int, QString > status = {
+    {0, "L"},
+    {1, "Q"},
+    {2, "T"}
 };
 
 
@@ -65,6 +48,8 @@ public:
     void addTarget();
     QStringList getNMEA();
     void setPos(double lat, double lon);
+    QVariant data(const QModelIndex &index, int role) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const;
 public slots:
     void setPosShip(PointGeo pos);
     void setSimulationStatus(bool status);

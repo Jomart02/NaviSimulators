@@ -5,3 +5,6 @@
 [submodule "NavyComponents"]
 	path = NavyComponents
 	url = https://github.com/Jomart02/NavyComponents.git
+[submodule "Editable-Table-Delegate"]
+	path = Editable-Table-Delegate
+	url = https://github.com/Jomart02/Editable-Table-Delegate.git

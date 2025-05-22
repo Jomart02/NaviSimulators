@@ -1,6 +1,6 @@
 #include "ARPA.h"
 #include "ui_ARPA.h"
-
+#include "TableDelegate.h"
 ARPA::ARPA(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::ARPA),
@@ -12,8 +12,9 @@ ARPA::ARPA(QWidget *parent) :
 
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, modelT, &TargetModel::rowSelect);
 
-    TargetDataDelegate *del = new TargetDataDelegate(this);
+    TableWidgetsDelegate *del = new TableWidgetsDelegate(this);
     ui->targetTable->setItemDelegate(del);
+    del->offColumnBorger({0,11,12});
     connect(ui->pushButton, &QPushButton::clicked, modelT, &TargetModel::addTarget);
 
     connect(ui->doubleSpinBox_lat, qOverload<double>(&LatitudeEdit::valueChanged),this, &ARPA::updatePositionShip);
@@ -22,15 +23,12 @@ ARPA::ARPA(QWidget *parent) :
     // Настройка ширины колонок
     QHeaderView *horizontalHeader =  ui->targetTable->horizontalHeader();
 
-    // Запрещаем изменение размера первой колонки и устанавливаем фиксированную ширину
-    horizontalHeader->setSectionResizeMode(0, QHeaderView::Fixed);
-    horizontalHeader->resizeSection(0, 80); // Устанавливаем ширину первой колонки
-
     // Растягиваем остальные колонки
-    for (int i = 1; i < modelT->columnCount(); ++i) {
-        horizontalHeader->setSectionResizeMode(i, QHeaderView::Stretch);
+    for (int i = 0; i < 11; ++i) {
+        horizontalHeader->setSectionResizeMode(i, QHeaderView::ResizeToContents);
     }
-
+    horizontalHeader->setSectionResizeMode(11, QHeaderView::ResizeToContents);
+    horizontalHeader->setSectionResizeMode(12, QHeaderView::ResizeToContents);
 }
 
 void ARPA::updatePositionShip(double v){
