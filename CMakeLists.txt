@@ -19,6 +19,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OUTPUT_DIR})#Только для библи
 
 # add_subdirectory(./thirdparty/qtgamepadlegacy)
 add_subdirectory(./BaseNaviWidget)
+add_subdirectory(./NavyComponents)
 add_subdirectory(./ToolBoxWidget)
 add_subdirectory(./SNS)
 add_subdirectory(./Compas)
@@ -35,6 +36,8 @@ if(BUILD_TESTS)
 
     target_link_libraries(TestRunner PRIVATE
         BaseNaviWidgetLib
+        nmeabuilder
+        CoordinateEdit
         CircularValueWidgets
         ToolBoxWidget
         SNSPlugin
@@ -73,6 +76,8 @@ if(CREATE_ARCHIVE)
         # Указываем зависимости для create_archive
         add_dependencies(create_archive
             BaseNaviWidgetLib
+            nmeabuilder
+            CoordinateEdit
             CircularValueWidgets
             ToolBoxWidget
             SNSPlugin

@@ -1,7 +1,7 @@
 #include <QWidget>
 
 #include "BaseNaviWidget.h"  
-
+#include "nmea.h"
 namespace Ui
 {
 class EchoSounder;

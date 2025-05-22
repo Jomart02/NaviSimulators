@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseNaviWidget.h"
-
+#include "nmea.h"
 namespace Ui
 {
 class Weather;

@@ -23,7 +23,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib nmeabuilder)
 
 if(BUILD_TESTS)
     message("Building tests ${PROJECT_NAME} ")

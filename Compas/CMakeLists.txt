@@ -79,7 +79,7 @@ add_custom_target(${PROJECT_NAME}_translations ALL DEPENDS ${QM_FILES})
 # Добавление библиотеки с ресурсами
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS} ${QRCS})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib nmeabuilder )
 
 # Зависимость библиотеки от переводов
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_translations)

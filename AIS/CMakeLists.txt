@@ -33,7 +33,7 @@ find_package(Qt6 COMPONENTS Widgets REQUIRED)
 # Указываем зависимости
 add_dependencies(${PROJECT_NAME} ToolBoxWidget)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget CoordinateEdit)
 
 if(BUILD_TESTS)
     message("Building tests ${PROJECT_NAME} ")
