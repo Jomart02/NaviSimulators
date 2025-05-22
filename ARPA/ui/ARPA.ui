@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1" rowspan="4">
-    <widget class="QTableView" name="targetTable">
+    <widget class="StyledTable" name="targetTable">
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -104,6 +104,11 @@
    <class>LongitudeEdit</class>
    <extends>QDoubleSpinBox</extends>
    <header>CoordinateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StyledTable</class>
+   <extends>QTableView</extends>
+   <header>StyledTable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
