@@ -22,10 +22,10 @@ ARPA::ARPA(QWidget *parent) :
     connect(ui->checkBox_simulated, &QCheckBox::clicked, modelT, &TargetModel::setSimulationStatus);
     // Настройка ширины колонок
     QHeaderView *horizontalHeader =  ui->targetTable->horizontalHeader();
-
+    horizontalHeader->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     // Растягиваем остальные колонки
-    for (int i = 0; i < 11; ++i) {
-        horizontalHeader->setSectionResizeMode(i, QHeaderView::ResizeToContents);
+    for (int i = 1; i < 11; ++i) {
+        horizontalHeader->setSectionResizeMode(i, QHeaderView::Stretch);
     }
     horizontalHeader->setSectionResizeMode(11, QHeaderView::ResizeToContents);
     horizontalHeader->setSectionResizeMode(12, QHeaderView::ResizeToContents);
