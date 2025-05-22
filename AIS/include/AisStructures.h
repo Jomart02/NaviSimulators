@@ -123,6 +123,16 @@ namespace AIS_Data_Type {
     struct BaseParamClassAis{
         virtual ~BaseParamClassAis() = default; // Виртуальный деструктор
         virtual void setMMSI(unsigned int mmsi) = 0; // Установка MMSI
+        
+        void setEnabled(bool flag){
+            enabled = flag;
+        }
+        bool getEnabled(){
+            return enabled;
+        }
+
+        private:
+            bool enabled = true;
     };
 
     struct ParamClassA : public BaseParamClassAis {

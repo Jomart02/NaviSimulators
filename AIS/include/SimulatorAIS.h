@@ -26,9 +26,6 @@ public:
     virtual QString name() const override;
     virtual QString description() const override;
 private slots:
-    void addNewClassA();
-    void updateType5();
-
     void sendTypeA();
 protected slots:
     virtual QStringList getNavigationData() override;
