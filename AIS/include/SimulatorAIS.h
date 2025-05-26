@@ -3,6 +3,7 @@
 
 #include "BaseNaviWidget.h"  
 #include "BaseAisPage.h"
+#include "RemoteAis.h"
 namespace Ui
 {
 class SimulatorAIS;
@@ -34,4 +35,5 @@ private:
 
     QTimer *timerClassA = nullptr;
     BaseAisPage *classAPage = nullptr;
+    RemoteAis *remoteAIS = nullptr;
 };

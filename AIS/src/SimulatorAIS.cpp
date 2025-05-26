@@ -9,13 +9,15 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::SimulatorAIS),
     timerClassA(new QTimer(this)),
-    classAPage(new ClassAPage(this)){
+    classAPage(new ClassAPage(this)),
+    remoteAIS(new RemoteAis(this)){
     
     ui->setupUi(this);
     ui->tabWidget->addTab(classAPage, "Class A");
-    
+    ui->tabWidget->addTab(remoteAIS, "Remote");
 
     connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
+    connect(remoteAIS, &RemoteAis::dataResived, this, &SimulatorAIS::sendData);
 }
 
 SimulatorAIS::~SimulatorAIS()
@@ -36,11 +38,15 @@ QString SimulatorAIS::description() const {
 void SimulatorAIS::startSend(){
     if(!timerClassA->isActive())
         timerClassA->start(tickInterval);
+
+    remoteAIS->setActiveSend(true);
 }
 
 void SimulatorAIS::stopSend(){
     if(timerClassA->isActive())
         timerClassA->stop();
+    
+    remoteAIS->setActiveSend(false);
 }
 bool SimulatorAIS::isActive(){
     return timerClassA->isActive();

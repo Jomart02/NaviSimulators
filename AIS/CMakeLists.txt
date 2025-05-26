@@ -9,7 +9,7 @@ set(CMAKE_AUTOUIC ON)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage)
-
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/RemoteAis)
 
 set(HDRS
     ./include/SimulatorAIS.h
@@ -19,6 +19,7 @@ set(HDRS
     ./include/ClassA/Type5Simulator.h 
     ./include/ClassA/Type123Simulator.h
     ./include/ClassA/ClassAPage.h
+    ./include/RemoteAis/RemoteAis.h
 )
 
 set(SRCS
@@ -29,20 +30,22 @@ set(SRCS
     ./src/ClassA/ClassAPage.cpp
 
     ./src/AisStructures.cpp
+    ./src/RemoteAis/RemoteAis.cpp
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS 
     ./ui/
     ./ui/ClassA/
+    ./ui/RemoteAis/
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Widgets Network REQUIRED)
 # Указываем зависимости
 add_dependencies(${PROJECT_NAME} ToolBoxWidget)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib ToolBoxWidget CoordinateEdit)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Network BaseNaviWidgetLib ToolBoxWidget CoordinateEdit)
 
 if(BUILD_TESTS)
     message("Building tests ${PROJECT_NAME} ")
@@ -50,5 +53,6 @@ if(BUILD_TESTS)
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA
         ${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/RemoteAis
     )
 endif()
