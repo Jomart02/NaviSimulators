@@ -2,14 +2,14 @@
 #include <QApplication>
 #include <QWidget>
 #include "BaseNaviWidget.h"
-#include "SNS.h"
+#include "SimulatorAIS.h"
 #include "ARPA.h"
 #include <QObject>
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    ARPA * c = new ARPA(nullptr);
+    SimulatorAIS * c = new SimulatorAIS(nullptr);
     c->show();
 
     QObject::connect(c, &BaseNaviWidget::sendData,[](QStringList data){
