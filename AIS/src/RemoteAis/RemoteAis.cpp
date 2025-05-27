@@ -37,6 +37,8 @@ void RemoteAis::setActiveSend(bool active){
 
 void RemoteAis::receiveData(){
     if(!activeSend) return;
+    if(!ui->checkBox_send->isChecked()) return;
+    
     QByteArray data = socket->readAll();
     QString dataStr = QString::fromUtf8(data);
 
