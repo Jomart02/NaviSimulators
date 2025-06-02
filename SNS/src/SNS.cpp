@@ -1,5 +1,6 @@
 #include "SNS.h"
 #include "ui_SNS.h"
+#include "GeoMatchFunc.h"
 
 SNS::SNS(QWidget *parent) :
     BaseNaviWidget(parent),
@@ -33,6 +34,27 @@ QString SNS::description() const {
 QStringList SNS::getNavigationData() {
     QStringList nmea;
     ui->sns_time->setDateTime(ui->sns_time->dateTime().addSecs(1));
+    GEO_POINT posShip;
+    
+    if(ui->checkBox_Simulated->isChecked()){
+
+        // Обновляем курс и скорость
+        updateCOGandSOG();
+
+        posShip = GEO_POINT( DegToRad(ui->lat->value()), DegToRad(ui->lon->value()));
+        GEO_POINT posShipCalc;
+        double dist = ui->vel->getValue();
+        double pel = DegToRad(ui->cog->getValue());
+        PositionByDistanceBearing(posShip, dist, pel,EllipsoidType::WGS84, DirectCalculationMethod::GEODESIC, posShipCalc);
+        posShip = GEO_POINT( RadToDeg(posShipCalc.lat), RadToDeg(posShipCalc.lon));
+        ui->lat->setValue(posShip.lat);
+        ui->lon->setValue(posShip.lon);
+
+
+
+    }else{
+        posShip = GEO_POINT(ui->lat->value(),ui->lon->value());
+    }
 
     if(ui->rmc_check->isChecked()){
         // Время
@@ -44,14 +66,14 @@ QStringList SNS::getNavigationData() {
                     ui->INVALID_STATUS->isChecked() ? "V" : "V");
 
         // Широта
-        double lat = ui->lat->value();
+        double lat = posShip.lat;
         QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
         QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
         rmc_nmea.set(3, (latDeg + latMin).toStdString());
         rmc_nmea.set(4, lat >= 0 ? "N" : "S");
 
         // Долгота
-        double lon = ui->lon->value();
+        double lon = posShip.lon;
         QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
         QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
         rmc_nmea.set(5, (lonDeg + lonMin).toStdString());
@@ -142,7 +164,7 @@ QStringList SNS::getNavigationData() {
         gga_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
 
         // Широта
-        double lat = ui->lat->value();
+        double lat = posShip.lat;
         QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
         QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
         gga_nmea.set(2, (latDeg + latMin).toStdString());
@@ -151,7 +173,7 @@ QStringList SNS::getNavigationData() {
         gga_nmea.set(3, lat >= 0 ? "N" : "S");
 
         // Долгота
-        double lon = ui->lon->value();
+        double lon = posShip.lon;
         QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
         QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
         gga_nmea.set(4, (lonDeg + lonMin).toStdString());
@@ -186,7 +208,7 @@ QStringList SNS::getNavigationData() {
 
     if (ui->gll_check->isChecked()) {
         // Широта
-        double lat = ui->lat->value();
+        double lat = posShip.lat;
         QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
         QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
         gll_nmea.set(1, (latDeg + latMin).toStdString());
@@ -195,7 +217,7 @@ QStringList SNS::getNavigationData() {
         gll_nmea.set(2, lat >= 0 ? "N" : "S");
 
         // Долгота
-        double lon = ui->lon->value();
+        double lon = posShip.lon;
         QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
         QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
         gll_nmea.set(3, (lonDeg + lonMin).toStdString());
@@ -278,4 +300,44 @@ void SNS::retranslate(){
 
 QString SNS::getRetranslateName(QString retranslateName){
     return QString(":/translations/" + retranslateName + PROJECT_NAME);
+}
+
+void SNS::updateCOGandSOG() {
+    if (freezeCounter > 0) {
+        freezeCounter--;
+        return; // Заморожено — ничего не меняем
+    }
+
+    // Случайное число от 0 до 100
+    double chance = rand() % 100;
+
+    // С вероятностью 20% — замораживаем на 3-10 секунд
+    if (chance < 20) {
+        freezeDuration = 3 + rand() % 8; // от 3 до 10 секунд
+        freezeCounter = freezeDuration;
+        return;
+    }
+
+    double currentCOG = ui->cog->getValue();
+    double currentSOG = ui->vel->getValue();
+    // Меняем курс
+    double deltaCOG = cogChangeDist(generator); // Небольшое изменение
+    currentCOG = fmod(currentCOG + deltaCOG, 360.0);
+    if (currentCOG < 0) currentCOG += 360.0;
+
+    // Меняем скорость
+    double deltaSOG = sogChangeDist(generator); // Небольшое изменение
+    currentSOG = qMax(0.0, currentSOG + deltaSOG); // Не меньше 0
+
+    // С вероятностью 10% немного увеличиваем скорость
+    if (chance < 10 && currentSOG < 30) { // ограничение на макс. скорость
+        currentSOG += 0.5;
+    }
+    // С вероятностью 10% немного уменьшаем
+    else if (chance < 20 && currentSOG > 0.5) {
+        currentSOG -= 0.5;
+    }
+
+    ui->cog->setValue(currentCOG);      // Курс (Course Over Ground)
+    ui->vel->setValue(currentSOG);      // Скорость (Speed Over Ground)
 }
