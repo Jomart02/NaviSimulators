@@ -69,155 +69,102 @@
           <bool>false</bool>
          </property>
          <layout class="QGridLayout" name="gridLayout_7">
-          <item row="5" column="1">
-           <widget class="QGroupBox" name="groupBox_4">
-            <property name="title">
-             <string>Качество обсервации</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QRadioButton" name="AUTO_STATUS_2">
-               <property name="text">
-                <string>Автономный</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="DIFF_STATUS_2">
-               <property name="text">
-                <string>Дифференциальный</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="INVALID_STATUS_2">
-               <property name="text">
-                <string>Данные не получены</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="1" rowspan="3">
-           <widget class="SpeedometerWidget" name="vel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>300</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Ubuntu</family>
-             </font>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="maxValue" stdset="0">
-             <double>200.000000000000000</double>
-            </property>
-            <property name="nameValue">
-             <string>SOG</string>
-            </property>
-            <property name="nameUints">
-             <string>m/c</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QGroupBox" name="groupBox_5">
-            <property name="title">
-             <string>Видимые спутники</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Ubuntu</family>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Спутников</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QSpinBox" name="satn">
-               <property name="minimumSize">
-                <size>
-                 <width>130</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>130</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="maximum">
-                <number>4</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <spacer name="verticalSpacer_2">
+          <item row="3" column="3" rowspan="4">
+           <spacer name="verticalSpacer_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>182</height>
+              <height>376</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="4" column="2">
+           <widget class="QGroupBox" name="groupBox_dif">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="title">
+             <string>Дифференциальный режим</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="0" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="dif_corrertline">
+                 <property name="minimumSize">
+                  <size>
+                   <width>175</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Ubuntu</family>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Возраст поправки</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dif_correct">
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="dif_identifierline">
+                 <property name="font">
+                  <font>
+                   <family>Ubuntu</family>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Идентификатор станции</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="dif_identifier">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="maximum">
+                  <number>1023</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
           </item>
           <item row="2" column="3">
            <widget class="QTabWidget" name="tabWidget">
@@ -954,20 +901,7 @@
             </widget>
            </widget>
           </item>
-          <item row="3" column="3" rowspan="3">
-           <spacer name="verticalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>376</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="4" rowspan="5">
+          <item row="1" column="4" rowspan="6">
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -979,6 +913,111 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_Simulated">
+            <property name="text">
+             <string>Симуляция</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" rowspan="3">
+           <widget class="SpeedometerWidget" name="vel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="maxValue" stdset="0">
+             <double>200.000000000000000</double>
+            </property>
+            <property name="nameValue">
+             <string>SOG</string>
+            </property>
+            <property name="nameUints">
+             <string>m/c</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QGroupBox" name="groupBox_5">
+            <property name="title">
+             <string>Видимые спутники</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Ubuntu</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Спутников</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="satn">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>130</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="maximum">
+                <number>4</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
           <item row="4" column="0">
            <widget class="QGroupBox" name="OutputNMEA">
@@ -1054,98 +1093,14 @@
             </layout>
            </widget>
           </item>
-          <item row="4" column="2">
-           <widget class="QGroupBox" name="groupBox_dif">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+          <item row="4" column="1">
+           <widget class="QGroupBox" name="groupBox_3">
             <property name="title">
-             <string>Дифференциальный режим</string>
+             <string>Статус </string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_3">
-             <item row="0" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_7">
-               <item>
-                <widget class="QLabel" name="dif_corrertline">
-                 <property name="minimumSize">
-                  <size>
-                   <width>175</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Ubuntu</family>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Возраст поправки</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDoubleSpinBox" name="dif_correct">
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <widget class="QLabel" name="dif_identifierline">
-                 <property name="font">
-                  <font>
-                   <family>Ubuntu</family>
-                   <pointsize>11</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Идентификатор станции</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="dif_identifier">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="maximum">
-                  <number>1023</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QGroupBox" name="groupBox">
-            <property name="title">
-             <string>Режим местоопределения</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <item row="0" column="0">
-              <widget class="QRadioButton" name="AUTO">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="AUTO_STATUS">
                <property name="text">
                 <string>Автономный</string>
                </property>
@@ -1154,18 +1109,8 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QRadioButton" name="MANUAL">
-               <property name="text">
-                <string>Ручной ввод</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QRadioButton" name="DIFF">
+             <item>
+              <widget class="QRadioButton" name="DIFF_STATUS">
                <property name="text">
                 <string>Дифференциальный</string>
                </property>
@@ -1174,25 +1119,8 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="1" rowspan="2">
-              <widget class="QRadioButton" name="IMITATION">
-               <property name="text">
-                <string>Имитация</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" rowspan="2">
-              <widget class="QRadioButton" name="WAIT">
-               <property name="text">
-                <string>Ожидаемый</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QRadioButton" name="INVALID">
+             <item>
+              <widget class="QRadioButton" name="INVALID_STATUS">
                <property name="text">
                 <string>Данные не годны</string>
                </property>
@@ -1203,6 +1131,42 @@
              </item>
             </layout>
            </widget>
+          </item>
+          <item row="1" column="2" rowspan="3">
+           <widget class="CompassWidget" name="cog">
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>300</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0" colspan="4">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>1278</width>
+              <height>182</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="2">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>182</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="1" column="0" rowspan="3">
            <widget class="QGroupBox" name="groupBox_6">
@@ -1511,37 +1475,66 @@
             </layout>
            </widget>
           </item>
-          <item row="6" column="0" colspan="4">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="5" column="2">
+           <widget class="QGroupBox" name="groupBox_7">
+            <property name="title">
+             <string>Источник</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>1278</width>
-              <height>182</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="2" rowspan="3">
-           <widget class="CompassWidget" name="cog">
-            <property name="minimumSize">
-             <size>
-              <width>300</width>
-              <height>300</height>
-             </size>
-            </property>
+            <layout class="QGridLayout" name="gridLayout_14">
+             <item row="0" column="1">
+              <widget class="QComboBox" name="comboBox_sourses">
+               <item>
+                <property name="text">
+                 <string>GN</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>GP</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>GL</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="radioButton_Standart">
+               <property name="text">
+                <string>Стандарт</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="radioButton_Other">
+               <property name="text">
+                <string>Другой</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineEdit">
+               <property name="maxLength">
+                <number>2</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QGroupBox" name="groupBox_3">
+          <item row="5" column="1" rowspan="2">
+           <widget class="QGroupBox" name="groupBox_4">
             <property name="title">
-             <string>Статус </string>
+             <string>Качество обсервации</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QRadioButton" name="AUTO_STATUS">
+              <widget class="QRadioButton" name="AUTO_STATUS_2">
                <property name="text">
                 <string>Автономный</string>
                </property>
@@ -1551,7 +1544,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="DIFF_STATUS">
+              <widget class="QRadioButton" name="DIFF_STATUS_2">
                <property name="text">
                 <string>Дифференциальный</string>
                </property>
@@ -1561,9 +1554,9 @@
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="INVALID_STATUS">
+              <widget class="QRadioButton" name="INVALID_STATUS_2">
                <property name="text">
-                <string>Данные не годны</string>
+                <string>Данные не получены</string>
                </property>
                <property name="checked">
                 <bool>false</bool>
@@ -1573,11 +1566,70 @@
             </layout>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="checkBox_Simulated">
-            <property name="text">
-             <string>Симуляция</string>
+          <item row="5" column="0" rowspan="2">
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Режим местоопределения</string>
             </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="AUTO">
+               <property name="text">
+                <string>Автономный</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QRadioButton" name="MANUAL">
+               <property name="text">
+                <string>Ручной ввод</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="DIFF">
+               <property name="text">
+                <string>Дифференциальный</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" rowspan="2">
+              <widget class="QRadioButton" name="IMITATION">
+               <property name="text">
+                <string>Имитация</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" rowspan="2">
+              <widget class="QRadioButton" name="WAIT">
+               <property name="text">
+                <string>Ожидаемый</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QRadioButton" name="INVALID">
+               <property name="text">
+                <string>Данные не годны</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>

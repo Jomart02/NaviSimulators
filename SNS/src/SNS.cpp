@@ -6,12 +6,7 @@
 
 SNS::SNS(QWidget *parent) :
     BaseNaviWidget(parent),
-    ui(new Ui::SNS),
-    rmc_nmea("GNRMC",{"000000.00","V","0000.00","N","0","E","0.0","0.0","000000","","","N"}),
-    vtg_nmea("GNVTG",{"0.0","F","","M","0.0","N","0.0","K","N"}),
-    zda_nmea("GNZDA",{"000000.00","00","00","0000","00","00"}),
-    gga_nmea("GNGGA",{"000000.00","0000.0000","N","00000.0000","E","0","00","0.0","0.0","M","0.0","M","0.0","0000"}),
-    gll_nmea("GNGLL",{"0000.0000","N","00000.0000","E","000000.00","V","V"}){
+    ui(new Ui::SNS){
         
         ui->setupUi(this);
         ui->sns_time->setDateTime(QDateTime::currentDateTime().currentDateTimeUtc());
@@ -38,6 +33,14 @@ QStringList SNS::getNavigationData() {
     ui->sns_time->setDateTime(ui->sns_time->dateTime().addSecs(1));
     GEO_POINT posShip;
     
+    QString source = "GN";
+
+    if(ui->radioButton_Standart->isChecked()){
+        source = ui->comboBox_sourses->currentText();
+    }else if(ui->radioButton_Other->isChecked() && ui->lineEdit->text().size() ==2){
+        source = ui->lineEdit->text();
+    }
+
     if(ui->checkBox_Simulated->isChecked()){
 
         // Обновляем курс и скорость
@@ -63,6 +66,10 @@ QStringList SNS::getNavigationData() {
     helpFuncNmea::formatLongitude(posShip.lon, lonString, lonDirection);
 
     if(ui->rmc_check->isChecked()){
+
+        std::string name = source.toStdString() + "RMC";
+        Nmea rmc_nmea(name,{"000000.00","V","0000.00","N","0","E","0.0","0.0","000000","","","N"});
+
         // Время
         rmc_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
 
@@ -105,6 +112,9 @@ QStringList SNS::getNavigationData() {
     }
 
     if(ui->vtg_check->isChecked()){
+        std::string name = source.toStdString() + "VTG";
+        Nmea vtg_nmea(name,{"0.0","F","","M","0.0","N","0.0","K","N"});
+
          // Курс (COG)
         vtg_nmea.set(1, QString("%1").arg(ui->cog->getValue(), 3, 'f', 1, QChar('0')).toStdString()); // COG
         // Направление (True north)
@@ -137,6 +147,8 @@ QStringList SNS::getNavigationData() {
     }
 
     if (ui->zda_check->isChecked()) {
+        std::string name = source.toStdString() + "ZDA";
+        Nmea zda_nmea(name,{"000000.00","00","00","0000","00","00"});
         // Время
         zda_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
 
@@ -159,6 +171,9 @@ QStringList SNS::getNavigationData() {
         nmea.push_back(QString::fromStdString(zda_nmea.get_string()));
     }
     if (ui->gga_check->isChecked()) {
+        std::string name = source.toStdString() + "GGA";
+        Nmea gga_nmea(name,{"000000.00","0000.0000","N","00000.0000","E","0","00","0.0","0.0","M","0.0","M","0.0","0000"});
+
         // Время
         gga_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
 
@@ -193,8 +208,10 @@ QStringList SNS::getNavigationData() {
     }
 
     if (ui->gll_check->isChecked()) {
+        std::string name = source.toStdString() + "GLL";
+        Nmea gll_nmea(name,{"0000.0000","N","00000.0000","E","000000.00","V","V"});
         // Широта
-
+        
         gll_nmea.set(1, latString);
         gll_nmea.set(2, latDirection);
         gll_nmea.set(3, lonString);
@@ -220,7 +237,8 @@ QStringList SNS::getNavigationData() {
     
     if (ui->gsv_check->isChecked()) {
         int countSP = 0;
-        Nmea gsv_nmea("GNGSV", {"0", "0", "00"});
+        std::string name = source.toStdString() + "GSV";
+        Nmea gsv_nmea(name, {"0", "0", "00"});
 
         // Установка количества сообщений и номера сообщения
         gsv_nmea.set(1, QString("%1").arg(1).toStdString());

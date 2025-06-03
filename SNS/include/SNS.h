@@ -32,11 +32,6 @@ private:
     void updateCOGandSOG();
 private:
     Ui::SNS *ui;
-    Nmea rmc_nmea;
-    Nmea vtg_nmea;
-    Nmea zda_nmea;
-    Nmea gga_nmea;
-    Nmea gll_nmea;
 
     int freezeCounter = 0;        // счётчик заморозки
     int freezeDuration = 0;       // длительность заморозки
