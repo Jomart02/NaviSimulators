@@ -185,19 +185,18 @@ QStringList TargetModel::getNMEA(){
         Nmea TLL = Nmea("RATLL" , {"00","0000.00","N","00000.00","W","","000000.00","T",""});
         TLL.set(1, QString("%1").arg(item(row, ColumnType::Number)->data(Qt::DisplayRole).toInt(), 2, 10, QChar('0')).toStdString());
         
-        // Широта
+        // Широта Долгота
         double lat = item(row, ColumnType::lat)->data(Qt::EditRole).toDouble();
-        QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
-        QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 5, 'f', 2, QChar('0'));
-        TLL.set(2, (latDeg + latMin).toStdString());
-        TLL.set(3, lat >= 0 ? "N" : "S");
-
-        // Долгота
         double lon = item(row, ColumnType::lon)->data(Qt::EditRole).toDouble();
-        QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
-        QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 5, 'f', 2, QChar('0'));
-        TLL.set(4, (lonDeg + lonMin).toStdString());
-        TLL.set(5, lon >= 0 ? "E" : "W");
+        std::string latString, latDirection, lonString, lonDirection;
+        helpFuncNmea::formatLatitude(lat, latString, latDirection);
+        helpFuncNmea::formatLongitude(lon, lonString, lonDirection);
+
+        TLL.set(2, latString);
+        TLL.set(3, latDirection);
+
+        TLL.set(4, lonString);
+        TLL.set(5, lonDirection);
         
         TLL.set(6,  item(row, ColumnType::NameTarget)->data(Qt::DisplayRole).toString().toStdString());
         TLL.set(8,  status.value(item(row, ColumnType::Status)->data(Qt::EditRole).toInt()).toStdString());
