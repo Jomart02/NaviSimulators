@@ -2,10 +2,12 @@
 #include "ui_SNS.h"
 #include "GeoMatchFunc.h"
 
+
+
 SNS::SNS(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::SNS),
-    rmc_nmea("GNRMC",{"000000.00","V","0000.0000","N","00000.0000","E","0.0","0.0","000000","","","N"}),
+    rmc_nmea("GNRMC",{"000000.00","V","0000.00","N","0","E","0.0","0.0","000000","","","N"}),
     vtg_nmea("GNVTG",{"0.0","F","","M","0.0","N","0.0","K","N"}),
     zda_nmea("GNZDA",{"000000.00","00","00","0000","00","00"}),
     gga_nmea("GNGGA",{"000000.00","0000.0000","N","00000.0000","E","0","00","0.0","0.0","M","0.0","M","0.0","0000"}),
@@ -56,6 +58,10 @@ QStringList SNS::getNavigationData() {
         posShip = GEO_POINT(ui->lat->value(),ui->lon->value());
     }
 
+    std::string latString, latDirection, lonString, lonDirection;
+    helpFuncNmea::formatLatitude(posShip.lat, latString, latDirection);
+    helpFuncNmea::formatLongitude(posShip.lon, lonString, lonDirection);
+
     if(ui->rmc_check->isChecked()){
         // Время
         rmc_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
@@ -65,19 +71,12 @@ QStringList SNS::getNavigationData() {
                     ui->DIFF_STATUS->isChecked() ? "D" :
                     ui->INVALID_STATUS->isChecked() ? "V" : "V");
 
-        // Широта
-        double lat = posShip.lat;
-        QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
-        QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
-        rmc_nmea.set(3, (latDeg + latMin).toStdString());
-        rmc_nmea.set(4, lat >= 0 ? "N" : "S");
 
-        // Долгота
-        double lon = posShip.lon;
-        QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
-        QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
-        rmc_nmea.set(5, (lonDeg + lonMin).toStdString());
-        rmc_nmea.set(6, lon >= 0 ? "E" : "W");
+
+        rmc_nmea.set(3, latString);
+        rmc_nmea.set(4, latDirection);
+        rmc_nmea.set(5, lonString);
+        rmc_nmea.set(6, lonDirection);
 
         // Скорость (в узлах)
         double vel = ui->vel->getValue() * 1.944;
@@ -163,23 +162,10 @@ QStringList SNS::getNavigationData() {
         // Время
         gga_nmea.set(1, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());
 
-        // Широта
-        double lat = posShip.lat;
-        QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
-        QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
-        gga_nmea.set(2, (latDeg + latMin).toStdString());
-
-        // Направление широты
-        gga_nmea.set(3, lat >= 0 ? "N" : "S");
-
-        // Долгота
-        double lon = posShip.lon;
-        QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
-        QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
-        gga_nmea.set(4, (lonDeg + lonMin).toStdString());
-
-        // Направление долготы
-        gga_nmea.set(5, lon >= 0 ? "E" : "W");
+        gga_nmea.set(2, latString);
+        gga_nmea.set(3, latDirection);
+        gga_nmea.set(4, lonString);
+        gga_nmea.set(5, lonDirection);
 
         // Статус
         gga_nmea.set(6, ui->AUTO_STATUS_2->isChecked() ? "1" :
@@ -208,22 +194,11 @@ QStringList SNS::getNavigationData() {
 
     if (ui->gll_check->isChecked()) {
         // Широта
-        double lat = posShip.lat;
-        QString latDeg = QString("%1").arg(qAbs(static_cast<int>(lat)), 2, 10, QChar('0'));
-        QString latMin = QString("%1").arg(qAbs(fmod(lat * 60, 60)), 7, 'f', 4, QChar('0'));
-        gll_nmea.set(1, (latDeg + latMin).toStdString());
 
-        // Направление широты
-        gll_nmea.set(2, lat >= 0 ? "N" : "S");
-
-        // Долгота
-        double lon = posShip.lon;
-        QString lonDeg = QString("%1").arg(qAbs(static_cast<int>(lon)), 3, 10, QChar('0'));
-        QString lonMin = QString("%1").arg(qAbs(fmod(lon * 60, 60)), 7, 'f', 4, QChar('0'));
-        gll_nmea.set(3, (lonDeg + lonMin).toStdString());
-
-        // Направление долготы
-        gll_nmea.set(4, lon >= 0 ? "E" : "W");
+        gll_nmea.set(1, latString);
+        gll_nmea.set(2, latDirection);
+        gll_nmea.set(3, lonString);
+        gll_nmea.set(4, lonDirection);
 
         // Время
         gll_nmea.set(5, ui->sns_time->dateTime().toString("HHmmss.z").toStdString());

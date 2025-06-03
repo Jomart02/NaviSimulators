@@ -131,7 +131,7 @@
              <bool>false</bool>
             </property>
             <property name="maxValue" stdset="0">
-             <double>1500.000000000000000</double>
+             <double>200.000000000000000</double>
             </property>
             <property name="nameValue">
              <string>SOG</string>
