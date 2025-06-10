@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <QWidget>
 #include "BaseNaviWidget.h"  
 #include "BaseAisPage.h"
 namespace Ui
@@ -34,4 +34,5 @@ private:
 
     QTimer *timerClassA = nullptr;
     BaseAisPage *classAPage = nullptr;
+    BaseAisPage *classBPage = nullptr; //добавлено 10.06
 };

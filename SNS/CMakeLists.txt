@@ -48,7 +48,9 @@ set(QM_FILES
 file(GLOB_RECURSE UI_FILES "${CMAKE_CURRENT_SOURCE_DIR}/ui/*.ui")
 
 # Поиск Qt и утилит для переводов
+
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
+
 find_program(LUPDATE_EXECUTABLE lupdate)
 find_program(LRELEASE_EXECUTABLE lrelease)
 if(NOT LUPDATE_EXECUTABLE OR NOT LRELEASE_EXECUTABLE)

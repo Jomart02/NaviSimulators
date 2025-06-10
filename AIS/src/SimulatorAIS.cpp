@@ -4,19 +4,22 @@
 #include <iostream>
 #include "ui_SimulatorAIS.h"
 #include "ClassAPage.h"
+#include "ClassB/ClassBPage.h"
 
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::SimulatorAIS),
     timerClassA(new QTimer(this)),
-    classAPage(new ClassAPage(this)){
-    
+    //classBPage(new ClassAPage(this))
+    classAPage(new ClassAPage(this))
+ {
     ui->setupUi(this);
     ui->tabWidget->addTab(classAPage, "Class A");
-    
+    //ui->tabWidget->addTab(classBPage, "Class B");
 
     connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
 }
+    
 
 SimulatorAIS::~SimulatorAIS()
 {

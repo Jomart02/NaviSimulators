@@ -18,7 +18,7 @@ Type5Simulator::~Type5Simulator(){
 }
 
 void Type5Simulator::init(){
-    QStandardItemModel* model = new QStandardItemModel();
+    QStandardItemModel* model = new QStandardItemModel();//добавление данных в combobox
     for (const auto& shipType : shipTypes) {
         QStandardItem* item = new QStandardItem(shipType.name);
         item->setData(shipType.id, Qt::UserRole); 

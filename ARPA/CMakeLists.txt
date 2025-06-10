@@ -28,7 +28,7 @@ add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-add_dependencies(${PROJECT_NAME} EditableTableDelegate)
+#add_dependencies(${PROJECT_NAME} EditableTableDelegate) #допустим этого нет
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets BaseNaviWidgetLib EditableTableDelegate nmeabuilder)
 
