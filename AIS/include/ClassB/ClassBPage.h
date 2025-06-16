@@ -16,8 +16,16 @@ class ClassBPage : public BaseAisPage
 public:
 	ClassBPage(QWidget *parent);
 	~ClassBPage();
-	//virtual QStringList getData() override;
+	virtual QStringList getData() override;
 
 private:
+	void processClassB18(ParamClassB* param, Type18Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
+	void processClassB19(ParamClassB* param, Type19Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
+protected:
+	virtual std::unique_ptr<BaseParamClassAis> createParam() const override;
+	virtual void swapTarget(int prevmmsi,unsigned int mmsi) override;
+private:
 	Ui::ClassBPage* ui;
+	BaseAISSimulator* type18 = nullptr;
+	BaseAISSimulator* type19 = nullptr;
 };

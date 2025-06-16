@@ -44,11 +44,9 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
 )
 
 
-set(UI_FILES
-    ./ui/ClassB/ClassBPage.ui
-)
 
-add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS} ${UI_FILES})
+
+add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
 
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
-    <height>314</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +17,12 @@
    <item row="0" column="0">
     <widget class="QCheckBox" name="checkBox_manual">
      <property name="text">
-      <string>Ручной режим</string>
+      <string> Ручной режим</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QComboBox" name="comboBox_numberClassA"/>
+    <widget class="QComboBox" name="comboBox_numberClassB"/>
    </item>
    <item row="1" column="0">
     <widget class="QCheckBox" name="checkBox_Active">

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QWidget>
 #include "BaseNaviWidget.h"  
 #include "BaseAisPage.h"
@@ -27,12 +26,14 @@ public:
     virtual QString description() const override;
 private slots:
     void sendTypeA();
+    void sendTypeB();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:
     Ui::SimulatorAIS *ui;
 
     QTimer *timerClassA = nullptr;
+    QTimer *timerClassB = nullptr;
     BaseAisPage *classAPage = nullptr;
-    BaseAisPage *classBPage = nullptr; //добавлено 10.06
+    BaseAisPage *classBPage = nullptr;//16
 };

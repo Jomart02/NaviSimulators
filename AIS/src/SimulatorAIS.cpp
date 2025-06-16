@@ -10,14 +10,16 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
     ui(new Ui::SimulatorAIS),
     timerClassA(new QTimer(this)),
-    //classBPage(new ClassAPage(this))
+    timerClassB(new QTimer(this)),
+    classBPage(new ClassBPage(this)),
     classAPage(new ClassAPage(this))
  {
     ui->setupUi(this);
     ui->tabWidget->addTab(classAPage, "Class A");
-    //ui->tabWidget->addTab(classBPage, "Class B");
+    ui->tabWidget->addTab(classBPage, "Class B");
 
     connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
+    connect(timerClassB, &QTimer::timeout, this, &SimulatorAIS::sendTypeB);
 }
     
 
@@ -56,7 +58,12 @@ void SimulatorAIS::sendTypeA(){
     if(!messages.isEmpty()) emit sendData(messages);
 
 }
+void SimulatorAIS::sendTypeB(){
 
+    QStringList messages =  classBPage->getData();
+    if(!messages.isEmpty()) emit sendData(messages);
+
+}
 QStringList SimulatorAIS::getNavigationData() {
     return QStringList();
 }

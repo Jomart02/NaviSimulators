@@ -120,6 +120,100 @@ namespace AIS_Data_Type {
         unsigned int    DTE;
     };
 
+    struct ClassB18 : BaseAis {
+        int COG = 0;                //курс относительно земли
+        int SOG = 0;                // скорость относительно земли
+        unsigned int HDG = 0;                // истинный курс
+        double lon = 0;             // долгота
+        double lat = 0;             // широта
+        unsigned int time = 60;               // отметка времени
+        int PositionAccuracy = 0;   // точность положения
+        int RAIM = 0;               // индикатор манёвра
+        int AssignedMode = 0;       // режим работа (автономный/назначенный)
+        int BandFlag = 0;           // диапазон частот
+        int DSC = 0;                //
+        int displayFlag = 0;        //
+        int aisType = 0;            //
+
+        static inline void calculatePos(ClassB18& data) {
+            // Генерируем случайные изменения в диапазоне [-5, 5]
+            int deltaCOG = QRandomGenerator::global()->bounded(-5, 6);
+            int deltaSOG = QRandomGenerator::global()->bounded(-5, 6);
+            int deltaHDG = QRandomGenerator::global()->bounded(-5, 6);
+            int hdg = data.HDG;
+            // Обновляем COG и обеспечиваем, что он остается в диапазоне [0, 359]
+            data.COG += deltaCOG;
+            if (data.COG < 0) data.COG += 360;
+            if (data.COG >= 360) data.COG -= 360;
+            // Обновляем HDG и обеспечиваем, что он остается в диапазоне [0, 359]
+            hdg += deltaHDG;
+            if (hdg < 0) hdg += 360;
+            if (hdg >= 360) hdg -= 360;
+            data.HDG = hdg;
+            // Обновляем SOG и обеспечиваем, что он остается неотрицательным
+            data.SOG += deltaSOG;
+            if (data.SOG < 0) data.SOG = 0;
+
+            // Преобразование углов в радианы
+            double cogRadians = qDegreesToRadians(data.COG);
+
+            // Расстояние, пройденное за время deltaTime (в километрах)
+            double distanceTravelled = (data.SOG * 60) / 3600.0 * 1.852; // Узлы -> Км/ч -> Км
+
+            QPair<double, double> newPosition = calculateNewPosition(data.lat, data.lon, data.COG, data.SOG * 0.51444444444);
+            data.lat = newPosition.first;
+            data.lon = newPosition.second;
+
+        }
+    };
+    struct ClassB19 : BaseAis {
+        int COG = 0;                //курс относительно земли
+        int SOG = 0;                // скорость относительно земли
+        unsigned int HDG = 0;                // истинный курс
+        double lon = 0;             // долгота
+        double lat = 0;             // широта
+        QString    VesselName;              // наименование судна
+        unsigned int        ShipType;                // тип судна
+        unsigned int    DimensionBow;    // размерности -до носа
+        unsigned int    DimensionStern;     //             -до кормы
+        unsigned int    DimensionPort;      //             -до левого борта
+        unsigned int    DimensionStarboard; //             -до правого борта
+        int    PositionType;                // тип системы позиционирования
+        int time = 60;
+        int RAIM = 0;               // индикатор манёвра
+        int PositionAccuracy = 0;   // точность положения
+        static inline void calculatePos(ClassB19& data) {
+            // Генерируем случайные изменения в диапазоне [-5, 5]
+            int deltaCOG = QRandomGenerator::global()->bounded(-5, 6);
+            int deltaSOG = QRandomGenerator::global()->bounded(-5, 6);
+            int deltaHDG = QRandomGenerator::global()->bounded(-5, 6);
+            int hdg = data.HDG;
+            // Обновляем COG и обеспечиваем, что он остается в диапазоне [0, 359]
+            data.COG += deltaCOG;
+            if (data.COG < 0) data.COG += 360;
+            if (data.COG >= 360) data.COG -= 360;
+            // Обновляем HDG и обеспечиваем, что он остается в диапазоне [0, 359]
+            hdg += deltaHDG;
+            if (hdg < 0) hdg += 360;
+            if (hdg >= 360) hdg -= 360;
+            data.HDG = hdg;
+            // Обновляем SOG и обеспечиваем, что он остается неотрицательным
+            data.SOG += deltaSOG;
+            if (data.SOG < 0) data.SOG = 0;
+
+            // Преобразование углов в радианы
+            double cogRadians = qDegreesToRadians(data.COG);
+
+            // Расстояние, пройденное за время deltaTime (в километрах)
+            double distanceTravelled = (data.SOG * 60) / 3600.0 * 1.852; // Узлы -> Км/ч -> Км
+
+            QPair<double, double> newPosition = calculateNewPosition(data.lat, data.lon, data.COG, data.SOG * 0.51444444444);
+            data.lat = newPosition.first;
+            data.lon = newPosition.second;
+
+        }
+    };
+
     struct BaseParamClassAis{
         virtual ~BaseParamClassAis() = default; // Виртуальный деструктор
         virtual void setMMSI(unsigned int mmsi) = 0; // Установка MMSI
@@ -142,6 +236,17 @@ namespace AIS_Data_Type {
         void setMMSI(unsigned int mmsi) override {
             t123.MMSI = mmsi;
             t5.MMSI = mmsi;
+        }
+
+    };
+
+    struct ParamClassB : public BaseParamClassAis {
+        ClassB18 t18;
+        ClassB19 t19;
+
+        void setMMSI(unsigned int mmsi) override {
+            t18.MMSI = mmsi;
+            t19.MMSI = mmsi;
         }
 
     };
@@ -288,6 +393,26 @@ namespace AIS_NMEA_Builder {
         public:
             Type5Decoder();
             ~Type5Decoder();
+        
+        protected:
+          virtual  QString decodeParam() override;
+
+    };
+
+    class Type18Decoder : public BaseNmeaString<AIS_Data_Type::ClassB18 >{
+        public:
+            Type18Decoder();
+            ~Type18Decoder();
+        
+        protected:
+          virtual  QString decodeParam() override;
+
+    };
+
+    class Type19Decoder : public BaseNmeaString<AIS_Data_Type::ClassB19 >{
+        public:
+            Type19Decoder();
+            ~Type19Decoder();
         
         protected:
           virtual  QString decodeParam() override;
