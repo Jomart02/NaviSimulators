@@ -21,6 +21,7 @@ public:
     virtual void startSend() override;
     virtual void stopSend() override;
 
+
     virtual QIcon icon() const override;
     virtual QString name() const override;
     virtual QString description() const override;

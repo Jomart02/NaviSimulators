@@ -9,6 +9,8 @@
 #include <QPair>
 #define LEN_TYPE123 168
 #define LEN_TYPE5 424
+#define LEN_TYPE18 168
+#define LEN_TYPE19 312
 namespace AIS_Data_Type {
 
     typedef struct{
@@ -62,7 +64,7 @@ namespace AIS_Data_Type {
         double COG=0;             // курс относительно земли
         unsigned int HDG=0;                // истинное направление от 0 до 359, недоступно-511
         unsigned int time=60;               // отметка времени
-        int DTE=0;                // индикатор манёвра
+        int maneuver=0;                // индикатор манёвра
         int RAIM=0;               // индикатор манёвра
 
 

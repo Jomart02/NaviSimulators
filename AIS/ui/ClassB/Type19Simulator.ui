@@ -68,6 +68,12 @@
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
+          <property name="minimum">
+           <number>60</number>
+          </property>
+          <property name="maximum">
+           <number>63</number>
+          </property>
          </widget>
         </item>
         <item row="3" column="0">
@@ -147,10 +153,13 @@
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
+          <property name="maximum">
+           <number>359</number>
+          </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_Lat">
+         <widget class="LatitudeEdit" name="doubleSpinBox_Lat">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -159,6 +168,9 @@
           </property>
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="maximum">
+           <double>359.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -212,10 +224,19 @@
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
           </property>
+          <property name="suffix">
+           <string> узлы</string>
+          </property>
+          <property name="prefix">
+           <string/>
+          </property>
+          <property name="maximum">
+           <number>106</number>
+          </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_Lon">
+         <widget class="LongitudeEdit" name="doubleSpinBox_Lon">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -224,6 +245,9 @@
           </property>
           <property name="buttonSymbols">
            <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="maximum">
+           <double>359.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -242,7 +266,10 @@
            <string/>
           </property>
           <property name="suffix">
-           <string> узлы</string>
+           <string/>
+          </property>
+          <property name="maximum">
+           <double>359.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -441,6 +468,18 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>LatitudeEdit</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>CoordinateEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LongitudeEdit</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>CoordinateEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

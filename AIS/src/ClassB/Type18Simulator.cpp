@@ -28,9 +28,9 @@ QVariant Type18Simulator::getData() {
 	data.HDG = ui->spinBox_HDG->value();
 	data.lat = ui->doubleSpinBox_Lat->value();
 	data.lon = ui->doubleSpinBox_Lon->value();
-	data.PositionAccuracy = ui->radioButton_Accuracy0->isChecked() ? 0 : 1;
-	data.RAIM = ui->radioButton_RAIM_used->isChecked() ? 1 : 0;
-
+	data.PositionAccuracy = ui->radioButton_Accuracy1->isChecked() ? 0 : 1;
+	data.RAIM = ui->radioButton_RAIM_used->isChecked() ? 1: 0;
+	data.AssignedMode = ui->radioButton_auto->isChecked() ? 0 : 1;
 	
 	data.time = ui->spinBox_TimeStamp->value();
 	return QVariant::fromValue(data);
@@ -43,10 +43,12 @@ void Type18Simulator::setData(QVariant data) {
 	ui->doubleSpinBox_COG->setValue(param.COG);
 	ui->doubleSpinBox_Lat->setValue(param.lat);
 	ui->doubleSpinBox_Lon->setValue(param.lon);
+	ui->spinBox_TimeStamp->setValue(param.time);
 
 }
 
 void Type18Simulator::clearParam() {
+
 	ui->comboBox_aisType->setCurrentIndex(1);
 	ui->comboBox_DSC->setCurrentIndex(1);
 	ui->comboBox_Disp->setCurrentIndex(1);
@@ -56,6 +58,5 @@ void Type18Simulator::clearParam() {
 	ui->doubleSpinBox_COG->setValue(0);
 	ui->spinBox_HDG->setValue(0);
 	ui->spinBox_TimeStamp->setValue(0);
-
 
 }

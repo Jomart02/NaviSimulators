@@ -22,14 +22,73 @@ ClassBPage::~ClassBPage()
 }
 
 QStringList ClassBPage::getData(){
-	QStringList messages;
-	return messages;
+	if (!m_sending || ui->comboBox_numberClassB->count() == 0) {
+        return QStringList();
+    }
+
+    QStringList messages;
+    Type18Decoder dec18;
+    Type19Decoder dec19;
+
+    for (int i = 0; i < ui->comboBox_numberClassB->count(); ++i) {
+        unsigned int number = ui->comboBox_numberClassB->itemData(i, Qt::UserRole).toLongLong();
+        auto it = paramsShip.find(number);
+        if (it == paramsShip.end()) {
+            continue;
+        }
+        if(!it->second.get()->getEnabled()) continue;
+        auto* param = dynamic_cast<ParamClassB*>(it->second.get());
+        if (!param) {
+            continue;
+        }
+
+        bool isCurrent = (i == ui->comboBox_numberClassB->currentIndex());
+        bool isManual = ui->checkBox_manual->isChecked();
+
+        processClassB18(param, dec18, messages, isCurrent, isManual, number);
+        processClassB19(param, dec19, messages, isCurrent, isManual, number);
+        
+    }
+
+    return messages;
 }
 
 void ClassBPage::processClassB18(ParamClassB* param, Type18Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number){
+    ClassB18 updatedParam = param->t18;
+    if (isCurrent && isManual) {
+        QVariant data = type18->getData();
+        if (data.canConvert<ClassB18>()) {
+            updatedParam = data.value<ClassB18>();
+            updatedParam.MMSI = number;
+        }
+    } else {
+        ClassB18::calculatePos(updatedParam);
+    }
+    param->t18 = updatedParam;
+    dec.setParamets(updatedParam);
+    messages.append(dec.getString());
+    if (isCurrent) {
+        type18->setData(QVariant::fromValue(updatedParam));
+    }
 }
 
 void ClassBPage::processClassB19(ParamClassB* param, Type19Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number){
+    ClassB19 updatedParam = param->t19;
+    if (isCurrent && isManual) {
+        QVariant data = type19->getData();
+        if (data.canConvert<ClassB19>()) {
+            updatedParam = data.value<ClassB19>();
+            updatedParam.MMSI = number;
+        }
+    } else {
+        ClassB19::calculatePos(updatedParam);
+    }
+    param->t19 = updatedParam;
+    dec.setParamets(updatedParam);
+    messages.append(dec.getString());
+    if (isCurrent) {
+        type19->setData(QVariant::fromValue(updatedParam));
+    }
 }
 
 std::unique_ptr<BaseParamClassAis> ClassBPage::createParam() const{

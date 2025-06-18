@@ -76,6 +76,7 @@ void ClassAPage::processClassA123(ParamClassA* param, Type123Decoder& dec, QStri
         type123->setData(QVariant::fromValue(updatedParam));
     }
 }
+
 void ClassAPage::processClassA5(ParamClassA* param, Type5Decoder& dec5, QStringList& messages, int deltaTimeSec, bool isCurrent, bool isManual,unsigned int number){
     if (deltaTimeSec != 5) return;
     ClassA5 updatedParam = param->t5;

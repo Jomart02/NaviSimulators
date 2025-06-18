@@ -15,7 +15,7 @@ Type19Simulator::~Type19Simulator()
 
 void Type19Simulator::init() {
 	QStandardItemModel* modelShip = new QStandardItemModel();
-	for (const auto& shipType :shipTypes ) //заполняем тип ais
+	for (const auto& shipType :shipTypes )
 	{
 		QStandardItem* item = new QStandardItem(shipType.name);
 		item->setData(shipType.id, Qt::UserRole);
@@ -24,7 +24,7 @@ void Type19Simulator::init() {
 	ui->comboBox_ShipType->setModel(modelShip);
 
 	QStandardItemModel* modelPos = new QStandardItemModel();
-	for (const auto& posType :posTypes ) //заполняем тип ais
+	for (const auto& posType :posTypes )
 	{
 		QStandardItem* item = new QStandardItem(posType.name);
 		item->setData(posType.id, Qt::UserRole);
@@ -57,8 +57,8 @@ QVariant Type19Simulator::getData(){
 	data.DimensionStern = ui->spinBox_stern->value();
 	data.DimensionPort = ui->spinBox_port->value();
 	data.DimensionStarboard = ui->spinBox_starboard->value();
-	data.PositionAccuracy = ui->radioButton_Accuracy0->isChecked() ? 0 : 1;
-	data.RAIM = ui->radioButton_RAIM_Used->isChecked() ? 0 : 1;
+	data.PositionAccuracy = ui->radioButton_Accuracy1->isChecked() ? 0 : 1;
+	data.RAIM = ui->radioButton_RAIM_Used->isChecked() ? 1 : 0;
 	return QVariant::fromValue(data);
 }
 
@@ -98,9 +98,17 @@ void Type19Simulator::setData(QVariant data){
 		ui->spinBox_starboard->setValue(param.DimensionStarboard);
 		ui->spinBox_stern->setValue(param.DimensionStern);
 
+
+		ui->spinBox_timeStamp->setValue(param.time);
+		ui->doubleSpinBox_Lat->setValue(param.lat);
+		ui->doubleSpinBox_Lon->setValue(param.lon);
+		ui->spinBox_SOG->setValue(param.SOG);
+		ui->doubleSpinBox_COG->setValue(param.SOG);
+		ui->spinBox_HDG->setValue(param.SOG);
 }
 
 void Type19Simulator::clearParam(){
+
 	ui->lineEdit_VesselName->clear();
 	ui->spinBox_bow->setValue(0);
 	ui->spinBox_port->setValue(0);
@@ -113,5 +121,4 @@ void Type19Simulator::clearParam(){
 	ui->doubleSpinBox_Lon->setValue(0);
     ui->spinBox_timeStamp->setValue(0);
 	
-
 }

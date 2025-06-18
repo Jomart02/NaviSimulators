@@ -13,13 +13,14 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     timerClassB(new QTimer(this)),
     classBPage(new ClassBPage(this)),
     classAPage(new ClassAPage(this))
- {
+{
     ui->setupUi(this);
     ui->tabWidget->addTab(classAPage, "Class A");
     ui->tabWidget->addTab(classBPage, "Class B");
 
     connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
     connect(timerClassB, &QTimer::timeout, this, &SimulatorAIS::sendTypeB);
+
 }
     
 
@@ -41,15 +42,26 @@ QString SimulatorAIS::description() const {
 void SimulatorAIS::startSend(){
     if(!timerClassA->isActive())
         timerClassA->start(tickInterval);
+    if(!timerClassB->isActive())
+        timerClassB->start(tickInterval);
 }
+
 
 void SimulatorAIS::stopSend(){
     if(timerClassA->isActive())
-        timerClassA->stop();
+        timerClassA->stop(); 
+    if(timerClassB->isActive())
+        timerClassB->stop(); 
 }
+
+
 bool SimulatorAIS::isActive(){
-    return timerClassA->isActive();
+    
+    return timerClassA->isActive() || timerClassB->isActive(); 
+    
 }
+
+
 
 
 void SimulatorAIS::sendTypeA(){
@@ -58,6 +70,8 @@ void SimulatorAIS::sendTypeA(){
     if(!messages.isEmpty()) emit sendData(messages);
 
 }
+
+
 void SimulatorAIS::sendTypeB(){
 
     QStringList messages =  classBPage->getData();

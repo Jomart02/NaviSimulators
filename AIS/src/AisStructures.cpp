@@ -55,7 +55,7 @@ QString Type123Decoder::decodeParam(){
     encodeValueBytes(bitField, paramets.time, 137, 142);
 
     // Special maneuver indicator (2 бита)
-    encodeValueBytes(bitField, paramets.DTE, 143, 144);
+    encodeValueBytes(bitField, paramets.maneuver, 143, 144);
 
     // Spare (3 бита)
     for (int i = 145; i < 148; ++i) {
@@ -161,4 +161,178 @@ QString Type5Decoder::decodeParam(){
     bitField[423] = false;
 
     return encodeString(bitField,LEN_TYPE5);
+}
+
+Type18Decoder::Type18Decoder() : BaseNmeaString(){
+
+}
+Type18Decoder::~Type18Decoder(){
+
+}
+
+QString Type18Decoder::decodeParam(){
+    std::vector<bool> bitField(LEN_TYPE18, false);
+    
+    // Message ID (6 бит)
+    encodeValueBytes(bitField, 18 , 0, 5);
+    
+    // Repeat indicator (2 бита)
+    encodeValueBytes(bitField, 0 , 6, 7);
+    
+    // MMSI (30 бит)
+    encodeValueBytes(bitField,paramets.MMSI,8,37);
+    
+    // Regional reserved (8 бит)
+    for (int i = 38; i < 46; ++i) {
+        bitField[i] = false;
+    }
+    
+    // SOG (10 бит)
+    encodeValueBytes(bitField,static_cast<unsigned int>(paramets.SOG + 10), 46, 55);
+    
+    // Position accuracy (1 бит)
+    encodeValueBytes(bitField, paramets.PositionAccuracy, 56, 56);
+    
+    // Longtitude (28 бит)
+    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
+    encodeValueBytes(bitField, lonBits,57,84);
+
+    // Latitude (27 бит)
+    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
+    encodeValueBytes(bitField, lonBits,85,111);
+
+    // COG (12 бит)
+    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
+
+    // True heading (9 бит)
+    encodeValueBytes(bitField, paramets.HDG, 124, 132);
+
+    // Time stamp (6 бит)
+    encodeValueBytes(bitField, paramets.time, 133, 138);
+
+    // Regional reserved (2 бита)
+    for (int i = 139; i < 141; ++i) {
+        bitField[i] = false;
+    }
+
+    // CS unit (1 бит)
+    encodeValueBytes(bitField, paramets.aisType, 141,141);
+
+    // Display flag (1 бит)
+    encodeValueBytes(bitField, paramets.displayFlag, 142,142);
+
+    // DSC Flag
+    encodeValueBytes(bitField, paramets.DSC, 143, 143);
+
+    // Band flag (1 бит)
+    encodeValueBytes(bitField, paramets.BandFlag, 144, 144);
+
+    // Message 22 flag (1 бит)
+    encodeValueBytes(bitField, 0, 145,145);
+
+    // Assigned (1 бит)
+    encodeValueBytes(bitField, paramets.AssignedMode, 146,146);
+
+    // RAIM (1 бит)
+    encodeValueBytes(bitField, paramets.RAIM, 147, 147);
+
+    // Communication state (20 бит)
+    encodeValueBytes(bitField, 0, 148, 167);
+
+    // Преобразуем битовое поле в строку символов
+    return encodeString(bitField, LEN_TYPE18);
+}
+
+
+Type19Decoder::Type19Decoder() : BaseNmeaString(){
+
+}
+Type19Decoder::~Type19Decoder(){
+
+}
+
+QString Type19Decoder::decodeParam(){
+    std::vector<bool> bitField(LEN_TYPE19, false);
+    
+    // Message ID (6 бит)
+    encodeValueBytes(bitField, 19 , 0, 5);
+    
+    // Repeat indicator (2 бита)
+    encodeValueBytes(bitField, 0 , 6, 7);
+    
+    // MMSI (30 бит)
+    encodeValueBytes(bitField,paramets.MMSI,8,37);
+    
+    // Regional reserved (8 бит)
+    for (int i = 38; i < 46; ++i) {
+        bitField[i] = false;
+    }
+    
+    // SOG (10 бит)
+    encodeValueBytes(bitField,static_cast<unsigned int>(paramets.SOG + 10), 46, 55);
+    
+    // Position accuracy (1 бит)
+    
+    encodeValueBytes(bitField,paramets.PositionAccuracy, 56, 56);
+    
+    // Longtitude (28 бит)
+    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
+    encodeValueBytes(bitField, lonBits,57,84);
+
+    // Latitude (27 бит)
+    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
+    encodeValueBytes(bitField, lonBits,85,111);
+
+    // COG (12 бит)
+    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
+
+    // True heading (9 бит)
+    encodeValueBytes(bitField, paramets.HDG, 124, 132);
+
+    // Time stamp (6 бит)
+    encodeValueBytes(bitField, paramets.time, 133, 138);
+
+    // Regional reserved (4 бита)
+    for (int i = 139; i < 143; ++i) {
+        bitField[i] = false;
+    }
+    
+    // Vessel Name (120 бит)
+    placeBitsInBitField(bitField, encodeAsciiBytes(paramets.VesselName.toStdString()), 143,262);
+
+    // Ship Type (8 бит)
+    encodeValueBytes(bitField, paramets.ShipType, 263, 270);
+
+    // Dimension to Bow (9 бит)
+    encodeValueBytes(bitField, paramets.DimensionBow, 271, 279);
+
+    // Dimension to Stern (9 бит)
+    encodeValueBytes(bitField, paramets.DimensionStern, 280, 288);
+
+    // Dimension to Port (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionPort, 289, 294);
+
+    // Dimension to Starboard (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionStarboard, 295, 300);
+
+    // Position Fix Type (4 бита)
+    encodeValueBytes(bitField, paramets.PositionType, 301 , 304);
+
+    // RAIM (1 бит)
+    
+    encodeValueBytes(bitField, paramets.RAIM, 305 , 305);
+    // DTE (1 бит)
+    bitField[306] = 0;
+
+    // Assigned flag (1 бит)
+    encodeValueBytes(bitField, 0, 307, 307);
+
+    // Spare (4 бита)
+    for(int i = 308; i < 312; ++i){
+        bitField[i] = false;
+    }
+
+    // Преобразуем битовое поле в строку символов
+    return encodeString(bitField, LEN_TYPE19);
+
 }
