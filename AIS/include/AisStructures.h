@@ -11,6 +11,7 @@
 #define LEN_TYPE5 424
 #define LEN_TYPE18 168
 #define LEN_TYPE19 312
+#define LEN_TYPE9 168
 namespace AIS_Data_Type {
 
     typedef struct{
@@ -216,6 +217,44 @@ namespace AIS_Data_Type {
         }
     };
 
+    struct SAR : BaseAis {
+        int COG = 0;                //курс относительно земли
+        int SOG = 0;                // скорость относительно земли
+        
+        double lon = 0;             // долгота
+        double lat = 0;             // широта
+
+        int altitude = 0;           //
+        int Assigned = 0;           //
+        int time = 60;
+        int RAIM = 0;               // индикатор манёвра
+        int PositionAccuracy = 0;   // точность положения
+        static inline void calculatePos(SAR& data) {
+            // Генерируем случайные изменения в диапазоне [-5, 5]
+            int deltaCOG = QRandomGenerator::global()->bounded(-5, 6);
+            int deltaSOG = QRandomGenerator::global()->bounded(-5, 6);
+            
+            // Обновляем COG и обеспечиваем, что он остается в диапазоне [0, 359]
+            data.COG += deltaCOG;
+            if (data.COG < 0) data.COG += 360;
+            if (data.COG >= 360) data.COG -= 360;
+   
+
+            data.SOG += deltaSOG;
+            if (data.SOG < 0) data.SOG = 0;
+
+            // Преобразование углов в радианы
+            double cogRadians = qDegreesToRadians(data.COG);
+
+            // Расстояние, пройденное за время deltaTime (в километрах)
+            double distanceTravelled = (data.SOG * 60) / 3600.0 * 1.852; // Узлы -> Км/ч -> Км
+
+            QPair<double, double> newPosition = calculateNewPosition(data.lat, data.lon, data.COG, data.SOG * 0.51444444444);
+            data.lat = newPosition.first;
+            data.lon = newPosition.second;
+
+        }
+    };
     struct BaseParamClassAis{
         virtual ~BaseParamClassAis() = default; // Виртуальный деструктор
         virtual void setMMSI(unsigned int mmsi) = 0; // Установка MMSI
@@ -253,6 +292,13 @@ namespace AIS_Data_Type {
 
     };
 
+    struct ParamSAR : public BaseParamClassAis {
+        SAR t9;
+        void setMMSI(unsigned int mmsi) override {
+            t9.MMSI = mmsi;
+        }
+    };
+    
 };
 
 // Функция для преобразования числа в бинарную строку фиксированной длины
@@ -420,4 +466,15 @@ namespace AIS_NMEA_Builder {
           virtual  QString decodeParam() override;
 
     };
+    class Type9Decoder : public BaseNmeaString<AIS_Data_Type::SAR>{
+        public:
+            Type9Decoder();
+            ~Type9Decoder();
+        
+        protected:
+          virtual  QString decodeParam() override;
+
+    };
 };
+
+

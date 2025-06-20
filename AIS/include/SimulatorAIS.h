@@ -28,6 +28,7 @@ public:
 private slots:
     void sendTypeA();
     void sendTypeB();
+    void sendTypeSar();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:
@@ -35,6 +36,8 @@ private:
 
     QTimer *timerClassA = nullptr;
     QTimer *timerClassB = nullptr;
+    QTimer *timerClassSar = nullptr;
     BaseAisPage *classAPage = nullptr;
     BaseAisPage *classBPage = nullptr;//16
+    BaseAisPage *pageSAR = nullptr;
 };

@@ -199,7 +199,7 @@ QString Type18Decoder::decodeParam(){
 
     // Latitude (27 бит)
     unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField, lonBits,85,111);
+    encodeValueBytes(bitField, latBits,85,111);
 
     // COG (12 бит)
     encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
@@ -281,7 +281,7 @@ QString Type19Decoder::decodeParam(){
 
     // Latitude (27 бит)
     unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField, lonBits,85,111);
+    encodeValueBytes(bitField, latBits,85,111);
 
     // COG (12 бит)
     encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
@@ -335,4 +335,73 @@ QString Type19Decoder::decodeParam(){
     // Преобразуем битовое поле в строку символов
     return encodeString(bitField, LEN_TYPE19);
 
+}
+
+Type9Decoder::Type9Decoder() : BaseNmeaString(){
+
+}
+Type9Decoder::~Type9Decoder(){
+
+}
+
+QString Type9Decoder::decodeParam(){
+    std::vector<bool> bitField(LEN_TYPE9, false);
+
+    // Message Type (6 бит)
+    encodeValueBytes(bitField, 9, 0, 5);
+
+    // Repeat indicator (2 бит)
+    encodeValueBytes(bitField, 0, 6, 7);
+
+    // MMSI (30 бит)
+    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
+
+    // Altitude (12 бит)
+    encodeValueBytes(bitField, paramets.altitude, 38, 49);
+
+    // SOG (10 бит)
+    encodeValueBytes(bitField, paramets.SOG, 50, 59);
+
+    // Position Accuracy (1 бит)
+    encodeValueBytes(bitField, paramets.PositionAccuracy, 60, 60);
+
+    // Longitude (28 бит)
+    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
+    encodeValueBytes(bitField, lonBits,61,88);
+
+    // Latitude (27 бит)
+    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
+    encodeValueBytes(bitField, latBits,89,115);
+
+  
+
+    // COG (12 бит)
+    encodeValueBytes(bitField, paramets.COG, 116, 127);
+
+    // Time Stamp (6 бит)
+    encodeValueBytes(bitField, paramets.time, 128, 133);
+
+    // Regional Reserved (8 бит)
+    for(int i = 134; i < 142; ++i){
+        bitField[i] = false;
+    }
+
+    // DTE (1 бит)
+    bitField[142] = 0;
+
+    // Spare (3 бит)
+    for(int i = 143; i < 146; ++i){
+        bitField[i] = false;
+    }
+
+    // Assigned (1 бит)
+    encodeValueBytes(bitField, paramets.Assigned, 146, 146);
+
+    // RAIM (1 бит)
+    encodeValueBytes(bitField, paramets.RAIM, 147,147);
+
+    // Communication state (19 бит)
+    encodeValueBytes(bitField, 0, 148, 167);
+
+    return encodeString(bitField, LEN_TYPE9);
 }

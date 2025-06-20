@@ -10,6 +10,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassB)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/SAR)
 
 set(HDRS
     ./include/SimulatorAIS.h
@@ -22,6 +23,10 @@ set(HDRS
     ./include/ClassB/ClassBPage.h
     ./include/ClassB/Type18Simulator.h
     ./include/ClassB/Type19Simulator.h
+    ./include/SAR/PageSAR.h
+    ./include/SAR/Type9Simulator.h
+    
+    
 )
 
 set(SRCS
@@ -33,6 +38,9 @@ set(SRCS
     ./src/ClassB/ClassBPage.cpp
     ./src/ClassB/Type18Simulator.cpp
     ./src/ClassB/Type19Simulator.cpp
+    ./src/SAR/PageSAR.cpp
+    ./src/SAR/Type9Simulator.cpp
+
     ./src/AisStructures.cpp
     
 )
@@ -41,6 +49,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
     ./ui/
     ./ui/ClassA/
     ./ui/ClassB/
+    ./ui/SAR/
 )
 
 
@@ -61,6 +70,7 @@ if(BUILD_TESTS)
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassB
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/SAR
         ${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage
     )
 endif()

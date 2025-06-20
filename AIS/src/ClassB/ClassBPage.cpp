@@ -12,8 +12,10 @@ ClassBPage::ClassBPage(QWidget *parent):BaseAisPage(parent), ui(new Ui::ClassBPa
     setCheckBoxActive(ui->checkBox_Active);
 	type18 = new Type18Simulator();
 	type19 = new Type19Simulator();
-	ui->widgetSimulatorB->addWidget("Type 18",type18,"Type18");
-	ui->widgetSimulatorB->addWidget("Type 19",type19,"Type19");
+
+	
+    ui->widgetSimulatorB->addWidget("Type 18",type18,"Type18");
+    ui->widgetSimulatorB->addWidget("Type 19",type19,"Type19");
 }
 
 ClassBPage::~ClassBPage()
