@@ -12,6 +12,7 @@
 #define LEN_TYPE18 168
 #define LEN_TYPE19 312
 #define LEN_TYPE9 168
+#define LEN_TYPE21 361
 namespace AIS_Data_Type {
 
     typedef struct{
@@ -255,6 +256,26 @@ namespace AIS_Data_Type {
 
         }
     };
+    struct ClassAton21 : BaseAis {
+        double lon = 0;             // долгота
+        double lat = 0;             // широта
+        QString    nameAton;              // наименование судна
+        unsigned int    DimensionBow;    // размерности -до носа
+        unsigned int    DimensionStern;     //             -до кормы
+        unsigned int    DimensionPort;      //             -до левого борта
+        unsigned int    DimensionStarboard; //             -до правого борта
+        int    PositionType;                // тип системы позиционирования
+        int AIDType;
+        int virtualAton = 0;
+        int offPos = 0;
+        int time = 60;
+        int RAIM = 0;               // индикатор манёвра
+        int PositionAccuracy = 0;   // точность положения
+        int Assigned = 0;
+        QString extensionAton;      // расширение наименования судна
+
+    };
+    
     struct BaseParamClassAis{
         virtual ~BaseParamClassAis() = default; // Виртуальный деструктор
         virtual void setMMSI(unsigned int mmsi) = 0; // Установка MMSI
@@ -298,8 +319,19 @@ namespace AIS_Data_Type {
             t9.MMSI = mmsi;
         }
     };
+
+    struct ParamATON : public BaseParamClassAis {
+        ClassAton21 t21;
+
+        void setMMSI(unsigned int mmsi) override {
+            t21.MMSI = mmsi;
+        }
+
+    };
     
 };
+
+
 
 // Функция для преобразования числа в бинарную строку фиксированной длины
 inline std::string toBinaryString(unsigned int number, int length) {
@@ -475,6 +507,17 @@ namespace AIS_NMEA_Builder {
           virtual  QString decodeParam() override;
 
     };
+
+    class Type21Decoder : public BaseNmeaString<AIS_Data_Type::ClassAton21>{
+        public:
+            Type21Decoder();
+            ~Type21Decoder();
+        
+        protected:
+          virtual  QString decodeParam() override;
+
+    };
+
 };
 
 

@@ -405,3 +405,83 @@ QString Type9Decoder::decodeParam(){
 
     return encodeString(bitField, LEN_TYPE9);
 }
+
+Type21Decoder::Type21Decoder() : BaseNmeaString(){
+
+}
+Type21Decoder::~Type21Decoder(){
+
+}
+
+QString Type21Decoder::decodeParam(){
+    std::vector<bool> bitField(LEN_TYPE21, false);
+    
+    // Message Type (6 бит)
+    encodeValueBytes(bitField, 21, 0, 5);
+
+    // Repeat indicator (2 бит)
+    encodeValueBytes(bitField, 0, 6, 7);
+
+    // MMSI (30 бит)
+    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
+
+    // AID type (5 бит)
+    encodeValueBytes(bitField, paramets.AIDType,38,42);
+
+    // Name (120 бит)
+    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.nameAton.toStdString()),43,162);
+
+    // Position Accuracy (1 бит)
+    encodeValueBytes(bitField, paramets.PositionAccuracy, 163,163);
+
+    // Longitude (28 бит)
+    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
+    encodeValueBytes(bitField,lonBits,164, 191);
+
+    // Latitude (27 бит)
+    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
+    encodeValueBytes(bitField,latBits,192, 218);
+
+    // Dimension to Bow (9 бит)
+    encodeValueBytes(bitField, paramets.DimensionBow, 219, 227);
+
+    // Dimension to Stern (9 бит)
+    encodeValueBytes(bitField, paramets.DimensionStern, 228, 236);
+
+    // Dimension to Port (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionPort, 237, 242);
+
+    // Dimension to Starboard (6 бит)
+    encodeValueBytes(bitField, paramets.DimensionStarboard, 243, 248);
+
+    // Type of EPDF (position type) [4 бит]
+    encodeValueBytes(bitField,paramets.PositionType, 249,252);
+
+    // Time stamp (6 бит)
+    encodeValueBytes(bitField,paramets.time,253,258);
+
+    // Off-position indicator (1 бит)
+    encodeValueBytes(bitField,paramets.offPos,259,259);
+
+    // Reserved (8 бит)
+    for(int i = 260; i < 268; ++i){
+        bitField[i] = false;
+    }
+
+    // RAIM (1 бит)
+    encodeValueBytes(bitField, paramets.RAIM, 268,268);
+
+    // Virtual-aid flag (1 бит)
+    encodeValueBytes(bitField, paramets.virtualAton, 269,269);
+
+    // Assigned (1 бит)
+    encodeValueBytes(bitField, paramets.Assigned, 270, 270);
+
+    // Spare (1 бит)
+    encodeValueBytes(bitField, 0, 271, 271);
+
+    // Name Extension (88 бит)
+    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.extensionAton.toStdString()),272,360);
+
+    return encodeString(bitField, LEN_TYPE21);
+}

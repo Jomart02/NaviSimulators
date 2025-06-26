@@ -11,6 +11,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassB)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/SAR)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ATON)
 
 set(HDRS
     ./include/SimulatorAIS.h
@@ -25,7 +26,8 @@ set(HDRS
     ./include/ClassB/Type19Simulator.h
     ./include/SAR/PageSAR.h
     ./include/SAR/Type9Simulator.h
-    
+    ./include/ATON/PageAton.h
+    ./include/ATON/Type21Simulator.h
     
 )
 
@@ -40,7 +42,8 @@ set(SRCS
     ./src/ClassB/Type19Simulator.cpp
     ./src/SAR/PageSAR.cpp
     ./src/SAR/Type9Simulator.cpp
-
+    ./src/ATON/PageATON.cpp
+    ./src/ATON/Type21Simulator.cpp
     ./src/AisStructures.cpp
     
 )
@@ -50,6 +53,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS
     ./ui/ClassA/
     ./ui/ClassB/
     ./ui/SAR/
+    ./ui/ATON/
 )
 
 

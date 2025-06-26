@@ -6,6 +6,7 @@
 #include "ClassAPage.h"
 #include "ClassB/ClassBPage.h"
 #include "PageSAR.h"
+#include "PageATON.h"
 
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
@@ -13,20 +14,23 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     timerClassA(new QTimer(this)),
     timerClassB(new QTimer(this)),
     timerClassSar(new QTimer(this)),
+    timerClassAton(new QTimer(this)),
     classBPage(new ClassBPage(this)),
     classAPage(new ClassAPage(this)),
-    pageSAR(new PageSAR(this))
+    pageSAR(new PageSAR(this)),
+    pageATON(new PageATON(this))
     
 {
     ui->setupUi(this);
     ui->tabWidget->addTab(classAPage, "Class A");
     ui->tabWidget->addTab(classBPage, "Class B");
     ui->tabWidget->addTab(pageSAR, "SAR");
+    ui->tabWidget->addTab(pageATON, "ATON");
 
     connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
     connect(timerClassB, &QTimer::timeout, this, &SimulatorAIS::sendTypeB);
     connect(timerClassSar, &QTimer::timeout, this, &SimulatorAIS::sendTypeSar);
-
+    connect(timerClassAton, &QTimer::timeout, this, &SimulatorAIS::sendTypeAton);
 }
     
 
@@ -52,6 +56,9 @@ void SimulatorAIS::startSend(){
         timerClassB->start(tickInterval);
     if(!timerClassSar->isActive())
         timerClassSar->start(tickInterval);
+
+    if(!timerClassAton->isActive())
+        timerClassAton->start(tickInterval);
 }
 
 
@@ -62,12 +69,14 @@ void SimulatorAIS::stopSend(){
         timerClassB->stop(); 
     if(timerClassSar->isActive())
         timerClassSar->stop(); 
+    if(timerClassAton->isActive())
+        timerClassAton->stop(); 
 }
 
 
 bool SimulatorAIS::isActive(){
     
-    return timerClassA->isActive() || timerClassB->isActive() || timerClassSar->isActive(); 
+    return timerClassA->isActive() || timerClassB->isActive() || timerClassSar->isActive() || timerClassAton->isActive(); 
     
 }
 
@@ -95,6 +104,14 @@ void SimulatorAIS::sendTypeSar(){
     if(!messages.isEmpty()) emit sendData(messages);
 
 }
+
+void SimulatorAIS::sendTypeAton(){
+
+    QStringList messages =  pageATON->getData();
+    if(!messages.isEmpty()) emit sendData(messages);
+
+}
+
 QStringList SimulatorAIS::getNavigationData() {
     return QStringList();
 }
