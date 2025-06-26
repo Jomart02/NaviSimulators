@@ -5,6 +5,7 @@
 #include "SimulatorAIS.h"
 #include "SNS.h"
 #include <QObject>
+//для теста заменить SNS ... = new SNS(nullptr) на SimulatorAIS
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);

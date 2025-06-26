@@ -1,3 +1,6 @@
 *.vscode
 *.cache
 *build
+*.vs
+*CMakePresets.json
+*CMakeUserPresets.json

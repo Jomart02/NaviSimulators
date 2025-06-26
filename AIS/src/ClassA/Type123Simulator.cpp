@@ -27,11 +27,11 @@ QVariant Type123Simulator::getData() {
     data.HDG = ui->spinBox_HDG->value(); ;                
     data.time = ui->spinBox_timeStamp->value(); ;             
     
-    int dte = 0;
-    if(ui->radioButton_ManNo->isChecked()) dte = 0;
-    else if(ui->radioButton_ManNoSpecial->isChecked()) dte = 1;
-    else if(ui->radioButton_ManSpecial->isChecked()) dte = 2;
-    data.DTE = dte;
+    int Man = 0;
+    if(ui->radioButton_ManNo->isChecked()) Man = 0;
+    else if(ui->radioButton_ManNoSpecial->isChecked()) Man = 1;
+    else if(ui->radioButton_ManSpecial->isChecked()) Man = 2;
+    data.maneuver = Man;
 
 
     data.RAIM = ui->radioButton_RAIM_Used->isChecked() ? 1 : 0;

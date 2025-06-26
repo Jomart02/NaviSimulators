@@ -9,7 +9,9 @@ set(CMAKE_AUTOUIC ON)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage)
-
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ClassB)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/SAR)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/ATON)
 
 set(HDRS
     ./include/SimulatorAIS.h
@@ -19,6 +21,14 @@ set(HDRS
     ./include/ClassA/Type5Simulator.h 
     ./include/ClassA/Type123Simulator.h
     ./include/ClassA/ClassAPage.h
+    ./include/ClassB/ClassBPage.h
+    ./include/ClassB/Type18Simulator.h
+    ./include/ClassB/Type19Simulator.h
+    ./include/SAR/PageSAR.h
+    ./include/SAR/Type9Simulator.h
+    ./include/ATON/PageAton.h
+    ./include/ATON/Type21Simulator.h
+    
 )
 
 set(SRCS
@@ -27,16 +37,30 @@ set(SRCS
     ./src/ClassA/Type123Simulator.cpp
     ./src/ClassA/Type5Simulator.cpp
     ./src/ClassA/ClassAPage.cpp
-
+    ./src/ClassB/ClassBPage.cpp
+    ./src/ClassB/Type18Simulator.cpp
+    ./src/ClassB/Type19Simulator.cpp
+    ./src/SAR/PageSAR.cpp
+    ./src/SAR/Type9Simulator.cpp
+    ./src/ATON/PageATON.cpp
+    ./src/ATON/Type21Simulator.cpp
     ./src/AisStructures.cpp
+    
 )
 
 set(CMAKE_AUTOUIC_SEARCH_PATHS 
     ./ui/
     ./ui/ClassA/
+    ./ui/ClassB/
+    ./ui/SAR/
+    ./ui/ATON/
 )
 
+
+
+
 add_library(${PROJECT_NAME} SHARED ${SRCS} ${HDRS})
+
 
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 # Указываем зависимости
@@ -49,6 +73,8 @@ if(BUILD_TESTS)
     target_include_directories(${PROJECT_NAME} PUBLIC 
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassA
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/ClassB
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/SAR
         ${CMAKE_CURRENT_SOURCE_DIR}/include/BasePage
     )
 endif()
