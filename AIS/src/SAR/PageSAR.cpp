@@ -61,6 +61,7 @@ void PageSAR::processClassSar(ParamSAR* param, Type9Decoder& dec, QStringList& m
     } else {
         SAR::calculatePos(updatedParam);
     }
+    updatedParam.MMSI = number;
     param->t9 = updatedParam;
     dec.setParamets(updatedParam);
     messages.append(dec.getString());
@@ -73,7 +74,7 @@ std::unique_ptr<BaseParamClassAis> PageSAR::createParam() const{
     return std::make_unique<ParamSAR>();
 }
 
-void PageSAR::swapTarget(int prevmmsi,unsigned int mmsi){
+void PageSAR::swapTarget(unsigned int prevmmsi,unsigned int mmsi){
 
     if(prevmmsi != 0){
         auto* paramPrev = dynamic_cast<ParamSAR*>(paramsShip.at(prevmmsi).get());

@@ -63,6 +63,7 @@ void PageATON::processClassAton21(ParamATON* param, Type21Decoder& dec, QStringL
     } else {
         // ClassAton21::calculatePos(updatedParam);
     }
+    updatedParam.MMSI = number;
     param->t21 = updatedParam;
     dec.setParamets(updatedParam);
     messages.append(dec.getString());
@@ -76,7 +77,7 @@ std::unique_ptr<BaseParamClassAis> PageATON::createParam() const{
     return std::make_unique<ParamATON>();
 }
 
-void PageATON::swapTarget(int prevmmsi,unsigned int mmsi){
+void PageATON::swapTarget(unsigned int prevmmsi,unsigned int mmsi){
 
     if(prevmmsi != 0){
         auto* paramPrev = dynamic_cast<ParamATON*>(paramsShip.at(prevmmsi).get());

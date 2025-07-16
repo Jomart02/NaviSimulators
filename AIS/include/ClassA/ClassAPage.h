@@ -18,7 +18,7 @@ public:
 
 protected:
     virtual std::unique_ptr<BaseParamClassAis> createParam() const override;
-    virtual void swapTarget(int prevmmsi,unsigned int mmsi) override;
+    virtual void swapTarget(unsigned int prevmmsi,unsigned int mmsi) override;
 private:
     void processClassA123(ParamClassA* param, Type123Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
     void processClassA5(ParamClassA* param, Type5Decoder& dec5, QStringList& messages, int deltaTimeSec, bool isCurrent, bool isManual,unsigned int number);

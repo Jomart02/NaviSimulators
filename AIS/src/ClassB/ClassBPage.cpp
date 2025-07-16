@@ -66,6 +66,7 @@ void ClassBPage::processClassB18(ParamClassB* param, Type18Decoder& dec, QString
     } else {
         ClassB18::calculatePos(updatedParam);
     }
+    updatedParam.MMSI = number;
     param->t18 = updatedParam;
     dec.setParamets(updatedParam);
     messages.append(dec.getString());
@@ -85,6 +86,7 @@ void ClassBPage::processClassB19(ParamClassB* param, Type19Decoder& dec, QString
     } else {
         ClassB19::calculatePos(updatedParam);
     }
+    updatedParam.MMSI = number;
     param->t19 = updatedParam;
     dec.setParamets(updatedParam);
     messages.append(dec.getString());
@@ -97,7 +99,7 @@ std::unique_ptr<BaseParamClassAis> ClassBPage::createParam() const{
     return std::make_unique<ParamClassB>();
 }
 
-void ClassBPage::swapTarget(int prevmmsi,unsigned int mmsi){
+void ClassBPage::swapTarget(unsigned int prevmmsi,unsigned int mmsi){
 
     if(prevmmsi != 0){
         auto* paramPrev = dynamic_cast<ParamClassB*>(paramsShip.at(prevmmsi).get());

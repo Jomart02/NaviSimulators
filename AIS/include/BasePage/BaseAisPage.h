@@ -25,7 +25,7 @@ protected:
     void setCheckBoxManual(QCheckBox* manual);
     void setCheckBoxActive(QCheckBox* active);
     virtual std::unique_ptr<BaseParamClassAis> createParam() const = 0;
-    virtual void swapTarget(int prevmmsi ,unsigned int mmsi) = 0;
+    virtual void swapTarget(unsigned int prevmmsi ,unsigned int mmsi) = 0;
 protected:
     int previousIndex = -1;
     bool m_sending = false;

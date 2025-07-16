@@ -23,7 +23,7 @@ private:
 	void processClassB19(ParamClassB* param, Type19Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
 protected:
 	virtual std::unique_ptr<BaseParamClassAis> createParam() const override;
-	virtual void swapTarget(int prevmmsi,unsigned int mmsi) override;
+	virtual void swapTarget(unsigned int prevmmsi,unsigned int mmsi) override;
 private:
 	Ui::ClassBPage* ui;
 	BaseAISSimulator* type18 = nullptr;

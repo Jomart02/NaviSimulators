@@ -53,7 +53,6 @@ void BaseAisPage::addNewTargetClass() {
      // Добавление в QComboBox
      int index = m_comboBox_NumbersMMSI->count();
      m_comboBox_NumbersMMSI->addItem(QString::number(randomNumber), QVariant::fromValue(randomNumber));
-
      // Создание объекта параметров (определяется в производных классах)
      auto param = createParam();
      param->setMMSI(randomNumber);

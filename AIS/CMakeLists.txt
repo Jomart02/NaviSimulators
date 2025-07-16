@@ -26,7 +26,7 @@ set(HDRS
     ./include/ClassB/Type19Simulator.h
     ./include/SAR/PageSAR.h
     ./include/SAR/Type9Simulator.h
-    ./include/ATON/PageAton.h
+    ./include/ATON/PageATON.h
     ./include/ATON/Type21Simulator.h
     
 )

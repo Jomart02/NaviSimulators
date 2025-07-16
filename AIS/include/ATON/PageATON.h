@@ -20,7 +20,7 @@ public:
 
 protected:
 	virtual std::unique_ptr<BaseParamClassAis> createParam() const override;
-	virtual void swapTarget(int prevmmsi,unsigned int mmsi) override;
+	virtual void swapTarget(unsigned int prevmmsi,unsigned int mmsi) override;
 private:
 	void processClassAton21(ParamATON* param, Type21Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
 private:

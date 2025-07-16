@@ -35,6 +35,7 @@ QStringList ClassAPage::getData(){
 
     for (int i = 0; i < ui->comboBox_NumbersClassA->count(); ++i) {
         unsigned int number = ui->comboBox_NumbersClassA->itemData(i, Qt::UserRole).toLongLong();
+        
         auto it = paramsShip.find(number);
         if (it == paramsShip.end()) {
             continue;
@@ -47,7 +48,6 @@ QStringList ClassAPage::getData(){
 
         bool isCurrent = (i == ui->comboBox_NumbersClassA->currentIndex());
         bool isManual = ui->checkBox_manual->isChecked();
-
         processClassA123(param, dec, messages, isCurrent, isManual, number);
         processClassA5(param, dec5, messages, deltaTimeSec, isCurrent, isManual, number);
     }
@@ -64,12 +64,14 @@ void ClassAPage::processClassA123(ParamClassA* param, Type123Decoder& dec, QStri
         QVariant data = type123->getData();
         if (data.canConvert<ClassA123>()) {
             updatedParam = data.value<ClassA123>();
-            updatedParam.MMSI = number;
+            
         }
     } else {
         ClassA123::calculatePos(updatedParam);
     }
+    updatedParam.MMSI = number;
     param->t123 = updatedParam;
+    updatedParam.MMSI = number;
     dec.setParamets(updatedParam);
     messages.append(dec.getString());
     if (isCurrent) {
@@ -84,7 +86,9 @@ void ClassAPage::processClassA5(ParamClassA* param, Type5Decoder& dec5, QStringL
         updatedParam = type5->getData().value<ClassA5>();
         updatedParam.MMSI = param->t5.MMSI;
     }
+    updatedParam.MMSI = number;
     param->t5 = updatedParam;
+
     dec5.setParamets(updatedParam);
     messages.append(dec5.getString());
 }
@@ -94,8 +98,7 @@ std::unique_ptr<BaseParamClassAis> ClassAPage::createParam() const{
     return std::make_unique<ParamClassA>();
 }
 
-void ClassAPage::swapTarget(int prevmmsi,unsigned int mmsi){
-
+void ClassAPage::swapTarget(unsigned int prevmmsi,unsigned int mmsi){
     if(prevmmsi != 0){
         auto* paramPrev = dynamic_cast<ParamClassA*>(paramsShip.at(prevmmsi).get());
         paramPrev->t123 = type123->getData().value<ClassA123>();
