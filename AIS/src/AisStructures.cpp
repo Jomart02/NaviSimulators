@@ -139,6 +139,7 @@ QString Type5Decoder::decodeParam(){
     encodeValueBytes(bitField, paramets.DimensionPort, 258, 263);
     // Dimension to Starboard (6 бит)
     encodeValueBytes(bitField, paramets.DimensionStarboard, 264, 269);
+    qDebug() << paramets.PositionType;
     // Position Fix Type (4 бит)
     encodeValueBytes(bitField, paramets.PositionType, 270, 273);
     // ETA month (4 бит)
@@ -149,7 +150,6 @@ QString Type5Decoder::decodeParam(){
     encodeValueBytes(bitField, paramets.ETA.time().hour(), 283, 287);
     // ETA minute (6 бит)
     encodeValueBytes(bitField, paramets.ETA.time().minute(), 288, 293);
-
     // Draught (8 бит)
     encodeValueBytes(bitField, static_cast<unsigned int>(paramets.Draught*10), 294, 301);
     // Destination (120 бит)
@@ -360,7 +360,7 @@ QString Type9Decoder::decodeParam(){
     encodeValueBytes(bitField, paramets.altitude, 38, 49);
 
     // SOG (10 бит)
-    encodeValueBytes(bitField, paramets.SOG, 50, 59);
+    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.SOG * 10), 50, 59);
 
     // Position Accuracy (1 бит)
     encodeValueBytes(bitField, paramets.PositionAccuracy, 60, 60);
@@ -372,11 +372,9 @@ QString Type9Decoder::decodeParam(){
     // Latitude (27 бит)
     unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
     encodeValueBytes(bitField, latBits,89,115);
-
   
-
     // COG (12 бит)
-    encodeValueBytes(bitField, paramets.COG, 116, 127);
+    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10), 116, 127);
 
     // Time Stamp (6 бит)
     encodeValueBytes(bitField, paramets.time, 128, 133);

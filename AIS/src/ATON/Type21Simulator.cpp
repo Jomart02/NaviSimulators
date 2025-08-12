@@ -60,7 +60,7 @@ QVariant Type21Simulator::getData() {
     int index = ui->comboBox_aidType->currentIndex();
     int index2 = ui->comboBox_EPFD->currentIndex();
     data.AIDType = ui->comboBox_aidType->model()->data(ui->comboBox_aidType->model()->index(index, 0), Qt::UserRole).toInt();
-    data.PositionType = ui->comboBox_EPFD->model()->data(ui->comboBox_EPFD->model()->index(index, 0), Qt::UserRole).toInt();
+    data.PositionType = ui->comboBox_EPFD->model()->data(ui->comboBox_EPFD->model()->index(index2, 0), Qt::UserRole).toInt();
     data.DimensionBow = ui->spinBox_bow->value();
     data.DimensionPort = ui->spinBox_port->value();
     data.DimensionStern = ui->spinBox_stern->value();

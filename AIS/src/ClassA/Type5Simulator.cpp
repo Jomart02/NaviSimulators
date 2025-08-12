@@ -66,7 +66,7 @@ QVariant Type5Simulator::getData() {
     int index = ui->comboBox_ShipType->currentIndex();
     int index2 = ui->comboBox_PosType->currentIndex();
     data.ShipType = ui->comboBox_ShipType->model()->data(ui->comboBox_ShipType->model()->index(index, 0), Qt::UserRole).toInt();
-    data.PositionType = ui->comboBox_PosType->model()->data(ui->comboBox_PosType->model()->index(index, 0), Qt::UserRole).toInt();
+    data.PositionType = ui->comboBox_PosType->model()->data(ui->comboBox_PosType->model()->index(index2, 0), Qt::UserRole).toInt();
     data.DimensionBow = ui->spinBox_bow->value();
     data.DimensionPort = ui->spinBox_port->value();
     data.DimensionStern = ui->spinBox_stern->value();
