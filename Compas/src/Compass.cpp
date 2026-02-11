@@ -14,7 +14,6 @@ Compass::Compass(QWidget *parent) :
 
     ui->setupUi(this);
     translator = new QTranslator(this);
-    connect(ui->checkBox_AngleSpeed, &QCheckBox::clicked, this,&Compass::angleSpeedClicked);
 }
 
 Compass::~Compass()
@@ -87,10 +86,6 @@ QString Compass::getRetranslateName(QString retranslateName){
 }
 
 
-void Compass::angleSpeedClicked(bool enable){
-    ui->doubleSpinBox_angleSpeed->setEnabled(enable);
-    ui->doubleSpinBox_Heading_T->setEnabled(!enable);
-}
 #define M_2PI 6.283185307179586 // 2 * M_PI
 
 #define PI_BIGVAL (M_PI * 1000)
