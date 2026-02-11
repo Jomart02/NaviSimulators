@@ -26,81 +26,6 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item row="0" column="1">
-    <widget class="QRadioButton" name="radioButton_Magn">
-     <property name="text">
-      <string>Магнитный</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2" rowspan="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0">
-    <widget class="QRadioButton" name="radioButton_Gyro">
-     <property name="text">
-      <string>Гирокомпас</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Гирокомпас</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>Курс истинный</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_Heading_T">
-        <property name="wrapping">
-         <bool>true</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="maximum">
-         <double>359.899999999999977</double>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="sizePolicy">
@@ -110,13 +35,13 @@
       </sizepolicy>
      </property>
      <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
+      <enum>Qt::LayoutDirection::LeftToRight</enum>
      </property>
      <property name="title">
       <string>Магнитный компас</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
       <item row="0" column="0">
@@ -128,7 +53,7 @@
          <item row="1" column="1">
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_kn">
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="prefix">
             <string/>
@@ -144,7 +69,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>
@@ -175,7 +100,7 @@
          <item row="2" column="1">
           <widget class="QDoubleSpinBox" name="doubleSpinBox_Speed_km">
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="suffix">
             <string> км/ч</string>
@@ -204,7 +129,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>
@@ -245,7 +170,7 @@
             <bool>true</bool>
            </property>
            <property name="buttonSymbols">
-            <enum>QAbstractSpinBox::NoButtons</enum>
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
            </property>
            <property name="maximum">
             <double>359.899999999999977</double>
@@ -278,6 +203,110 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QRadioButton" name="radioButton_Gyro">
+     <property name="text">
+      <string>Гирокомпас</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" rowspan="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Гирокомпас</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_Heading_T">
+        <property name="wrapping">
+         <bool>true</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+        </property>
+        <property name="maximum">
+         <double>359.899999999999977</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Курс истинный</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBox_AngleSpeed">
+        <property name="text">
+         <string>Угловая скорость</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_angleSpeed">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="buttonSymbols">
+         <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+        </property>
+        <property name="suffix">
+         <string> °/с</string>
+        </property>
+        <property name="minimum">
+         <double>-360.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>360.000000000000000</double>
+        </property>
+        <property name="stepType">
+         <enum>QAbstractSpinBox::StepType::AdaptiveDecimalStepType</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QRadioButton" name="radioButton_Magn">
+     <property name="text">
+      <string>Магнитный</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

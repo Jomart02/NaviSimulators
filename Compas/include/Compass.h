@@ -24,6 +24,9 @@ protected:
     virtual QString getRetranslateName(QString retranslateName) override;
     virtual void retranslate() override;
 private:
+    void angleSpeedClicked(bool enable);
+    void calcCource();
+private:
     Ui::Compass *ui; 
 
     Nmea VHW_nmea;

@@ -1,5 +1,6 @@
 #include "Compass.h"
 #include "ui_Compass.h"
+#include "math.h"
 
 Compass::Compass(QWidget *parent) :
     BaseNaviWidget(parent),
@@ -13,6 +14,7 @@ Compass::Compass(QWidget *parent) :
 
     ui->setupUi(this);
     translator = new QTranslator(this);
+    connect(ui->checkBox_AngleSpeed, &QCheckBox::clicked, this,&Compass::angleSpeedClicked);
 }
 
 Compass::~Compass()
@@ -33,6 +35,9 @@ QString Compass::description() const {
 QStringList Compass::getNavigationData(){
     QStringList nmea;
     if(ui->radioButton_Gyro->isChecked()){
+
+        if(ui->checkBox_AngleSpeed->isChecked()) calcCource();
+
         VHW_nmea.set(1, QString("%1").arg(ui->doubleSpinBox_Heading_T->value(), 6, 'f', 2, QChar('0')).toStdString());
         VHW_nmea.set(2, "T");
         VHW_nmea.set(3, QString("%1").arg(0.0, 6, 'f', 2, QChar('0')).toStdString());
@@ -79,4 +84,44 @@ void Compass::retranslate(){
 
 QString Compass::getRetranslateName(QString retranslateName){
     return QString(":/translations/" + retranslateName + PROJECT_NAME);
+}
+
+
+void Compass::angleSpeedClicked(bool enable){
+    ui->doubleSpinBox_angleSpeed->setEnabled(enable);
+    ui->doubleSpinBox_Heading_T->setEnabled(!enable);
+}
+#define M_2PI 6.283185307179586 // 2 * M_PI
+
+#define PI_BIGVAL (M_PI * 1000)
+#define	UNDEFINED_ANGLE 1
+
+
+double ConvDegToRad(double angle_deg)
+{
+        return (angle_deg / 180) * M_PI;
+}
+double ConvRadToDeg(double angle_rad)
+{
+        return (angle_rad / M_PI) * 180;
+}
+
+double Norm_2PiR(double angle)
+{ // Функция приводит угол-аргумент angle к базовому диапазону [0; M_2PI]
+    if (angle <= -PI_BIGVAL || angle > PI_BIGVAL)
+    {
+        angle = UNDEFINED_ANGLE;
+    }
+
+    if (angle < 0 || angle >  M_2PI)
+        angle -= floor(angle / M_2PI) * M_2PI;
+
+    return angle;
+}
+
+void Compass::calcCource(){
+    double cource = ui->doubleSpinBox_Heading_T->value();
+    cource = ConvDegToRad(cource + ui->doubleSpinBox_angleSpeed->value());
+    cource = Norm_2PiR(cource);
+    ui->doubleSpinBox_Heading_T->setValue(ConvRadToDeg(cource));
 }
