@@ -189,8 +189,28 @@ QStringList TargetModel::getNMEA(){
         double lat = item(row, ColumnType::lat)->data(Qt::EditRole).toDouble();
         double lon = item(row, ColumnType::lon)->data(Qt::EditRole).toDouble();
         std::string latString, latDirection, lonString, lonDirection;
-        helpFuncNmea::formatLatitude(lat, latString, latDirection);
-        helpFuncNmea::formatLongitude(lon, lonString, lonDirection);
+        // helpFuncNmea::formatLatitude(lat, latString, latDirection);
+        // helpFuncNmea::formatLongitude(lon, lonString, lonDirection);
+
+        QString latDeg = QString("%1").arg(static_cast<int>(std::abs(lat)), 2, 10, QChar('0'));
+    
+        // Минуты: 7 знаков всего (включая точку), 4 после точки, дополнение нулями
+        // fmod(abs(lat)*60, 60) дает чистые минуты из дробной части градуса
+        QString latMin = QString("%1").arg(std::abs(fmod(lat * 60.0, 60.0)), 7, 'f', 4, QChar('0'));
+        
+        latString = (latDeg + latMin).toStdString();
+        latDirection = (lat >= 0) ? "N" : "S";
+
+
+        // Градусы: 3 знака, дополнение нулями (для долготы всегда DDD)
+        QString lonDeg = QString("%1").arg(static_cast<int>(std::abs(lon)), 3, 10, QChar('0'));
+        
+        // Минуты: аналогично широте
+        QString lonMin = QString("%1").arg(std::abs(fmod(lon * 60.0, 60.0)), 7, 'f', 4, QChar('0'));
+        
+        lonString = (lonDeg + lonMin).toStdString();
+        lonDirection = (lon >= 0) ? "E" : "W";
+
 
         TLL.set(2, latString);
         TLL.set(3, latDirection);

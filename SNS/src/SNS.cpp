@@ -62,8 +62,28 @@ QStringList SNS::getNavigationData() {
     }
 
     std::string latString, latDirection, lonString, lonDirection;
-    helpFuncNmea::formatLatitude(posShip.lat, latString, latDirection);
-    helpFuncNmea::formatLongitude(posShip.lon, lonString, lonDirection);
+    // helpFuncNmea::formatLatitude(posShip.lat, latString, latDirection);
+    // helpFuncNmea::formatLongitude(posShip.lon, lonString, lonDirection);
+
+
+    QString latDeg = QString("%1").arg(static_cast<int>(std::abs(posShip.lat)), 2, 10, QChar('0'));
+    
+    // Минуты: 7 знаков всего (включая точку), 4 после точки, дополнение нулями
+    // fmod(abs(lat)*60, 60) дает чистые минуты из дробной части градуса
+    QString latMin = QString("%1").arg(std::abs(fmod(posShip.lat * 60.0, 60.0)), 7, 'f', 4, QChar('0'));
+    
+    latString = (latDeg + latMin).toStdString();
+    latDirection = (posShip.lat >= 0) ? "N" : "S";
+
+
+    // Градусы: 3 знака, дополнение нулями (для долготы всегда DDD)
+    QString lonDeg = QString("%1").arg(static_cast<int>(std::abs(posShip.lon)), 3, 10, QChar('0'));
+    
+    // Минуты: аналогично широте
+    QString lonMin = QString("%1").arg(std::abs(fmod(posShip.lon * 60.0, 60.0)), 7, 'f', 4, QChar('0'));
+    
+    lonString = (lonDeg + lonMin).toStdString();
+    lonDirection = (posShip.lon >= 0) ? "E" : "W";
 
     if(ui->rmc_check->isChecked()){
 
@@ -79,7 +99,7 @@ QStringList SNS::getNavigationData() {
                     ui->INVALID_STATUS->isChecked() ? "V" : "V");
 
 
-
+        qDebug() << latString << latDirection << lonString <<lonDirection;
         rmc_nmea.set(3, latString);
         rmc_nmea.set(4, latDirection);
         rmc_nmea.set(5, lonString);

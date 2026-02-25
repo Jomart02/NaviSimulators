@@ -4,12 +4,13 @@
 #include "BaseNaviWidget.h"
 #include "SimulatorAIS.h"
 #include "Compass.h"
+#include "SNS.h"
 #include <QObject>
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    Compass * c = new Compass(nullptr);
+    SNS * c = new SNS(nullptr);
     c->show();
 
     QObject::connect(c, &BaseNaviWidget::sendData,[](QStringList data){
