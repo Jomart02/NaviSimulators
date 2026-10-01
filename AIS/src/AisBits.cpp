@@ -69,6 +69,13 @@ AisBits &AisBits::textVar(const QString &s, int maxChars)
     return text(s.left(maxChars), qMin<int>(s.size(), maxChars));
 }
 
+AisBits &AisBits::bytes(const QByteArray &data)
+{
+    for (char c : data)
+        u(static_cast<quint8>(c), 8);
+    return *this;
+}
+
 AisBits &AisBits::padToByte()
 {
     return spare((8 - size() % 8) % 8);

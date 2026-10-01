@@ -40,7 +40,7 @@ void AisPluginTest::sendsAllImplementedTypes()
             b->click();
             ++added;
         }
-    QCOMPARE(added, 5); // Class A, Class B, SAR, ATON, Base station
+    QCOMPARE(added, 6); // Class A, Class B, SAR, ATON, Base station, Other
 
     // периодические сообщения: 181 секунда покрывает самый редкий тип 27 (раз в 180 с)
     QSet<int> types;
@@ -60,11 +60,11 @@ void AisPluginTest::sendsAllImplementedTypes()
             b->click();
             ++pressed;
         }
-    QCOMPARE(pressed, 3); // типы 4, 11, 14
+    QCOMPARE(pressed, 17); // типы 4, 11, 14 и 14 типов со вкладки Other
     QSet<int> onDemand;
     for (const QList<QVariant> &args : spy)
         collectTypes(args.at(0).toStringList(), onDemand);
-    QCOMPARE(onDemand, (QSet<int>{4, 11, 14}));
+    QCOMPARE(onDemand, (QSet<int>{4, 11, 14, 6, 7, 8, 10, 12, 13, 15, 16, 17, 20, 22, 23, 25, 26}));
 }
 
 QTEST_MAIN(AisPluginTest)

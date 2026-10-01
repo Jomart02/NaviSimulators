@@ -50,6 +50,7 @@ The simulator simulates the operation of Class A and Class B AIS transponders, a
 - **Message 21 (Aid-to-Navigation Report)** — AtoN position and status
 - **Message 24 (Class B CS Static Data Report)** — Class B static vessel information (parts A and B)
 - **Message 27 (Long Range AIS Broadcast)** — Position of a Class A vessel for long-range (satellite) reception
+- **Messages 6, 7, 8, 10, 12, 13, 15, 16, 17, 20, 22, 23, 25, 26** — Binary, acknowledgement, inquiry, addressed safety text, base station network control and DGNSS messages; forms are on the "Other" tab, sent on demand or with a period
 
 ## Simulation Logic
 
@@ -147,6 +148,7 @@ The simulator simulates the operation of Class A and Class B AIS transponders, a
 - **Сообщение 21 (Отчет о навигационном средстве)** — Позиция и статус навигационного средства
 - **Сообщение 24 (Статический отчет класса B CS)** — Статическая информация о судне класса B (части A и B)
 - **Сообщение 27 (Сообщение дальнего действия)** — Позиция судна класса A для приёма на большой дальности (спутник)
+- **Сообщения 6, 7, 8, 10, 12, 13, 15, 16, 17, 20, 22, 23, 25, 26** — Двоичные сообщения, подтверждения, запросы, адресный текст о безопасности, управление сетью базовых станций и поправки DGNSS; формы на вкладке "Other", отправка по кнопке или с периодом
 
 ## Логика симуляции
 

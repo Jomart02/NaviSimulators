@@ -1,4 +1,5 @@
 #pragma once
+#include <QByteArray>
 #include <QString>
 #include <QStringList>
 #include <vector>
@@ -28,6 +29,8 @@ public:
     AisBits &text(const QString &s, int chars);
     /// @brief 6-битный текст переменной длины (без добивки), не более maxChars символов
     AisBits &textVar(const QString &s, int maxChars);
+    /// @brief Двоичные данные побайтно (полезная нагрузка сообщений 6, 8, 17, 25, 26)
+    AisBits &bytes(const QByteArray &data);
     /// @brief Добить нулями до границы байта (требование ITU-R M.1371 к длине сообщения)
     AisBits &padToByte();
 

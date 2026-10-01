@@ -5,6 +5,7 @@
 #include "PageSAR.h"
 #include "PageATON.h"
 #include "PageBaseStation.h"
+#include "PageOther.h"
 
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
@@ -16,6 +17,7 @@ SimulatorAIS::SimulatorAIS(QWidget *parent) :
     addPage(new PageSAR(this), "SAR");
     addPage(new PageATON(this), "ATON");
     addPage(new PageBaseStation(this), "Base station");
+    addPage(new PageOther(this), "Other");
 }
 
 

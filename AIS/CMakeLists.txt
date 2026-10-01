@@ -6,7 +6,8 @@ navi_add_plugin(AISPlugin
         include/ClassB
         include/SAR
         include/ATON
-        include/BaseStation)
+        include/BaseStation
+        include/Other)
 
 if(BUILD_TESTING)
     navi_add_test(AisCodecTest AISPlugin tests/AisCodecTest.cpp)

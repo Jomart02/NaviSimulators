@@ -1,4 +1,5 @@
 #include <QtTest>
+#include "AisMessages.h"
 #include "AisStructures.h"
 
 using namespace AIS_Data_Type;
@@ -39,7 +40,28 @@ private slots:
     void type24AuxiliaryCraft();
     void type27();
     void type21ExtensionPaddedToByte();
+    void everyDescribedMessagePacksWithDefaults();
+    void type6Binary();
+    void acknowledgements();
+    void type8Binary();
+    void type10Inquiry();
+    void type12AddressedText();
+    void type15Interrogation();
+    void type16Assignment();
+    void type17Dgnss();
+    void type20DataLinkManagement();
+    void type22ChannelManagement();
+    void type23GroupAssignment();
+    void type25And26();
+    void longBinaryMessageSplits();
 };
+
+// Сообщение type из реестра AIS_Messages с заданными значениями полей
+static AisBits pack(int type, const QVariantMap &values, unsigned int mmsi = 366123456)
+{
+    const AIS_Messages::MessageDef *def = AIS_Messages::find(type);
+    return def ? def->pack(values, mmsi) : AisBits();
+}
 
 void AisCodecTest::armoringRoundTrip()
 {
@@ -331,6 +353,227 @@ void AisCodecTest::type21ExtensionPaddedToByte()
     const AisBits b = dec.pack().at(0);
     QCOMPARE(b.size() % 8, 0);
     QCOMPARE(b.getText(272, 9), QString("EXTENSION"));
+}
+
+void AisCodecTest::everyDescribedMessagePacksWithDefaults()
+{
+    QCOMPARE(AIS_Messages::defs().size(), 14);
+    for (const auto &def : AIS_Messages::defs()) {
+        const AisBits b = def.pack(QVariantMap(), 366123456);
+        QVERIFY2(b.size() >= 40, qPrintable(QString("тип %1").arg(def.type))); // без данных 25 - 40 бит
+        QCOMPARE(b.getU(0, 6), quint32(def.type));
+        QCOMPARE(b.getU(8, 30), quint32(366123456));
+        for (const QString &s : AIS_Messages::encode(def, QVariantMap(), 366123456))
+            QVERIFY2(s.size() <= 82, qPrintable(s));
+    }
+}
+
+void AisCodecTest::type6Binary()
+{
+    const AisBits b = pack(6, {{"dest", 123456789}, {"seqno", 2}, {"retransmit", true}, {"dac", 200}, {"fid", 10},
+                               {"data", "DE AD BE EF"}});
+    QCOMPARE(b.size(), 120);
+    QCOMPARE(b.getU(38, 2), quint32(2));
+    QCOMPARE(b.getU(40, 30), quint32(123456789));
+    QCOMPARE(b.getU(70, 1), quint32(1));
+    QCOMPARE(b.getU(72, 10), quint32(200));
+    QCOMPARE(b.getU(82, 6), quint32(10));
+    QCOMPARE(b.getU(88, 32), 0xDEADBEEFu);
+}
+
+void AisCodecTest::acknowledgements()
+{
+    for (int type : {7, 13}) {
+        const AisBits one = pack(type, {{"mmsi1", 111111111}, {"seq1", 1}});
+        QCOMPARE(one.size(), 72);
+        QCOMPARE(one.getU(0, 6), quint32(type));
+
+        const AisBits two = pack(type, {{"mmsi1", 111111111}, {"seq1", 1}, {"mmsi2", 222222222}, {"seq2", 2}});
+        QCOMPARE(two.size(), 104);
+        QCOMPARE(two.getU(40, 30), quint32(111111111));
+        QCOMPARE(two.getU(70, 2), quint32(1));
+        QCOMPARE(two.getU(72, 30), quint32(222222222));
+        QCOMPARE(two.getU(102, 2), quint32(2));
+
+        const AisBits four = pack(type, {{"mmsi1", 1}, {"mmsi2", 2}, {"mmsi3", 3}, {"mmsi4", 4}});
+        QCOMPARE(four.size(), 168);
+    }
+}
+
+void AisCodecTest::type8Binary()
+{
+    const AisBits b = pack(8, {{"dac", 1}, {"fid", 31}, {"data", "01 02"}});
+    QCOMPARE(b.size(), 72);
+    QCOMPARE(b.getU(40, 10), quint32(1));
+    QCOMPARE(b.getU(50, 6), quint32(31));
+    QCOMPARE(b.getU(56, 16), quint32(0x0102));
+}
+
+void AisCodecTest::type10Inquiry()
+{
+    const AisBits b = pack(10, {{"dest", 366999999}});
+    QCOMPARE(b.size(), 72);
+    QCOMPARE(b.getU(40, 30), quint32(366999999));
+}
+
+void AisCodecTest::type12AddressedText()
+{
+    const AisBits b = pack(12, {{"dest", 123456789}, {"seqno", 1}, {"text", "Hello 123"}});
+    QCOMPARE(b.size(), 72 + 6 * 9);
+    QCOMPARE(b.getU(38, 2), quint32(1));
+    QCOMPARE(b.getU(40, 30), quint32(123456789));
+    QCOMPARE(b.getText(72, 9), QString("HELLO 123"));
+}
+
+void AisCodecTest::type15Interrogation()
+{
+    QVariantMap q = {{"mmsi1", 111111111}, {"type1_1", 3}, {"offset1_1", 100}};
+    const AisBits one = pack(15, q);
+    QCOMPARE(one.size(), 88);
+    QCOMPARE(one.getU(40, 30), quint32(111111111));
+    QCOMPARE(one.getU(70, 6), quint32(3));
+    QCOMPARE(one.getU(76, 12), quint32(100));
+
+    q.insert("type1_2", 5);
+    q.insert("offset1_2", 7);
+    const AisBits two = pack(15, q);
+    QCOMPARE(two.size(), 110);
+    QCOMPARE(two.getU(90, 6), quint32(5));
+    QCOMPARE(two.getU(96, 12), quint32(7));
+
+    q.insert("mmsi2", 222222222);
+    q.insert("type2_1", 9);
+    q.insert("offset2_1", 42);
+    const AisBits b = pack(15, q);
+    QCOMPARE(b.size(), 160);
+    QCOMPARE(b.getU(110, 30), quint32(222222222));
+    QCOMPARE(b.getU(140, 6), quint32(9));
+    QCOMPARE(b.getU(146, 12), quint32(42));
+}
+
+void AisCodecTest::type16Assignment()
+{
+    QVariantMap q = {{"mmsiA", 111111111}, {"offsetA", 300}, {"incrementA", 20}};
+    const AisBits one = pack(16, q);
+    QCOMPARE(one.size(), 96);
+    QCOMPARE(one.getU(40, 30), quint32(111111111));
+    QCOMPARE(one.getU(70, 12), quint32(300));
+    QCOMPARE(one.getU(82, 10), quint32(20));
+
+    q.insert("mmsiB", 222222222);
+    q.insert("offsetB", 5);
+    q.insert("incrementB", 6);
+    const AisBits two = pack(16, q);
+    QCOMPARE(two.size(), 144);
+    QCOMPARE(two.getU(92, 30), quint32(222222222));
+    QCOMPARE(two.getU(122, 12), quint32(5));
+    QCOMPARE(two.getU(134, 10), quint32(6));
+}
+
+void AisCodecTest::type17Dgnss()
+{
+    const AisBits b = pack(17, {{"lon", -122.5}, {"lat", 37.5}, {"data", "AA"}});
+    QCOMPARE(b.size(), 88);
+    QCOMPARE(b.getI(40, 18), -73500);
+    QCOMPARE(b.getI(58, 17), 22500);
+    QCOMPARE(b.getU(80, 8), quint32(0xAA));
+}
+
+void AisCodecTest::type20DataLinkManagement()
+{
+    QVariantMap q = {{"offset1", 10}, {"slots1", 2}, {"timeout1", 3}, {"incr1", 100}};
+    const AisBits one = pack(20, q);
+    QCOMPARE(one.size(), 72); // 70 бит, добито до границы байта
+    QCOMPARE(one.getU(40, 12), quint32(10));
+    QCOMPARE(one.getU(52, 4), quint32(2));
+    QCOMPARE(one.getU(56, 3), quint32(3));
+    QCOMPARE(one.getU(59, 11), quint32(100));
+
+    for (int i = 2; i <= 4; ++i)
+        q.insert(QString("slots%1").arg(i), 1);
+    QCOMPARE(pack(20, q).size(), 160);
+}
+
+void AisCodecTest::type22ChannelManagement()
+{
+    QVariantMap q = {{"channelA", 2087}, {"channelB", 2088}, {"txrx", 1}, {"power", true},
+                     {"neLon", -122.0}, {"neLat", 38.0}, {"swLon", -123.0}, {"swLat", 37.0},
+                     {"bandA", true}, {"zone", 5}};
+    const AisBits b = pack(22, q);
+    QCOMPARE(b.size(), 168);
+    QCOMPARE(b.getU(40, 12), quint32(2087));
+    QCOMPARE(b.getU(52, 12), quint32(2088));
+    QCOMPARE(b.getU(64, 4), quint32(1));
+    QCOMPARE(b.getU(68, 1), quint32(1));
+    QCOMPARE(b.getI(69, 18), -122 * 600);
+    QCOMPARE(b.getI(87, 17), 38 * 600);
+    QCOMPARE(b.getI(104, 18), -123 * 600);
+    QCOMPARE(b.getI(122, 17), 37 * 600);
+    QCOMPARE(b.getU(139, 1), quint32(0));
+    QCOMPARE(b.getU(140, 1), quint32(1));
+    QCOMPARE(b.getU(142, 3), quint32(5));
+
+    q.insert("addressed", true);
+    q.insert("dest1", 111111111);
+    q.insert("dest2", 222222222);
+    const AisBits a = pack(22, q);
+    QCOMPARE(a.size(), 168);
+    QCOMPARE(a.getU(69, 30), quint32(111111111));
+    QCOMPARE(a.getU(104, 30), quint32(222222222));
+    QCOMPARE(a.getU(139, 1), quint32(1));
+}
+
+void AisCodecTest::type23GroupAssignment()
+{
+    const AisBits b = pack(23, {{"neLon", -122.0}, {"neLat", 38.0}, {"swLon", -123.0}, {"swLat", 37.0},
+                                {"stationType", 4}, {"shipType", 30}, {"txrx", 2}, {"interval", 7}, {"quiet", 3}});
+    QCOMPARE(b.size(), 160);
+    QCOMPARE(b.getI(40, 18), -122 * 600);
+    QCOMPARE(b.getI(58, 17), 38 * 600);
+    QCOMPARE(b.getI(75, 18), -123 * 600);
+    QCOMPARE(b.getI(93, 17), 37 * 600);
+    QCOMPARE(b.getU(110, 4), quint32(4));
+    QCOMPARE(b.getU(114, 8), quint32(30));
+    QCOMPARE(b.getU(144, 2), quint32(2));
+    QCOMPARE(b.getU(146, 4), quint32(7));
+    QCOMPARE(b.getU(150, 4), quint32(3));
+}
+
+void AisCodecTest::type25And26()
+{
+    const AisBits addressed = pack(25, {{"addressed", true}, {"structured", true}, {"dest", 123456789},
+                                        {"dac", 1}, {"fid", 2}, {"data", "FF"}});
+    QCOMPARE(addressed.size(), 94);
+    QCOMPARE(addressed.getU(38, 1), quint32(1));
+    QCOMPARE(addressed.getU(39, 1), quint32(1));
+    QCOMPARE(addressed.getU(40, 30), quint32(123456789));
+    QCOMPARE(addressed.getU(70, 10), quint32(1));
+    QCOMPARE(addressed.getU(80, 6), quint32(2));
+    QCOMPARE(addressed.getU(86, 8), quint32(0xFF));
+
+    const AisBits broadcast = pack(25, {{"data", "AA BB"}});
+    QCOMPARE(broadcast.size(), 56);
+    QCOMPARE(broadcast.getU(40, 16), quint32(0xAABB));
+
+    // один слот: не более 168 бит, лишние данные отбрасываются
+    QCOMPARE(pack(25, {{"data", QString(60, 'A')}}).size(), 168);
+
+    const AisBits multi = pack(26, {{"structured", true}, {"dac", 1}, {"fid", 2}, {"data", "01 02 03"}});
+    QCOMPARE(multi.size(), 56 + 24 + 20); // + radio status
+    QCOMPARE(multi.getU(40, 10), quint32(1));
+    QCOMPARE(multi.getU(50, 6), quint32(2));
+    QCOMPARE(multi.getU(56, 24), quint32(0x010203));
+}
+
+void AisCodecTest::longBinaryMessageSplits()
+{
+    const QString hex = QString("AB").repeated(200); // больше максимума, обрежется до 120 байт
+    const AIS_Messages::MessageDef *def = AIS_Messages::find(26);
+    QVERIFY(def);
+    const QStringList s = AIS_Messages::encode(*def, {{"data", hex}}, 366123456);
+    QVERIFY(s.size() > 1 && s.size() <= 9);
+    for (const QString &line : s)
+        QVERIFY2(line.size() <= 82, qPrintable(line));
 }
 
 QTEST_MAIN(AisCodecTest)

@@ -11,6 +11,7 @@
 #include <cmath>
 #include <QtMath>
 #include <QPair>
+#include <QVariantMap>
 #include "AisBits.h"
 
 namespace AIS_Data_Type {
@@ -303,6 +304,17 @@ namespace AIS_Data_Type {
             t21.MMSI = mmsi;
         }
 
+    };
+
+    // Сообщения, описанные в AisMessages: значения полей и счётчики периода по типу сообщения
+    struct ParamOther : public BaseParamClassAis {
+        std::map<int, QVariantMap> values;
+        std::map<int, int> elapsed;
+        unsigned int mmsi = 0;
+
+        void setMMSI(unsigned int m) override {
+            mmsi = m;
+        }
     };
 
     struct ParamBase : public BaseParamClassAis {
