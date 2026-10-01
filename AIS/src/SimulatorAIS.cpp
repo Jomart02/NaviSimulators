@@ -1,44 +1,36 @@
 #include "SimulatorAIS.h"
-#include <QRandomGenerator>
-#include <ostream>
-#include <iostream>
 #include "ui_SimulatorAIS.h"
 #include "ClassAPage.h"
 #include "ClassB/ClassBPage.h"
 #include "PageSAR.h"
 #include "PageATON.h"
+#include "PageBaseStation.h"
 
 SimulatorAIS::SimulatorAIS(QWidget *parent) :
     BaseNaviWidget(parent),
-    ui(new Ui::SimulatorAIS),
-    timerClassA(new QTimer(this)),
-    timerClassB(new QTimer(this)),
-    timerClassSar(new QTimer(this)),
-    timerClassAton(new QTimer(this)),
-    classBPage(new ClassBPage(this)),
-    classAPage(new ClassAPage(this)),
-    pageSAR(new PageSAR(this)),
-    pageATON(new PageATON(this))
-    
+    ui(new Ui::SimulatorAIS)
 {
     ui->setupUi(this);
-    ui->tabWidget->addTab(classAPage, "Class A");
-    ui->tabWidget->addTab(classBPage, "Class B");
-    ui->tabWidget->addTab(pageSAR, "SAR");
-    ui->tabWidget->addTab(pageATON, "ATON");
-
-    connect(timerClassA, &QTimer::timeout, this, &SimulatorAIS::sendTypeA);
-    connect(timerClassB, &QTimer::timeout, this, &SimulatorAIS::sendTypeB);
-    connect(timerClassSar, &QTimer::timeout, this, &SimulatorAIS::sendTypeSar);
-    connect(timerClassAton, &QTimer::timeout, this, &SimulatorAIS::sendTypeAton);
+    addPage(new ClassAPage(this), "Class A");
+    addPage(new ClassBPage(this), "Class B");
+    addPage(new PageSAR(this), "SAR");
+    addPage(new PageATON(this), "ATON");
+    addPage(new PageBaseStation(this), "Base station");
 }
-    
+
 
 SimulatorAIS::~SimulatorAIS()
 {
     delete ui;
 }
- 
+
+void SimulatorAIS::addPage(BaseAisPage *page, const QString &title){
+    ui->tabWidget->addTab(page, title);
+    pages.append(page);
+    // сообщения по кнопке уходят сразу, не дожидаясь таймера
+    connect(page, &BaseAisPage::sendNow, this, &BaseNaviWidget::sendData);
+}
+
 QIcon SimulatorAIS::icon() const {
     return QIcon();
 }
@@ -49,69 +41,10 @@ QString SimulatorAIS::description() const {
     return QString("");
 }
 
-void SimulatorAIS::startSend(){
-    if(!timerClassA->isActive())
-        timerClassA->start(tickInterval);
-    if(!timerClassB->isActive())
-        timerClassB->start(tickInterval);
-    if(!timerClassSar->isActive())
-        timerClassSar->start(tickInterval);
-
-    if(!timerClassAton->isActive())
-        timerClassAton->start(tickInterval);
-}
-
-
-void SimulatorAIS::stopSend(){
-    if(timerClassA->isActive())
-        timerClassA->stop(); 
-    if(timerClassB->isActive())
-        timerClassB->stop(); 
-    if(timerClassSar->isActive())
-        timerClassSar->stop(); 
-    if(timerClassAton->isActive())
-        timerClassAton->stop(); 
-}
-
-
-bool SimulatorAIS::isActive(){
-    
-    return timerClassA->isActive() || timerClassB->isActive() || timerClassSar->isActive() || timerClassAton->isActive(); 
-    
-}
-
-
-
-
-void SimulatorAIS::sendTypeA(){
-
-    QStringList messages =  classAPage->getData();
-    if(!messages.isEmpty()) emit sendData(messages);
-
-}
-
-
-void SimulatorAIS::sendTypeB(){
-
-    QStringList messages =  classBPage->getData();
-    if(!messages.isEmpty()) emit sendData(messages);
-
-}
-
-void SimulatorAIS::sendTypeSar(){
-
-    QStringList messages =  pageSAR->getData();
-    if(!messages.isEmpty()) emit sendData(messages);
-
-}
-
-void SimulatorAIS::sendTypeAton(){
-
-    QStringList messages =  pageATON->getData();
-    if(!messages.isEmpty()) emit sendData(messages);
-
-}
-
+// Раз в tickInterval базовый таймер собирает сообщения со всех страниц
 QStringList SimulatorAIS::getNavigationData() {
-    return QStringList();
+    QStringList messages;
+    for (BaseAisPage *page : pages)
+        messages += page->getData();
+    return messages;
 }

@@ -103,8 +103,10 @@ void Type19Simulator::setData(QVariant data){
 		ui->doubleSpinBox_Lat->setValue(param.lat);
 		ui->doubleSpinBox_Lon->setValue(param.lon);
 		ui->spinBox_SOG->setValue(param.SOG);
-		ui->doubleSpinBox_COG->setValue(param.SOG);
-		ui->spinBox_HDG->setValue(param.SOG);
+		ui->doubleSpinBox_COG->setValue(param.COG);
+		ui->spinBox_HDG->setValue(param.HDG);
+		(param.PositionAccuracy ? ui->radioButton_Accuracy0 : ui->radioButton_Accuracy1)->setChecked(true);
+		(param.RAIM ? ui->radioButton_RAIM_Used : ui->radioButton_RAIM_NotUsed)->setChecked(true);
 }
 
 void Type19Simulator::clearParam(){

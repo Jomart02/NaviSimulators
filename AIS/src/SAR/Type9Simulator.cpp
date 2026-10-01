@@ -36,6 +36,9 @@ void Type9Simulator::setData(QVariant data) {
 	ui->doubleSpinBox_Lon->setValue(param.lon);
 	ui->spinBox_time->setValue(param.time);
 	ui->spinBox_altitude->setValue(param.altitude);
+	(param.PositionAccuracy ? ui->radioButton_Accuracy0 : ui->radioButton_Accuracy1)->setChecked(true);
+	(param.RAIM ? ui->radioButton_RAIM_used : ui->radioButton_RAIM_notUsed)->setChecked(true);
+	(param.Assigned ? ui->radioButton_notAuto : ui->radioButton_auto)->setChecked(true);
 }
 
 void Type9Simulator::clearParam(){

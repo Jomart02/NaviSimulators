@@ -2,6 +2,7 @@
 #include "ui_ClassBPage.h"
 #include "Type18Simulator.h"
 #include "Type19Simulator.h"
+#include "Type24Simulator.h"
 
 ClassBPage::ClassBPage(QWidget *parent):BaseAisPage(parent), ui(new Ui::ClassBPage)
 {
@@ -12,10 +13,12 @@ ClassBPage::ClassBPage(QWidget *parent):BaseAisPage(parent), ui(new Ui::ClassBPa
     setCheckBoxActive(ui->checkBox_Active);
 	type18 = new Type18Simulator();
 	type19 = new Type19Simulator();
+	type24 = new Type24Simulator();
 
 	
     ui->widgetSimulatorB->addWidget("Type 18",type18,"Type18");
     ui->widgetSimulatorB->addWidget("Type 19",type19,"Type19");
+    ui->widgetSimulatorB->addWidget("Type 24",type24,"Type24");
 }
 
 ClassBPage::~ClassBPage()
@@ -31,6 +34,7 @@ QStringList ClassBPage::getData(){
     QStringList messages;
     Type18Decoder dec18;
     Type19Decoder dec19;
+    Type24Decoder dec24;
 
     for (int i = 0; i < ui->comboBox_numberClassB->count(); ++i) {
         unsigned int number = ui->comboBox_numberClassB->itemData(i, Qt::UserRole).toLongLong();
@@ -49,6 +53,7 @@ QStringList ClassBPage::getData(){
 
         processClassB18(param, dec18, messages, isCurrent, isManual, number);
         processClassB19(param, dec19, messages, isCurrent, isManual, number);
+        processClassB24(param, dec24, messages, isCurrent, number);
         
     }
 
@@ -95,6 +100,17 @@ void ClassBPage::processClassB19(ParamClassB* param, Type19Decoder& dec, QString
     }
 }
 
+// Тип 24: части A и B уходят парой, параметры берутся из виджета для выбранного судна
+void ClassBPage::processClassB24(ParamClassB* param, Type24Decoder& dec, QStringList& messages, bool isCurrent, unsigned int number){
+    if (isCurrent) {
+        param->t24 = type24->getData().value<ClassB24>();
+    }
+    param->t24.MMSI = number;
+    if (!due(param->t24.intervalSec, param->elapsed24)) return;
+    dec.setParamets(param->t24);
+    messages.append(dec.getString());
+}
+
 std::unique_ptr<BaseParamClassAis> ClassBPage::createParam() const{
     return std::make_unique<ParamClassB>();
 }
@@ -105,9 +121,11 @@ void ClassBPage::swapTarget(unsigned int prevmmsi,unsigned int mmsi){
         auto* paramPrev = dynamic_cast<ParamClassB*>(paramsShip.at(prevmmsi).get());
         paramPrev->t18 = type18->getData().value<ClassB18>();
         paramPrev->t19 = type19->getData().value<ClassB19>();
+        paramPrev->t24 = type24->getData().value<ClassB24>();
     }
 
     auto* param = dynamic_cast<ParamClassB*>(paramsShip.at(mmsi).get());
     type18->setData(QVariant::fromValue(param->t18));
     type19->setData(QVariant::fromValue(param->t19));
+    type24->setData(QVariant::fromValue(param->t24));
 }

@@ -114,7 +114,11 @@ void Type21Simulator::setData(QVariant data) {
     ui->spinBox_timeStamp->setValue(param.time);
     ui->doubleSpinBox_Lat->setValue(param.lat);
     ui->doubleSpinBox_Lon->setValue(param.lon);
-
+    ui->comboBox_RAIM->setCurrentIndex(param.RAIM);
+    ui->comboBox_Accuracy->setCurrentIndex(param.PositionAccuracy);
+    ui->comboBox_offPos->setCurrentIndex(param.offPos);
+    ui->comboBox_virtualAton->setCurrentIndex(param.virtualAton);
+    ui->comboBox_Assigned->setCurrentIndex(param.Assigned);
 }
 
 void Type21Simulator::clearParam(){

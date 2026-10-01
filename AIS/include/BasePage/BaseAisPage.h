@@ -15,11 +15,17 @@ public:
     virtual ~BaseAisPage() = default;
     virtual QStringList getData() = 0;
 
+signals:
+    /// @brief Сообщения, которые нужно отправить сразу (по кнопке), не дожидаясь таймера
+    void sendNow(QStringList messages);
+
 protected slots:
     void addNewTargetClass();
     virtual void boxIndexChange(int index);
     virtual void activeChange(bool flag);
 protected:
+    /// @brief true, когда прошёл период interval секунд (вызывается раз в секунду); interval <= 0 - никогда
+    static bool due(int interval, int &elapsed);
     void setComboBoxMMSI(QComboBox* box);
     void setButtonAdd(QPushButton* add);
     void setCheckBoxManual(QCheckBox* manual);

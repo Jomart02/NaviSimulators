@@ -22,10 +22,12 @@ protected:
 private:
     void processClassA123(ParamClassA* param, Type123Decoder& dec, QStringList& messages, bool isCurrent, bool isManual,unsigned int number);
     void processClassA5(ParamClassA* param, Type5Decoder& dec5, QStringList& messages, int deltaTimeSec, bool isCurrent, bool isManual,unsigned int number);
+    void processClassA27(ParamClassA* param, Type27Decoder& dec27, QStringList& messages, bool isCurrent, unsigned int number);
 private:
     Ui::ClassAPage *ui;
     BaseAISSimulator * type123 = nullptr;
     BaseAISSimulator * type5 = nullptr;
+    BaseAISSimulator * type27 = nullptr;
     int deltaTimeSec = 0;
 };
 

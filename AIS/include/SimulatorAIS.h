@@ -1,6 +1,7 @@
 #pragma once
 #include <QWidget>
-#include "BaseNaviWidget.h"  
+#include <QList>
+#include "BaseNaviWidget.h"
 #include "BaseAisPage.h"
 namespace Ui
 {
@@ -17,30 +18,14 @@ public:
     explicit SimulatorAIS(QWidget *parent = nullptr);
     ~SimulatorAIS();
 
-    virtual bool isActive() override;
-    virtual void startSend() override;
-    virtual void stopSend() override;
-
-
     virtual QIcon icon() const override;
     virtual QString name() const override;
     virtual QString description() const override;
-private slots:
-    void sendTypeA();
-    void sendTypeB();
-    void sendTypeSar();
-    void sendTypeAton();
 protected slots:
     virtual QStringList getNavigationData() override;
 private:
-    Ui::SimulatorAIS *ui;
+    void addPage(BaseAisPage *page, const QString &title);
 
-    QTimer *timerClassA = nullptr;
-    QTimer *timerClassB = nullptr;
-    QTimer *timerClassSar = nullptr;
-    QTimer *timerClassAton = nullptr;
-    BaseAisPage *classAPage = nullptr;
-    BaseAisPage *classBPage = nullptr;//16
-    BaseAisPage *pageSAR = nullptr;
-    BaseAisPage *pageATON = nullptr;
+    Ui::SimulatorAIS *ui;
+    QList<BaseAisPage *> pages;
 };

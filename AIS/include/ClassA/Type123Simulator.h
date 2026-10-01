@@ -2,6 +2,8 @@
 
 #include "BaseAISSimulator.h"
 
+class QComboBox;
+
 namespace Ui
 {
 class Type123Simulator;
@@ -21,4 +23,5 @@ public slots:
     virtual void updateAisData(QStringList &aisMess) override;
 private:
     Ui::Type123Simulator *ui;
+    QComboBox *comboMessageType = nullptr;
 };

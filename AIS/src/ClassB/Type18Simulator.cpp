@@ -44,7 +44,12 @@ void Type18Simulator::setData(QVariant data) {
 	ui->doubleSpinBox_Lat->setValue(param.lat);
 	ui->doubleSpinBox_Lon->setValue(param.lon);
 	ui->spinBox_TimeStamp->setValue(param.time);
-
+	ui->comboBox_DSC->setCurrentIndex(param.DSC);
+	ui->comboBox_Disp->setCurrentIndex(param.displayFlag);
+	ui->comboBox_aisType->setCurrentIndex(param.aisType);
+	(param.PositionAccuracy ? ui->radioButton_Accuracy0 : ui->radioButton_Accuracy1)->setChecked(true);
+	(param.RAIM ? ui->radioButton_RAIM_used : ui->radioButton_RAIM_notUsed)->setChecked(true);
+	(param.AssignedMode ? ui->radioButton_notAuto : ui->radioButton_auto)->setChecked(true);
 }
 
 void Type18Simulator::clearParam() {

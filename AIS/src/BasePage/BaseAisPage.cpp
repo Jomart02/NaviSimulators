@@ -2,6 +2,16 @@
 
 BaseAisPage::BaseAisPage(QWidget *parent) : QWidget(parent) {}
 
+bool BaseAisPage::due(int interval, int &elapsed){
+     if (interval <= 0) {
+          elapsed = 0;
+          return false;
+     }
+     if (++elapsed < interval) return false;
+     elapsed = 0;
+     return true;
+}
+
 
 void BaseAisPage::setComboBoxMMSI(QComboBox* box){
      m_comboBox_NumbersMMSI = box;

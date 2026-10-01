@@ -3,483 +3,222 @@
 using namespace AIS_Data_Type;
 using namespace AIS_NMEA_Builder;
 
-Type123Decoder::Type123Decoder() : BaseNmeaString(){
+// Раскладка полей - ITU-R M.1371 (см. https://gpsd.gitlab.io/gpsd/AIVDM.html).
+// Статус связи (radio status) не симулируется и передаётся нулями.
 
-}
-Type123Decoder::~Type123Decoder(){
-
-}
-QString Type123Decoder::decodeParam(){
-    std::vector<bool> bitField(168, false);
-        // Message ID (6 бит)
-    encodeValueBytes(bitField, 1 , 0, 5);
-
-    // Repeat indicator (2 бита)
-    encodeValueBytes(bitField, 0, 6, 7);
-
-    // MMSI (30 бит)
-    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
-
-    // Navigational status (4 бита)
-    encodeValueBytes(bitField, paramets.navigation, 38, 41);
-
-    // Rate of turn (8 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.ROT + 128) & 0xFF, 42, 49);
-
-    // SOG (10 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.SOG * 10), 50, 59);
-
-    // Position accuracy (1 бит)
-    bitField[60] = 0;
-
-    // Longitude (28 бит)
-    unsigned int lonBits = static_cast<unsigned int>((paramets.lon ) * 600000.0);
-    // if (lonBits > ((1u << 28) - 1)) {
-    //     lonBits = (1u << 28) - 1; // Обработка случая, когда значение выходит за пределы диапазона
-    // }
-    encodeValueBytes(bitField, lonBits, 61, 88);
-
-    // Latitude (27 бит)
-    unsigned int latBits = static_cast<unsigned int>((paramets.lat ) * 600000.0);
-    // if (latBits > ((1u << 27) - 1)) {
-    //     latBits = (1u << 27) - 1; // Обработка случая, когда значение выходит за пределы диапазона
-    // }
-    encodeValueBytes(bitField, latBits, 89, 115);
-    // COG (12 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10), 116, 127);
-
-    // True heading (9 бит)
-    encodeValueBytes(bitField, paramets.HDG, 128, 136);
-
-    // Time stamp (6 бит)
-    encodeValueBytes(bitField, paramets.time, 137, 142);
-
-    // Special maneuver indicator (2 бита)
-    encodeValueBytes(bitField, paramets.maneuver, 143, 144);
-
-    // Spare (3 бита)
-    for (int i = 145; i < 148; ++i) {
-        bitField[i] = false;
-    }
-
-    // RAIM flag (1 бит)
-    bitField[148] = 0;
-
-    //Communication state (19 бит)
-    encodeValueBytes(bitField, 0, 149, 167);
-
-    // Преобразуем битовое поле в строку символов
-    return encodeString(bitField,LEN_TYPE123);
+// Типы 1, 2, 3 - 168 бит
+std::vector<AisBits> Type123Decoder::pack() const
+{
+    const ClassA123 &p = paramets;
+    AisBits w;
+    w.u(qBound(1, p.messageType, 3), 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(p.navigation, 4)
+        .rot(p.ROT)
+        .scaled(p.SOG, 10, 10, 1023)
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .scaled(p.COG, 10, 12, 3600)
+        .u(p.HDG, 9)
+        .u(p.time, 6)
+        .u(p.maneuver, 2)
+        .spare(3)
+        .flag(p.RAIM)
+        .spare(19);
+    return {w};
 }
 
-
-
-Type5Decoder::Type5Decoder() : BaseNmeaString(){
-
-}
-Type5Decoder::~Type5Decoder(){
-
-}
-
-std::vector<unsigned char> encodeAsciiBytes(const std::string &input) {
-    std::vector<unsigned char> result;
-
-    for (char c : input) {
-        // Получаем исходное значение байта, вычитая 64
-        unsigned char byte = static_cast<unsigned char>(c) - 64;
-        
-        // Разбиваем байт на 6 битов
-        for (int j = 5; j >= 0; --j) {
-            result.push_back((byte >> j) & 1);
-        }
-    }
-    
-    return result;
-}
-static void placeBitsInBitField(std::vector<bool>& bitField, const std::vector<unsigned char>& bits, int start, int end) {
-    if (start < 0 || end > bitField.size() || start >= end) {
-        throw std::out_of_range("Invalid range specified");
-    }
-
-    if ((end - start) +1 < static_cast<int>(bits.size())) {
-        throw std::length_error("Not enough space in the specified range");
-    }
-
-    for (size_t i = 0; i < bits.size(); ++i) {
-        bitField[start + i] = bits[i];
-    }
+// Тип 5 - 424 бита
+std::vector<AisBits> Type5Decoder::pack() const
+{
+    const ClassA5 &p = paramets;
+    const bool eta = p.ETA.isValid();
+    AisBits w;
+    w.u(5, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(0, 2) // версия AIS
+        .u(p.IMO, 30)
+        .text(p.CallSign, 7)
+        .text(p.VesselName, 20)
+        .u(p.ShipType, 8)
+        .u(p.DimensionBow, 9).u(p.DimensionStern, 9).u(p.DimensionPort, 6).u(p.DimensionStarboard, 6)
+        .u(p.PositionType, 4)
+        .u(eta ? p.ETA.date().month() : 0, 4)
+        .u(eta ? p.ETA.date().day() : 0, 5)
+        .u(eta ? p.ETA.time().hour() : 24, 5)
+        .u(eta ? p.ETA.time().minute() : 60, 6)
+        .u(qMin(qRound(p.Draught * 10), 255), 8)
+        .text(p.Destination, 20)
+        .flag(p.DTE)
+        .spare(1);
+    return {w};
 }
 
-QString Type5Decoder::decodeParam(){
-
-    std::vector<bool> bitField(LEN_TYPE5, false);
-    // Message ID (6 бит)
-    encodeValueBytes(bitField, 5 , 0, 5);
-    // Repeat indicator (2 бита)
-    encodeValueBytes(bitField, 0, 6, 7);
-    // MMSI (30 бит)
-    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
-    // AIS Version (2 бита)
-    encodeValueBytes(bitField, 0, 38, 39);
-    // IMO Number (30 бит)
-    encodeValueBytes(bitField, paramets.IMO, 40, 69);
-    // Call Sign (42 бит)
-    //encodeAsciiBytes(bitField,paramets.CallSign.toStdString(),70,111,7);
-    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.CallSign.toStdString()),70,111);
-    // Vessel Name (120 бит)
-    //encodeAsciiBytes(bitField,paramets.VesselName.toStdString(),112,231,20);
-    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.VesselName.toStdString()),112,231);
-    // Ship Type (8 бит)
-    encodeValueBytes(bitField, paramets.ShipType, 232, 239);
-    // Dimension to Bow(9 бит)
-    encodeValueBytes(bitField, paramets.DimensionBow, 240, 248);
-    // Dimension to Stern (9 бит)
-    encodeValueBytes(bitField, paramets.DimensionStern, 249, 257);
-    // Dimension to Port (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionPort, 258, 263);
-    // Dimension to Starboard (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionStarboard, 264, 269);
-    qDebug() << paramets.PositionType;
-    // Position Fix Type (4 бит)
-    encodeValueBytes(bitField, paramets.PositionType, 270, 273);
-    // ETA month (4 бит)
-    encodeValueBytes(bitField, paramets.ETA.date().month(), 274, 277);
-    // ETA day(5 бит)
-    encodeValueBytes(bitField, paramets.ETA.date().day(), 278, 282);
-    // ETA hour (5 бит)
-    encodeValueBytes(bitField, paramets.ETA.time().hour(), 283, 287);
-    // ETA minute (6 бит)
-    encodeValueBytes(bitField, paramets.ETA.time().minute(), 288, 293);
-    // Draught (8 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.Draught*10), 294, 301);
-    // Destination (120 бит)
-    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.Destination.toStdString()),302,421);
-    
-    // DTE (1 бит)
-    encodeValueBytes(bitField, paramets.DTE, 422, 422);
-    // Spare (1 бит)
-    bitField[423] = false;
-
-    return encodeString(bitField,LEN_TYPE5);
+// Тип 18 - 168 бит
+std::vector<AisBits> Type18Decoder::pack() const
+{
+    const ClassB18 &p = paramets;
+    AisBits w;
+    w.u(18, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .spare(8)
+        .scaled(p.SOG, 10, 10, 1023)
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .scaled(p.COG, 10, 12, 3600)
+        .u(p.HDG, 9)
+        .u(p.time, 6)
+        .spare(2)
+        .flag(p.aisType)     // 1 - CS
+        .flag(p.displayFlag)
+        .flag(p.DSC)
+        .flag(p.BandFlag)
+        .flag(0)             // сообщение 22
+        .flag(p.AssignedMode)
+        .flag(p.RAIM)
+        .spare(20);
+    return {w};
 }
 
-Type18Decoder::Type18Decoder() : BaseNmeaString(){
-
-}
-Type18Decoder::~Type18Decoder(){
-
-}
-
-QString Type18Decoder::decodeParam(){
-    std::vector<bool> bitField(LEN_TYPE18, false);
-    
-    // Message ID (6 бит)
-    encodeValueBytes(bitField, 18 , 0, 5);
-    
-    // Repeat indicator (2 бита)
-    encodeValueBytes(bitField, 0 , 6, 7);
-    
-    // MMSI (30 бит)
-    encodeValueBytes(bitField,paramets.MMSI,8,37);
-    
-    // Regional reserved (8 бит)
-    for (int i = 38; i < 46; ++i) {
-        bitField[i] = false;
-    }
-    
-    // SOG (10 бит)
-    encodeValueBytes(bitField,static_cast<unsigned int>(paramets.SOG + 10), 46, 55);
-    
-    // Position accuracy (1 бит)
-    encodeValueBytes(bitField, paramets.PositionAccuracy, 56, 56);
-    
-    // Longtitude (28 бит)
-    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
-    encodeValueBytes(bitField, lonBits,57,84);
-
-    // Latitude (27 бит)
-    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField, latBits,85,111);
-
-    // COG (12 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
-
-    // True heading (9 бит)
-    encodeValueBytes(bitField, paramets.HDG, 124, 132);
-
-    // Time stamp (6 бит)
-    encodeValueBytes(bitField, paramets.time, 133, 138);
-
-    // Regional reserved (2 бита)
-    for (int i = 139; i < 141; ++i) {
-        bitField[i] = false;
-    }
-
-    // CS unit (1 бит)
-    encodeValueBytes(bitField, paramets.aisType, 141,141);
-
-    // Display flag (1 бит)
-    encodeValueBytes(bitField, paramets.displayFlag, 142,142);
-
-    // DSC Flag
-    encodeValueBytes(bitField, paramets.DSC, 143, 143);
-
-    // Band flag (1 бит)
-    encodeValueBytes(bitField, paramets.BandFlag, 144, 144);
-
-    // Message 22 flag (1 бит)
-    encodeValueBytes(bitField, 0, 145,145);
-
-    // Assigned (1 бит)
-    encodeValueBytes(bitField, paramets.AssignedMode, 146,146);
-
-    // RAIM (1 бит)
-    encodeValueBytes(bitField, paramets.RAIM, 147, 147);
-
-    // Communication state (20 бит)
-    encodeValueBytes(bitField, 0, 148, 167);
-
-    // Преобразуем битовое поле в строку символов
-    return encodeString(bitField, LEN_TYPE18);
+// Тип 19 - 312 бит
+std::vector<AisBits> Type19Decoder::pack() const
+{
+    const ClassB19 &p = paramets;
+    AisBits w;
+    w.u(19, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .spare(8)
+        .scaled(p.SOG, 10, 10, 1023)
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .scaled(p.COG, 10, 12, 3600)
+        .u(p.HDG, 9)
+        .u(p.time, 6)
+        .spare(4)
+        .text(p.VesselName, 20)
+        .u(p.ShipType, 8)
+        .u(p.DimensionBow, 9).u(p.DimensionStern, 9).u(p.DimensionPort, 6).u(p.DimensionStarboard, 6)
+        .u(p.PositionType, 4)
+        .flag(p.RAIM)
+        .flag(0)             // DTE
+        .flag(0)             // режим назначения
+        .spare(4);
+    return {w};
 }
 
+// Тип 24: часть A (имя) и часть B (тип, оборудование, позывной, размеры) - по 168 бит
+std::vector<AisBits> Type24Decoder::pack() const
+{
+    const ClassB24 &p = paramets;
 
-Type19Decoder::Type19Decoder() : BaseNmeaString(){
+    AisBits a;
+    a.u(24, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(0, 2)
+        .text(p.VesselName, 20)
+        .spare(8);
 
-}
-Type19Decoder::~Type19Decoder(){
-
-}
-
-QString Type19Decoder::decodeParam(){
-    std::vector<bool> bitField(LEN_TYPE19, false);
-    
-    // Message ID (6 бит)
-    encodeValueBytes(bitField, 19 , 0, 5);
-    
-    // Repeat indicator (2 бита)
-    encodeValueBytes(bitField, 0 , 6, 7);
-    
-    // MMSI (30 бит)
-    encodeValueBytes(bitField,paramets.MMSI,8,37);
-    
-    // Regional reserved (8 бит)
-    for (int i = 38; i < 46; ++i) {
-        bitField[i] = false;
-    }
-    
-    // SOG (10 бит)
-    encodeValueBytes(bitField,static_cast<unsigned int>(paramets.SOG + 10), 46, 55);
-    
-    // Position accuracy (1 бит)
-    
-    encodeValueBytes(bitField,paramets.PositionAccuracy, 56, 56);
-    
-    // Longtitude (28 бит)
-    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
-    encodeValueBytes(bitField, lonBits,57,84);
-
-    // Latitude (27 бит)
-    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField, latBits,85,111);
-
-    // COG (12 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10),112,123);
-
-    // True heading (9 бит)
-    encodeValueBytes(bitField, paramets.HDG, 124, 132);
-
-    // Time stamp (6 бит)
-    encodeValueBytes(bitField, paramets.time, 133, 138);
-
-    // Regional reserved (4 бита)
-    for (int i = 139; i < 143; ++i) {
-        bitField[i] = false;
-    }
-    
-    // Vessel Name (120 бит)
-    placeBitsInBitField(bitField, encodeAsciiBytes(paramets.VesselName.toStdString()), 143,262);
-
-    // Ship Type (8 бит)
-    encodeValueBytes(bitField, paramets.ShipType, 263, 270);
-
-    // Dimension to Bow (9 бит)
-    encodeValueBytes(bitField, paramets.DimensionBow, 271, 279);
-
-    // Dimension to Stern (9 бит)
-    encodeValueBytes(bitField, paramets.DimensionStern, 280, 288);
-
-    // Dimension to Port (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionPort, 289, 294);
-
-    // Dimension to Starboard (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionStarboard, 295, 300);
-
-    // Position Fix Type (4 бита)
-    encodeValueBytes(bitField, paramets.PositionType, 301 , 304);
-
-    // RAIM (1 бит)
-    
-    encodeValueBytes(bitField, paramets.RAIM, 305 , 305);
-    // DTE (1 бит)
-    bitField[306] = 0;
-
-    // Assigned flag (1 бит)
-    encodeValueBytes(bitField, 0, 307, 307);
-
-    // Spare (4 бита)
-    for(int i = 308; i < 312; ++i){
-        bitField[i] = false;
-    }
-
-    // Преобразуем битовое поле в строку символов
-    return encodeString(bitField, LEN_TYPE19);
-
+    AisBits b;
+    b.u(24, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(1, 2)
+        .u(p.ShipType, 8)
+        .text(p.VendorId, 3).u(p.Model, 4).u(p.Serial, 20)
+        .text(p.CallSign, 7);
+    if (p.MMSI / 10000000 == 98) // вспомогательное судно: вместо размеров MMSI головного судна
+        b.u(p.MothershipMMSI, 30);
+    else
+        b.u(p.DimensionBow, 9).u(p.DimensionStern, 9).u(p.DimensionPort, 6).u(p.DimensionStarboard, 6);
+    b.spare(6);
+    return {a, b};
 }
 
-Type9Decoder::Type9Decoder() : BaseNmeaString(){
-
-}
-Type9Decoder::~Type9Decoder(){
-
-}
-
-QString Type9Decoder::decodeParam(){
-    std::vector<bool> bitField(LEN_TYPE9, false);
-
-    // Message Type (6 бит)
-    encodeValueBytes(bitField, 9, 0, 5);
-
-    // Repeat indicator (2 бит)
-    encodeValueBytes(bitField, 0, 6, 7);
-
-    // MMSI (30 бит)
-    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
-
-    // Altitude (12 бит)
-    encodeValueBytes(bitField, paramets.altitude, 38, 49);
-
-    // SOG (10 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.SOG * 10), 50, 59);
-
-    // Position Accuracy (1 бит)
-    encodeValueBytes(bitField, paramets.PositionAccuracy, 60, 60);
-
-    // Longitude (28 бит)
-    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
-    encodeValueBytes(bitField, lonBits,61,88);
-
-    // Latitude (27 бит)
-    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField, latBits,89,115);
-  
-    // COG (12 бит)
-    encodeValueBytes(bitField, static_cast<unsigned int>(paramets.COG*10), 116, 127);
-
-    // Time Stamp (6 бит)
-    encodeValueBytes(bitField, paramets.time, 128, 133);
-
-    // Regional Reserved (8 бит)
-    for(int i = 134; i < 142; ++i){
-        bitField[i] = false;
-    }
-
-    // DTE (1 бит)
-    bitField[142] = 0;
-
-    // Spare (3 бит)
-    for(int i = 143; i < 146; ++i){
-        bitField[i] = false;
-    }
-
-    // Assigned (1 бит)
-    encodeValueBytes(bitField, paramets.Assigned, 146, 146);
-
-    // RAIM (1 бит)
-    encodeValueBytes(bitField, paramets.RAIM, 147,147);
-
-    // Communication state (19 бит)
-    encodeValueBytes(bitField, 0, 148, 167);
-
-    return encodeString(bitField, LEN_TYPE9);
+// Тип 9 - 168 бит
+std::vector<AisBits> Type9Decoder::pack() const
+{
+    const SAR &p = paramets;
+    AisBits w;
+    w.u(9, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(p.altitude, 12)
+        .scaled(p.SOG, 1, 10, 1023) // у SAR скорость в целых узлах
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .scaled(p.COG, 10, 12, 3600)
+        .u(p.time, 6)
+        .spare(8)
+        .flag(0)             // DTE
+        .spare(3)
+        .flag(p.Assigned)
+        .flag(p.RAIM)
+        .spare(20);
+    return {w};
 }
 
-Type21Decoder::Type21Decoder() : BaseNmeaString(){
-
+// Тип 21 - от 272 до 360 бит (расширение имени), добивка до границы байта
+std::vector<AisBits> Type21Decoder::pack() const
+{
+    const ClassAton21 &p = paramets;
+    AisBits w;
+    w.u(21, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(p.AIDType, 5)
+        .text(p.nameAton, 20)
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .u(p.DimensionBow, 9).u(p.DimensionStern, 9).u(p.DimensionPort, 6).u(p.DimensionStarboard, 6)
+        .u(p.PositionType, 4)
+        .u(p.time, 6)
+        .flag(p.offPos)
+        .spare(8)
+        .flag(p.RAIM)
+        .flag(p.virtualAton)
+        .flag(p.Assigned)
+        .spare(1)
+        .textVar(p.extensionAton, 14)
+        .padToByte();
+    return {w};
 }
-Type21Decoder::~Type21Decoder(){
 
+// Тип 4 / 11 - 168 бит
+std::vector<AisBits> Type4Decoder::pack() const
+{
+    const BaseStation4 &p = paramets;
+    const QDateTime t = (p.useSystemTime ? QDateTime::currentDateTimeUtc() : p.utc).toUTC();
+    const bool ok = t.isValid();
+    AisBits w;
+    w.u(p.response ? 11 : 4, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .u(ok ? t.date().year() : 0, 14)
+        .u(ok ? t.date().month() : 0, 4)
+        .u(ok ? t.date().day() : 0, 5)
+        .u(ok ? t.time().hour() : 24, 5)
+        .u(ok ? t.time().minute() : 60, 6)
+        .u(ok ? t.time().second() : 60, 6)
+        .flag(p.PositionAccuracy)
+        .lon(p.lon).lat(p.lat)
+        .u(p.PositionType, 4)
+        .spare(10)
+        .flag(p.RAIM)
+        .spare(19);
+    return {w};
 }
 
-QString Type21Decoder::decodeParam(){
-    std::vector<bool> bitField(LEN_TYPE21, false);
-    
-    // Message Type (6 бит)
-    encodeValueBytes(bitField, 21, 0, 5);
+// Тип 14 - 40 бит + 6 бит на символ (до 161)
+std::vector<AisBits> Type14Decoder::pack() const
+{
+    const Safety14 &p = paramets;
+    AisBits w;
+    w.u(14, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .spare(2)
+        .textVar(p.text, 161);
+    return {w};
+}
 
-    // Repeat indicator (2 бит)
-    encodeValueBytes(bitField, 0, 6, 7);
-
-    // MMSI (30 бит)
-    encodeValueBytes(bitField, paramets.MMSI, 8, 37);
-
-    // AID type (5 бит)
-    encodeValueBytes(bitField, paramets.AIDType,38,42);
-
-    // Name (120 бит)
-    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.nameAton.toStdString()),43,162);
-
-    // Position Accuracy (1 бит)
-    encodeValueBytes(bitField, paramets.PositionAccuracy, 163,163);
-
-    // Longitude (28 бит)
-    unsigned int lonBits = static_cast<unsigned int>((paramets.lon) * 600000.0);
-    encodeValueBytes(bitField,lonBits,164, 191);
-
-    // Latitude (27 бит)
-    unsigned int latBits = static_cast<unsigned int>((paramets.lat) * 600000.0);
-    encodeValueBytes(bitField,latBits,192, 218);
-
-    // Dimension to Bow (9 бит)
-    encodeValueBytes(bitField, paramets.DimensionBow, 219, 227);
-
-    // Dimension to Stern (9 бит)
-    encodeValueBytes(bitField, paramets.DimensionStern, 228, 236);
-
-    // Dimension to Port (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionPort, 237, 242);
-
-    // Dimension to Starboard (6 бит)
-    encodeValueBytes(bitField, paramets.DimensionStarboard, 243, 248);
-
-    // Type of EPDF (position type) [4 бит]
-    encodeValueBytes(bitField,paramets.PositionType, 249,252);
-
-    // Time stamp (6 бит)
-    encodeValueBytes(bitField,paramets.time,253,258);
-
-    // Off-position indicator (1 бит)
-    encodeValueBytes(bitField,paramets.offPos,259,259);
-
-    // Reserved (8 бит)
-    for(int i = 260; i < 268; ++i){
-        bitField[i] = false;
-    }
-
-    // RAIM (1 бит)
-    encodeValueBytes(bitField, paramets.RAIM, 268,268);
-
-    // Virtual-aid flag (1 бит)
-    encodeValueBytes(bitField, paramets.virtualAton, 269,269);
-
-    // Assigned (1 бит)
-    encodeValueBytes(bitField, paramets.Assigned, 270, 270);
-
-    // Spare (1 бит)
-    encodeValueBytes(bitField, 0, 271, 271);
-
-    // Name Extension (88 бит)
-    placeBitsInBitField(bitField,encodeAsciiBytes(paramets.extensionAton.toStdString()),272,360);
-
-    return encodeString(bitField, LEN_TYPE21);
+// Тип 27 - 96 бит
+std::vector<AisBits> Type27Decoder::pack() const
+{
+    const LongRange27 &p = paramets;
+    AisBits w;
+    w.u(27, 6).u(p.repeat, 2).u(p.MMSI, 30)
+        .flag(p.PositionAccuracy)
+        .flag(p.RAIM)
+        .u(p.navigation, 4)
+        .lon(p.lon, true).lat(p.lat, true)
+        .u(p.SOG > 62 ? 63 : p.SOG, 6)                                  // 63 - недоступно
+        .u(p.COG < 0 || p.COG > 359 ? 511 : p.COG, 9)                   // 511 - недоступно
+        .flag(p.GNSSPositionStatus)
+        .spare(1);
+    return {w};
 }

@@ -39,14 +39,17 @@ The simulator simulates the operation of Class A and Class B AIS transponders, a
 ## Supported AIS Message Types
 
 - **Message 1 (Position Report Class A)** — Dynamic position, course, speed, and navigation status
+- **Messages 2, 3 (Position Report Class A, assigned schedule / response to interrogation)** — Same format as message 1, selected on the Class A page
 - **Message 4 (Base Station Report)** — Base station position and time
 - **Message 5 (Static and Voyage Related Data Class A)** — Vessel name, callsign, dimensions, destination, ETA
 - **Message 9 (Standard SAR Aircraft Position Report)** — SAR aircraft position and altitude
+- **Message 11 (UTC/Date Response)** — Same format as message 4, sent on demand from the Base station page
 - **Message 14 (Safety Related Broadcast Message)** — Safety text broadcasts
 - **Message 18 (Standard Class B Equipment Position Report)** — Class B vessel position and movement
 - **Message 19 (Extended Class B Equipment Position Report)** — Class B with additional vessel data
 - **Message 21 (Aid-to-Navigation Report)** — AtoN position and status
-- **Message 24 (Class B CS Static Data Report)** — Class B static vessel information
+- **Message 24 (Class B CS Static Data Report)** — Class B static vessel information (parts A and B)
+- **Message 27 (Long Range AIS Broadcast)** — Position of a Class A vessel for long-range (satellite) reception
 
 ## Simulation Logic
 
@@ -133,14 +136,17 @@ The simulator simulates the operation of Class A and Class B AIS transponders, a
 ## Поддерживаемые типы сообщений АИС
 
 - **Сообщение 1 (Отчет о позиции класса A)** — Динамические данные о позиции, курсе, скорости и навигационном статусе
+- **Сообщения 2, 3 (Отчет о позиции класса A, назначенное расписание / ответ на опрос)** — Тот же формат, что у сообщения 1, выбирается на вкладке Class A
 - **Сообщение 4 (Отчет береговой станции)** — Позиция и время береговой станции
 - **Сообщение 5 (Статические данные и данные о рейсе класса A)** — Название судна, позывной, габариты, пункт назначения, ETA
 - **Сообщение 9 (Стандартный отчет о позиции авиации САР)** — Позиция и высота самолета САР
+- **Сообщение 11 (Ответ на запрос UTC и даты)** — Формат сообщения 4, отправляется по кнопке на вкладке Base station
 - **Сообщение 14 (Широковещательное сообщение о безопасности)** — Текстовые сообщения о безопасности
 - **Сообщение 18 (Стандартный отчет о позиции оборудования класса B)** — Позиция и движение судна класса B
 - **Сообщение 19 (Расширенный отчет о позиции оборудования класса B)** — Класс B с дополнительными данными о судне
 - **Сообщение 21 (Отчет о навигационном средстве)** — Позиция и статус навигационного средства
-- **Сообщение 24 (Статический отчет класса B CS)** — Статическая информация о судне класса B
+- **Сообщение 24 (Статический отчет класса B CS)** — Статическая информация о судне класса B (части A и B)
+- **Сообщение 27 (Сообщение дальнего действия)** — Позиция судна класса A для приёма на большой дальности (спутник)
 
 ## Логика симуляции
 

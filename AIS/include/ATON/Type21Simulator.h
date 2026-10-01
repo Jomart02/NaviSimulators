@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseAISSimulator.h"
+#include "AisDictionaries.h"
 
 namespace Ui
 {
@@ -29,10 +30,6 @@ private:
         QString name;
     };
 
-    struct PosType {
-        int id;
-        QString name;
-    };
 
 
     QList<AidType> aidTypes = {
@@ -70,18 +67,7 @@ private:
         {31, QObject::tr("Light Vessel / LANBY / Rigs")}
     };
 
-    QList<PosType> posTypes = {
-        {0, QObject::tr("Не доступно")},
-        {1, QObject::tr("GPS")},
-        {2, QObject::tr("GLONASS")},
-        {3, QObject::tr("Combined GPS/GLONASS")},
-        {4, QObject::tr("Loran-C")},
-        {5, QObject::tr("Chayka")},
-        {6, QObject::tr("Integrated navigation system")},
-        {7, QObject::tr("Surveyed")},
-        {8, QObject::tr("Galileo")},
-        {15, QObject::tr("Internal GNSS")}
-    };
+    const QList<AIS_Dict::Item> &posTypes = AIS_Dict::posTypes();
 
     Ui::Type21Simulator *ui;
 };
