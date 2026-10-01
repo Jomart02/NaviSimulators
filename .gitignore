@@ -4,3 +4,4 @@
 *.vs
 *CMakePresets.json
 *CMakeUserPresets.json
+*.qm
